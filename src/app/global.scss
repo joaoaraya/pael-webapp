@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --body-bg: #ffffff;
+    --body-bg-alternative: #2E3134;
+    --body-bg-highlight: #9F7E25;
+    --body-bg-shadow: #F3F6F8;
+    --body-bg-ok: #41aa4c;
+    --body-bg-warning: #cc951f;
+    --body-bg-attention: #ee5454;
+    --body-font: #2E3134;
+    --body-font-light: #B6BDC3;
+    --body-font-alternative: #ffffff;
+    --body-scrollbar: #A9B4BB;
+    --body-input-border: #D2DAE2;
+
+    /* Dashboard Cards */
+    .postTipoProposta {
+        --cardPostAcao-bg: #EFFCEF;
+        --cardPostAcao-bg-shadow: #DAEDDA;
+        --cardPostAcao-bg-highlight: #7CCA81;
+        --cardPostAcao-text: var(--body-font);
+        --cardPostAcao-text-highlight: #3E8242;
+    }
+
+    .postTipoEmenda {
+        --cardPostAcao-bg: #F9F4E6;
+        --cardPostAcao-bg-shadow: #EAE3D0;
+        --cardPostAcao-bg-highlight: #C5A26D;
+        --cardPostAcao-text: var(--body-font);
+        --cardPostAcao-text-highlight: #6C5821;
+    }
+
+    .postTipoLicenca {
+        --cardPostAcao-bg: #E6F5F9;
+        --cardPostAcao-bg-shadow: #CEEBF2;
+        --cardPostAcao-bg-highlight: #78C2DA;
+        --cardPostAcao-text: var(--body-font);
+        --cardPostAcao-text-highlight: #1C6996;
+    }
+
+    .postTipoRenuncia {
+        --cardPostAcao-bg: #FFE9E2;
+        --cardPostAcao-bg-shadow: #EBD1D1;
+        --cardPostAcao-bg-highlight: #F67272;
+        --cardPostAcao-text: var(--body-font);
+        --cardPostAcao-text-highlight: #AC3232;
+    }
+
+    --postAcaoConcluido-bg: #F3F6F8;
+
+    .postAcaoAprovada {
+        --postAcaoConcluido-highlight: #20B41D;
+    }
+
+    .postAcaoReprovada {
+        --postAcaoConcluido-highlight: #E04646;
+    }
+
+    /* Comissões Cards */
+    --cardGrupoPessoas-bg: var(--body-bg-shadow);
+    --cardGrupoPessoas-bg-shadow:#D0DBE2;
+    --cardGrupoPessoas-text: var(--body-font);
+    --cardGrupoPessoas-bg-hover:#A9B4BB;
+    --cardGrupoPessoas-bg-shadow-hover:#8C9CA6;
+    --cardGrupoPessoas-text-hover:#FFFFFF;
+
+    /* Botões */
+    --button-attention: #cf3f3f;
+    --button-ok: #39b960;
+}
+
+.temaEscuro:root {
+    --body-bg: #242529;
+    --body-bg-highlight: #9F7E25;
+    --body-bg-shadow: #5E6872;
+    --body-font: #FFFFFF;
+    --body-font-light: #A2ADB8;
+    --body-font-alternative: #ffffff;
+    --body-scrollbar: #5E6872;
+    --body-input-border: #3C434A;
+}
+
+* {
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    font-style: normal;
+    transition: 0.1s;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+        height: 8px;
+    }
+
+    // Scrollbar: Controle deslizante
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--body-scrollbar);
+        border-radius: 8px;
+    }
+
+    // Scrollbar: Parte de tras da barra
+    &::-webkit-scrollbar-track {
+        background-color: var(--body-bg);
+    }
+}
+
+body {
+    margin: 0 auto !important;
+    background: var(--body-bg);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btnPrimary,
+.btnSecondary {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    min-width: 192px;
+    border-radius: 8px;
+    padding: 12px;
+
+    p {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    &:hover {
+        background-color: var(--body-font);
+
+        p {
+            color: var(--body-font-alternative);
+        }
+
+        svg {
+            fill: var(--body-font-alternative);
+        }
+    }
+}
+
+.btnPrimary {
+    background-color: var(--body-bg-highlight);
+
+    p {
+        color: var(--body-font-alternative);
+    }
+
+    svg {
+        fill: var(--body-font-alternative);
+    }
+}
+
+.btnSecondary {
+    background-color: var(--body-bg-shadow);
+
+    p {
+        color: var(--body-font);
+    }
+
+    svg {
+        fill: var(--body-font);
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .btnFloat {
+        position: fixed;
+        top: calc(100% - 60px);
+        left: 0;
+        right: 0;
+        width: 75%;
+        max-width: 192px;
+        margin: auto;
+        z-index: 8;
+
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.10));
+
+        p {
+            font-size: 14px;
+        }
+    }
+}

@@ -1,0 +1,67 @@
+$green: var(--body-bg-ok);
+$yellow: var(--body-bg-warning);
+$red: var(--body-bg-attention);
+
+
+.password-security {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .bars {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        flex: 1;
+        gap: 8px;
+
+        div {
+            height: 4px;
+            flex-grow: 1;
+            margin: 8px 0;
+            gap: 20px;
+            border-radius: 20px;
+        }
+
+        #empty {
+            background-color: var(--body-font-light);
+        }
+    }
+
+    .text {
+        p {
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+
+    .level0 {
+        .bars #full {
+            background-color: $red;
+        }
+
+        .text p {
+            color: $red;
+        }
+    }
+
+    .level1 {
+        .bars #full {
+            background-color: $yellow;
+        }
+
+        .text p {
+            color: $yellow;
+        }
+    }
+
+    .level2 {
+        .bars #full {
+            background-color: $green;
+        }
+
+        .text p {
+            color: $green;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+.logoPael {
+    background-color: var(--body-bg);
+}
+
+/* Alterações para Desktop */
+@media screen and (min-device-width: 480px),
+screen and (min-width: 480px) {
+
+    .logoPael {
+        max-width: 136px;
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+
+    .logoPael {
+        max-width: 80px;
+    }
+}

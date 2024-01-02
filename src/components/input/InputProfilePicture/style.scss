@@ -1,0 +1,87 @@
+.inputProfilePicture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    .input-container {
+        width: 128px;
+        height: 128px;
+        display: flex;
+
+        .input-bg {
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border-style: dashed;
+            border-width: 2px;
+            overflow: hidden;
+            border-spacing: 8px;
+            border-color: var(--body-input-border);
+            background-color: var(--body-bg);
+
+            .input-btn {
+                opacity: 0;
+                width: 0;
+                height: 0;
+                position: absolute;
+                visibility: hidden;
+            }
+
+            .input-icon {
+                cursor: pointer;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                svg {
+                    width: 32px;
+                    height: 32px;
+
+                    fill: var(--body-font);
+                }
+
+                &:hover {
+                    transform: scale(1.2);
+                    transition: 0.2s;
+                }
+            }
+        }
+
+        &.selected {
+            .input-bg {
+                border-color: var(--body-bg-alternative);
+            }
+
+            .input-icon {
+                svg {
+                    fill: var(--body-font-alternative);
+                    opacity: 25%;
+                }
+
+                &:hover {
+                    svg {
+                        opacity: 100%;
+                    }
+                }
+            }
+
+        }
+    }
+
+    #desc {
+        padding: 4px 16px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 8px;
+        color: var(--body-font-alternative);
+        background-color: var(--body-bg-alternative);
+    }
+}

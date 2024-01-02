@@ -1,0 +1,124 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modalBG {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 99;
+    // Efeito Fade-in
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: none;
+    overflow: hidden;
+    cursor: default;
+    z-index: 100;
+    // Efeito SlideUp
+    animation: slideUp 0.3s ease-in-out;
+
+    .modalContainer {
+        width: 96%;
+        max-width: 480px;
+        height: 76%;
+        max-height: 640px;
+        overflow: hidden;
+        border-radius: 16px;
+        background-color: var(--body-bg);
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+
+        .modalContent {
+            display: flex;
+            justify-content: center;
+            flex-flow: column nowrap;
+            padding: 0 12px;
+            height: 100%;
+            justify-content: space-between;
+            color: var(--body-font);
+
+            .modalHeader {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: 16px 20px;
+
+                h1 {
+                    flex: 1;
+                    font-size: 18px;
+                    font-weight: 700;
+                    text-align: center;
+                    margin-right: -32px;
+                    color: var(--body-font);
+                }
+
+                button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 16px;
+                    background-color: var(--body-bg-shadow);
+
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                        fill: var(--body-font);
+                    }
+
+                    &:hover {
+                        background-color: #F67272;
+
+                        svg {
+                            fill: #ffffff;
+                        }
+                    }
+                }
+            }
+
+            .modalMain {
+                overflow: auto;
+                padding: 0 16px 0 20px;
+                flex: 1;
+            }
+
+            .modalFooter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 16px;
+            }
+        }
+    }
+}
