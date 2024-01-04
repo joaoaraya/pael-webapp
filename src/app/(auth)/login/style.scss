@@ -13,10 +13,7 @@
         border-radius: 50%;
         margin-bottom: 20px;
         object-fit: cover;
-        background-size: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-image: url('../../../assets/images/defaultProfilePicture.png');
+        background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
     }
 
     .defaultPicture {

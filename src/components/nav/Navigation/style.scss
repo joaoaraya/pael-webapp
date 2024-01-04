@@ -1,0 +1,73 @@
+.navigation,
+.groups {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.navigation {
+    gap: 24px;
+    background-color: var(--body-bg);
+
+    .groups {
+        gap: 16px;
+
+        .groupTitle {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: -8px;
+            color: var(--body-font-light);
+        }
+
+        .linkButton {
+            max-width: max-content;
+
+            button {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+                background-color: var(--body-bg);
+
+                p {
+                    font-size: 18px;
+                    font-weight: 400;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    color: var(--body-font-light);
+                }
+
+                svg {
+                    height: 22px;
+                    width: 22px;
+                    fill: var(--body-font-light);
+                }
+
+                &.active {
+                    p {
+                        font-weight: 600;
+                        color: var(--body-font);
+                    }
+
+                    svg {
+                        fill: var(--body-font);
+                    }
+                }
+
+                &:hover {
+                    p {
+                        color: var(--body-bg-highlight);
+                    }
+
+                    svg {
+                        fill: var(--body-bg-highlight);
+                    }
+                }
+            }
+        }
+
+
+    }
+}

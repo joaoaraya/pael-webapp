@@ -57,7 +57,7 @@ export default function SignIn() {
                 setCookie('token', token, { secure: true, sameSite: 'strict' });
 
                 // Redirecionar para a página...
-                router.push('/user');
+                router.push('/dashboard/lista/deputados');
             }
             else {
                 // Recarregar página

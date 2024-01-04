@@ -1,0 +1,63 @@
+.cardPessoa {
+    display: grid;
+    grid-template-columns: 1fr 16fr repeat(5, 8fr);
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background-color: var(--body-bg);
+
+    img {
+        width: 48px;
+        height: 48px;
+        border-radius: 24px;
+        object-fit: cover;
+        min-width: 48px;
+    }
+
+    .defaultPicture {
+        content-visibility: hidden;
+        background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: 400;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--body-font);
+    }
+
+    #nome {
+        font-weight: 600;
+    }
+
+    &:hover {
+        border-radius: 8px;
+        background: var(--body-bg-shadow);
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 520px),
+screen and (max-width: 520px) {
+    .cardPessoa {
+        grid-template-columns: 1fr 16fr;
+        gap: 16px;
+
+        img {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+        }
+
+        #cim,
+        #loja,
+        #lojaNumero,
+        #cargo,
+        .textSituacao {
+            display: none;
+        }
+    }
+}

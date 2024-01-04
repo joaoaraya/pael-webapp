@@ -1,0 +1,81 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 1fr auto;
+    grid-auto-flow: row;
+
+    header {
+        grid-area: header;
+    }
+
+    nav {
+        grid-area: nav;
+    }
+
+    main {
+        grid-area: main;
+        animation: fadeIn 0.4s ease-in-out;
+    }
+}
+
+/* Alterações para Desktop */
+@media screen and (min-device-width: 768px),
+screen and (min-width: 768px) {
+    .container {
+        grid-template-areas:
+            "header header"
+            "nav main"
+        ;
+
+        nav,
+        main {
+            margin-top: 112px;
+        }
+
+        main {
+            padding: 0 40px 24px 16px;
+        }
+    }
+}
+
+/* Alterações para Mobile I */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .container {
+        grid-template-areas:
+            "header header"
+            "main main"
+        ;
+
+        nav,
+        main {
+            margin-top: 88px;
+        }
+
+        main {
+            padding: 0 12px 80px 12px;
+        }
+    }
+}
+
+/* Alterações para Mobile II */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+    .container {
+
+        nav,
+        main {
+            margin-top: 60px;
+        }
+    }
+}

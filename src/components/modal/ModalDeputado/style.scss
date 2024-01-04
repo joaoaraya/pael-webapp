@@ -1,0 +1,65 @@
+.modalDeputado {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 16px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+
+    p {
+        cursor: text;
+        word-break: break-word;
+    }
+
+    #apresentacao {
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        align-items: center;
+        gap: 24px;
+
+        img {
+            width: 192px;
+            height: 192px;
+            border-radius: 96px;
+            object-fit: cover;
+        }
+
+        .defaultPicture {
+            content-visibility: hidden;
+            background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+        }
+
+        p {
+            max-width: 75%;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2E3134;
+        }
+    }
+
+    #dados {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 8px;
+
+        p {
+            font-size: 20px;
+            font-weight: 400;
+            color: #2E3134;
+        }
+
+        .label {
+            font-size: 16px;
+            font-weight: 400;
+            color: #B6BDC3;
+
+            &+p {
+                margin-bottom: 8px;
+            }
+        }
+    }
+}

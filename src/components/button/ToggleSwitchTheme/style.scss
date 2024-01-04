@@ -1,0 +1,96 @@
+$color-light: #ffffff;
+$color-dark: #2E3134;
+$color-middle: #5E6872;
+$color-text: var(--body-font);
+
+.ToggleSwitchTheme {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    p {
+        font-size: 16px;
+        font-weight: 400;
+        color: $color-text;
+    }
+
+    .toggleSwitch {
+        position: relative;
+        display: inline-block;
+        width: 57px;
+        height: 30px;
+
+        .checkbox {
+            display: none;
+
+            &:checked+.slider {
+                background-color: $color-middle;
+                opacity: 1;
+
+                #iconSun svg {
+                    fill: $color-light;
+                }
+
+                #iconMoon svg {
+                    fill: $color-dark;
+                }
+            }
+
+            &:checked+.slider:before {
+                transform: translateX(26px);
+            }
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 32px;
+            transition: 0.4s;
+            background-color: $color-dark;
+
+            #iconSun,
+            #iconMoon {
+                position: absolute;
+                top: 7px;
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+
+            #iconSun {
+                left: 7px;
+
+                svg {
+                    fill: $color-dark;
+                }
+            }
+
+            #iconMoon {
+                left: 34px;
+
+                svg {
+                    fill: $color-light;
+                }
+            }
+
+            &:before {
+                position: absolute;
+                content: "";
+                width: 24px;
+                height: 24px;
+                left: 3px;
+                bottom: 3px;
+                transition: 0.4s;
+                border-radius: 50%;
+                background-color: $color-light;
+            }
+        }
+    }
+}

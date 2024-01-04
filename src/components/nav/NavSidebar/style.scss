@@ -1,0 +1,81 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.sidebarBG {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 99;
+    // Efeito Fade-in
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.navSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    max-width: 280px;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0 16px 16px 0;
+    background-color: var(--body-bg);
+    z-index: 100;
+    // Efeito SlideRight
+    animation: slideRight 0.3s ease-in-out;
+
+    .sidebarHeader {
+        padding: 16px;
+
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 32px;
+            height: 32px;
+            background-color: var(--body-bg);
+
+            svg {
+                width: 24px;
+                height: 24px;
+                fill: var(--body-font);
+            }
+
+            &:hover {
+                svg {
+                    fill: #F67272;
+                }
+            }
+        }
+    }
+
+    .sidebarMain {
+        flex: 1;
+        max-height: 100%; // Defina a altura máxima
+        padding: 0 16px 0 20px;
+        overflow: auto;
+        padding-bottom: 96px;
+    }
+
+}

@@ -1,0 +1,56 @@
+.modalComissao {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+
+    h1 {
+        font-size: 24px;
+        font-weight: 400;
+        color: var(--body-font);
+    }
+
+    h2 {
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: var(--body-font-light);
+    }
+
+    .grupo {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+
+        .membro {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            padding: 4px;
+
+            img {
+                width: 32px;
+                height: 32px;
+                border-radius: 32px;
+                object-fit: cover;
+            }
+
+            p {
+                font-size: 16px;
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: var(--body-font);
+            }
+
+            &:hover {
+                border-radius: 8px;
+                background-color: var(--body-bg-shadow);
+            }
+        }
+    }
+}

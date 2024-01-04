@@ -1,0 +1,19 @@
+/* Alterações para Desktop */
+@media screen and (min-device-width: 480px),
+screen and (min-width: 480px) {
+    .listGruposPessoas {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 16px;
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+    .listGruposPessoas {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}

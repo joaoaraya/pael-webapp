@@ -1,0 +1,49 @@
+.cardColor-alternative {
+    background-color: var(--body-bg-alternative);
+}
+
+.cardColor-ok {
+    background-color: var(--body-bg-ok);
+}
+
+.cardColor-warning {
+    background-color: var(--body-bg-warning);
+}
+
+.cardColor-attention {
+    background-color: var(--body-bg-attention);
+}
+
+.cardInfo {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 16px;
+    max-width: 540px;
+    padding: 16px;
+    border-radius: 8px;
+
+    .icone {
+        svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--body-font-alternative);
+        }
+    }
+
+    .texto {
+        p {
+            font-size: 16px;
+            line-height: 140%;
+            color: var(--body-font-alternative);
+        }
+
+        #titulo {
+            font-weight: 700;
+        }
+
+        #descricao {
+            font-weight: 400;
+        }
+    }
+}

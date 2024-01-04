@@ -1,0 +1,113 @@
+.cardGrupoPessoas {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    flex: 1;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    background: var(--cardGrupoPessoas-bg);
+
+    transition: 0.2s;
+
+    #nomeComissao {
+        justify-self: start;
+        text-align: left;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 130%;
+        color: var(--cardGrupoPessoas-text);
+    }
+
+    #participantes {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img,
+        #imgVazio {
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            object-fit: cover;
+            border: 2px solid var(--cardGrupoPessoas-bg);
+            background-color: var(--cardGrupoPessoas-bg-shadow);
+
+            &+img,
+            &+#imgVazio {
+                margin-left: -8px;
+                z-index: 1;
+            }
+        }
+
+        @for $img from 0 through 5 {
+            #imgID#{$img} {
+                z-index: 5 - $img;
+            }
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: 600;
+            margin-left: 16px;
+            color: var(--cardGrupoPessoas-text);
+
+            &:hover {
+                color: var(--cardGrupoPessoas-text-hover);
+            }
+        }
+    }
+
+    &:hover {
+        background-color: var(--cardGrupoPessoas-bg-hover);
+
+        #nomeComissao {
+            color: var(--cardGrupoPessoas-text-hover);
+        }
+
+        #participantes {
+
+            img,
+            #imgVazio {
+                border: 2px solid var(--cardGrupoPessoas-bg-hover);
+                background-color: var(--cardGrupoPessoas-bg-shadow-hover);
+            }
+
+            p {
+                color: var(--cardGrupoPessoas-text-hover);
+            }
+        }
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+    .cardGrupoPessoas {
+        padding: 16px;
+
+        #nomeComissao {
+            font-size: 18px;
+        }
+
+        #participantes {
+
+            img,
+            #imgVazio {
+                width: 24px;
+                height: 24px;
+
+                &+img,
+                &+#imgVazio {
+                    margin-left: -12px;
+                }
+            }
+
+            p {
+                font-size: 12px;
+            }
+        }
+    }
+}

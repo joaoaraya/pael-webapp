@@ -1,0 +1,134 @@
+.cardPostAcao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    width: 100%;
+    border-radius: 20px;
+    padding: 16px;
+    background-color: var(--cardPostAcao-bg);
+
+    transition: 0.2s;
+    border: 2px solid var(--cardPostAcao-bg);
+
+    &:hover {
+        border-radius: 40px;
+        border: 2px solid var(--cardPostAcao-bg-highlight);
+    }
+
+    #tipo {
+        font-size: 14px;
+        font-weight: 700;
+        padding: 4px 24px;
+        border-radius: 16px;
+        color: rgb(255, 255, 255);
+        background-color: var(--cardPostAcao-bg-highlight);
+    }
+
+    #responsavelPelaAcao {
+        font-size: 12px;
+        font-weight: 400;
+        margin: 8px 0;
+        color: var(--cardPostAcao-text-highlight);
+    }
+
+    #titulo {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 16px 0;
+        color: var(--cardPostAcao-text);
+    }
+
+    #statusProgresso {
+        display: flex;
+        flex-direction: row;
+        gap: 32px;
+        background: linear-gradient(to bottom, transparent calc(50% - 2px), var(--cardPostAcao-bg-shadow) 50%, transparent calc(50% + 2px));
+
+        #progresso-0,
+        #progresso-1,
+        #progresso-2,
+        #progresso-3,
+        #progresso-4 {
+            padding: 6px;
+            background-color: var(--cardPostAcao-bg-shadow);
+            border-radius: 12px;
+            border: 2px solid var(--cardPostAcao-bg);
+        }
+
+        .aprovado {
+            background-color: var(--cardPostAcao-bg-highlight) !important;
+        }
+
+    }
+
+    #descricaoDoStatus {
+        font-size: 12px;
+        font-weight: 400;
+        margin: 8px 0 24px 0;
+        color: var(--cardPostAcao-text-highlight);
+    }
+
+    #postAutor {
+        align-self: flex-start;
+        display: grid;
+        grid-template-areas:
+            "fotoURL autor"
+            "fotoURL dataDeCriacao"
+        ;
+
+        #fotoURL {
+            grid-area: fotoURL;
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        #autor,
+        #dataDeAtualizacao {
+            font-size: 12px;
+            font-weight: 400;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: 8px;
+        }
+
+        #autor {
+            grid-area: autor;
+            color: var(--cardPostAcao-text);
+        }
+
+        #dataDeAtualizacao {
+            grid-area: dataDeCriacao;
+            color: var(--cardPostAcao-text-highlight);
+        }
+    }
+}
+
+.postAcaoReprovada,
+.postAcaoAprovada {
+    background-color: var(--postAcaoConcluido-bg) !important;
+    border: 2px solid var(--postAcaoConcluido-bg) !important;
+
+    &:hover {
+        border: 2px solid var(--postAcaoConcluido-highlight) !important;
+    }
+
+    #tipo {
+        background-color: var(--postAcaoConcluido-highlight) !important;
+    }
+
+    #responsavelPelaAcao {
+        color: var(--postAcaoConcluido-highlight) !important;
+    }
+
+    #postAutor {
+        #dataDeAtualizacao {
+            color: var(--postAcaoConcluido-highlight) !important;
+        }
+    }
+}

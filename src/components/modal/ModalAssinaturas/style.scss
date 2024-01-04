@@ -1,0 +1,36 @@
+.modalAssinaturas {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+
+    .deputado {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        flex: 1;
+        padding: 4px;
+
+        img {
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            object-fit: cover;
+        }
+
+        #nomeDeputado {
+            font-size: 16px;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--body-font);
+        }
+
+        &:hover {
+            border-radius: 8px;
+            background-color: var(--body-bg-shadow);
+        }
+    }
+}

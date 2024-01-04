@@ -1,0 +1,40 @@
+.mainHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+
+    #pageTitulo {
+        font-weight: 300;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--body-font);
+    }
+}
+
+/* Alterções para Desktop */
+@media screen and (min-device-width: 768px),
+screen and (min-width: 768px) {
+    .mainHeader {
+        justify-content: space-between;
+        margin-bottom: 24px;
+
+        #pageTitulo {
+            font-size: 26px;
+        }
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .mainHeader {
+        justify-content: center;
+        margin-bottom: 16px;
+
+        #pageTitulo {
+            font-size: 22px;
+        }
+    }
+}
