@@ -4,7 +4,9 @@ import ModalDeputado from '@/components/modal/ModalDeputado';
 import TextSituacao from '@/components/text/TextSituacao';
 import { capitalize } from '@/functions/visual';
 import { API } from '@/functions/urls';
+import Link from 'next/link';
 import './style.scss';
+
 
 type CardPessoaProps = {
     user: {
@@ -26,7 +28,9 @@ type CardPessoaProps = {
             dataTermino: string;
         }[];
     }
+    admin: boolean;
 }
+
 
 export default function CardPessoa(props: CardPessoaProps) {
     const user = props.user;
@@ -38,9 +42,8 @@ export default function CardPessoa(props: CardPessoaProps) {
     }
 
     useEffect(() => {
-        // Recomeçar state ao atualizar as props do user
         setWithoutPicture(false);
-    }, [user]);
+    }, [user]); // Recomeçar state ao atualizar as props do user
 
 
     const modalContent = (
@@ -49,11 +52,16 @@ export default function CardPessoa(props: CardPessoaProps) {
 
     const modalFooterContent = (
         <div>
-            <button className="btnPrimary">
-                <p>Gerenciar</p>
-            </button>
+            {props.admin && (
+                <Link href={'/edit/deputado/' + user.cim}>
+                    <button className="btnPrimary">
+                        <p>Gerenciar</p>
+                    </button>
+                </Link>
+            )}
         </div>
     );
+
 
     return (
         <OpenModal

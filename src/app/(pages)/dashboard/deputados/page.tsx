@@ -39,12 +39,50 @@ export default function PageDeputados() {
     const Router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [allUsers, setAllUsers] = useState<PessoasProps>([]);
+    const [filtredUsers, setFiltredUsers] = useState<PessoasProps>([]);
     const [users, setUsers] = useState<PessoasProps>([]);
+    const [orderUsersBy, setOrderUsersBy] = useState('nome');
     const { get } = useAPI();
+
+    /* Filtrar usuários pelas opções */
+    const filter = (ordenarPor: string, exibir: string) => {
+        let ordenedUsers = [...allUsers];
+
+        // Ordenar os usuários de acordo com o critério selecionado
+        if (ordenarPor === 'nome' || ordenarPor === 'cim' || ordenarPor === 'loja' || ordenarPor === 'lojaNumero' || ordenarPor === 'cargo' || ordenarPor === 'situacao') {
+            ordenedUsers.sort((a, b) => {
+                if (a[ordenarPor] < b[ordenarPor]) return -1;
+                if (a[ordenarPor] > b[ordenarPor]) return 1;
+                return 0;
+            });
+        }
+
+        let showOnlyUsers = ordenedUsers;
+
+        switch (exibir) {
+            case 'ativos':
+                showOnlyUsers = ordenedUsers.filter(user => user.ativo)
+                break;
+            case 'inativos':
+                showOnlyUsers = ordenedUsers.filter(user => !user.ativo)
+                break;
+            case 'comCargos':
+                showOnlyUsers = ordenedUsers.filter(user => user.cargo)
+                break;
+            case 'semCargos':
+                showOnlyUsers = ordenedUsers.filter(user => !user.cargo)
+                break;
+        }
+
+        setFiltredUsers(showOnlyUsers);
+        setUsers(showOnlyUsers);
+
+        setOrderUsersBy(ordenarPor); // Texto em destaque da lista
+    }
 
     /* Filtrar usuários pela barra de pesquisa */
     const search = (text: string) => {
-        const usersFilter = allUsers.filter((user) => {
+        const usersFilter = filtredUsers.filter((user) => {
             // Quando não encotrar resultado mostrar um objeto vazio
             const { nome, cim, loja, lojaNumero, cargo } = user || {};
 
@@ -74,6 +112,7 @@ export default function PageDeputados() {
                 const response = await get(`${API}/users`);
 
                 setAllUsers(response.data);
+                setFiltredUsers(response.data);
                 setUsers(response.data);
 
                 setIsLoading(false);
@@ -84,8 +123,10 @@ export default function PageDeputados() {
                 Router.push('/');
             }
         }
+
         loadUserData();
     }, []);
+
 
     return (
         <>
@@ -105,12 +146,12 @@ export default function PageDeputados() {
                         tagType="button"
                         className="btnSecondary btnFiltro"
                         modalTitle="Filtros"
-                        modalContent={<ModalFiltros />}
+                        modalContent={<ModalFiltros getOptions={filter} />}
                     >
                         <Icon nome="options" /><p>Filtros</p>
                     </OpenModal>
 
-                    <ListPessoas users={users} />
+                    <ListPessoas users={users} headerTextSelected={orderUsersBy} />
                 </>
             )}
         </>

@@ -7,6 +7,12 @@
         padding: 0 8px;
         margin-bottom: 24px;
 
+        .destaque {
+            font-weight: 600;
+            color: var(--body-bg-alternative);
+            text-decoration: underline;
+        }
+
         p {
             font-size: 16px;
             font-weight: 400;
