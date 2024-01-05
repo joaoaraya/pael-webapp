@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OpenModal from '@/components/button/OpenModal';
 import ModalDeputado from '@/components/modal/ModalDeputado';
 import TextSituacao from '@/components/text/TextSituacao';
@@ -32,6 +32,17 @@ export default function CardPessoa(props: CardPessoaProps) {
     const user = props.user;
     const fotoURL = `${API}/user/${user.cim}/picture/small`;
 
+    const [withoutPicture, setWithoutPicture] = useState(false);
+    const onImageLoadError = () => {
+        setWithoutPicture(true);
+    }
+
+    useEffect(() => {
+        // Recomeçar state ao atualizar as props do user
+        setWithoutPicture(false);
+    }, [user]);
+
+
     const modalContent = (
         <ModalDeputado user={user} />
     );
@@ -39,15 +50,10 @@ export default function CardPessoa(props: CardPessoaProps) {
     const modalFooterContent = (
         <div>
             <button className="btnPrimary">
-                <p>Editar</p>
+                <p>Gerenciar</p>
             </button>
         </div>
     );
-
-    const [withoutPicture, setWithoutPicture] = useState(false);
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
 
     return (
         <OpenModal

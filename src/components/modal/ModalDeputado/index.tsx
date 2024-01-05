@@ -85,14 +85,14 @@ export default function ModalDeputado(props: DeputadoProps) {
                 {user.cimSuplente && (
                     <>
                         <br />
-                        <p className="label">CIM SUPLENTE</p>
+                        <p className="label">CIM DO SUPLENTE</p>
                         <p>{user.cimSuplente}</p>
                     </>
                 )}
 
                 {user.nomeSuplente && (
                     <>
-                        <p className="label">NOME SUPLENTE</p>
+                        <p className="label">NOME DO SUPLENTE</p>
                         <p>{capitalize(user.nomeSuplente)}</p>
                         <br />
                     </>
@@ -105,9 +105,7 @@ export default function ModalDeputado(props: DeputadoProps) {
                     <>
                         {user.cargos.map((cargo) =>
                             <>
-                                <p className="label">{cargo.dataNomeacao} A {cargo.dataTermino}</p>
-                                <p>{capitalize(cargo.nome || 'Nenhum')}</p>
-                                <p className="label">{cargo.dataNomeacao} A {cargo.dataTermino}</p>
+                                <p className="label">DE {cargo.dataNomeacao} A {cargo.dataTermino}</p>
                                 <p>{capitalize(cargo.nome || 'Nenhum')}</p>
                             </>
                         )}

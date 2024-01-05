@@ -5,8 +5,9 @@ import { useForm } from 'react-hook-form';
 import { useCookies } from 'react-cookie';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import './style.scss';
+import { API } from '@/functions/urls';
 import IconLoader from '@/components/icon/IconLoader';
+import './style.scss';
 
 type FormsTypes = {
     id_cim: string;
@@ -14,8 +15,6 @@ type FormsTypes = {
 }
 
 export default function SignIn() {
-    const API = 'http://127.0.0.1:3333';
-
     const router = useRouter();
     const [cookies, setCookie] = useCookies(['token', 'idCim']);
     const { register, handleSubmit } = useForm<FormsTypes>();
@@ -57,7 +56,7 @@ export default function SignIn() {
                 setCookie('token', token, { secure: true, sameSite: 'strict' });
 
                 // Redirecionar para a página...
-                router.push('/dashboard/lista/deputados');
+                router.push('/dashboard/deputados');
             }
             else {
                 // Recarregar página

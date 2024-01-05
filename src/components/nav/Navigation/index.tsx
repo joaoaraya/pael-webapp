@@ -16,114 +16,119 @@ type NavigationGroup = {
 };
 
 const navigation: NavigationGroup[] = [
-	{
-		title: 'Minhas',
-		options: [
-			{
-				icon: 'dashboard',
-				title: 'Tarefas',
-				path: '/dashboard/minhas/tarefas',
-			},
-			{
-				icon: 'dashboard',
-				title: 'Ações',
-				path: '/dashboard/minhas/acoes',
-			}
-		]
-	},
-	{
-		title: 'Ações em',
-		options: [
-			{
-				icon: 'dashboard',
-				title: 'Redação',
-				path: '/dashboard/acao/redacao',
-			},
-			{
-				icon: 'dashboard',
-				title: 'Pauta',
-				path: '/dashboard/acao/pauta',
-			},
-			{
-				icon: 'dashboard',
-				title: 'Comissão',
-				path: '/dashboard/acao/comissao',
-			},
-			{
-				icon: 'dashboard',
-				title: 'Plenário',
-				path: '/dashboard/acao/plenario',
-			},
-			{
-				icon: 'dashboard',
-				title: 'Concluídas',
-				path: '/dashboard/acao/concluida',
-			},
-		]
-	},
-	{
-		title: 'Lista de',
-		options: [
-			{
-				icon: 'people',
-				title: 'Deputados',
-				path: '/dashboard/lista/deputados',
-			},
-			{
-				icon: 'group',
-				title: 'Comissões',
-				path: '/dashboard/lista/comissoes',
-			},
-			{
-				icon: 'none',
-				title: 'Sair',
-				path: '/',
-			},
-		]
-	}
+    {
+        title: 'Minhas',
+        options: [
+            {
+                icon: 'dashboard',
+                title: 'Tarefas',
+                path: '/dashboard/minhas/tarefas',
+            },
+            {
+                icon: 'dashboard',
+                title: 'Ações',
+                path: '/dashboard/minhas/acoes',
+            }
+        ]
+    },
+    {
+        title: 'Ações em',
+        options: [
+            {
+                icon: 'dashboard',
+                title: 'Redação',
+                path: '/dashboard/acao/redacao',
+            },
+            {
+                icon: 'dashboard',
+                title: 'Pauta',
+                path: '/dashboard/acao/pauta',
+            },
+            {
+                icon: 'dashboard',
+                title: 'Comissão',
+                path: '/dashboard/acao/comissao',
+            },
+            {
+                icon: 'dashboard',
+                title: 'Plenário',
+                path: '/dashboard/acao/plenario',
+            },
+            {
+                icon: 'dashboard',
+                title: 'Concluídas',
+                path: '/dashboard/acao/concluida',
+            },
+        ]
+    },
+    {
+        title: 'Lista de',
+        options: [
+            {
+                icon: 'people',
+                title: 'Deputados',
+                path: '/dashboard/deputados',
+            },
+            {
+                icon: 'group',
+                title: 'Comissões',
+                path: '/dashboard/comissoes',
+            },
+            {
+                icon: 'doc',
+                title: 'Documentos',
+                path: '/dashboard/documentos',
+            },
+            {
+                icon: 'none',
+                title: 'Sair',
+                path: '/',
+            },
+        ]
+    }
 ]
 
 export default function Navigation() {
-	const [selectedPage, setSelectedPage] = useState<string>('')
+    const [selectedPage, setSelectedPage] = useState<string>('')
 
-	useEffect(() => {
-		// Acessa o caminho atual diretamente do window.location
-		const currentPath = window.location.pathname
+    useEffect(() => {
+        // Acessa o caminho atual diretamente do window.location
+        const currentPath = window.location.pathname
 
-		// Encontra a opção de navegação correspondente ao caminho atual
-		const matchingOption = navigation
-			.flatMap((group) => group.options)
-			.find((option) => option.path === currentPath)
+        // Encontra a opção de navegação correspondente ao caminho atual
+        const matchingOption = navigation
+            .flatMap((group) => group.options)
+            .find((option) => option.path === currentPath)
 
-		if (matchingOption) {
-			setSelectedPage(matchingOption.title)
-		}
-	}, [])
+        if (matchingOption) {
+            setSelectedPage(matchingOption.title)
+        }
+    }, [])
 
-	return (
-		<div className="navigation">
-			{navigation.map((group, groupIndex) => (
-				<div className="groups" key={groupIndex}>
+    return (
+        <div className="navigation">
+            {navigation.map((group, groupIndex) => (
+                <div className="groups" key={groupIndex}>
 
-					<p className="groupTitle">{group.title}</p>
+                    <p className="groupTitle">{group.title}</p>
 
-					{group.options.map((option, optionIndex) => (
-						<Link
-							className="linkButton"
-							href={option.path}
-							key={optionIndex}
-						>
-							<button
-								className={selectedPage === option.title ? 'active' : ''}
-								onClick={() => setSelectedPage(option.title)}
-							>
-								<Icon nome={option.icon} />
-								<p>{option.title}</p>
-							</button>
-						</Link>
-					))}
-				</div>
-			))}
-		</div>
-	)
+                    {group.options.map((option, optionIndex) => (
+                        <Link
+                            className="linkButton"
+                            href={option.path}
+                            key={optionIndex}
+                        >
+                            <button
+                                className={selectedPage === option.title ? 'active' : ''}
+                                onClick={() => setSelectedPage(option.title)}
+                            >
+                                <Icon nome={option.icon} />
+                                <p>{option.title}</p>
+                            </button>
+                        </Link>
+                    ))}
+                </div>
+            ))}
+        </div>
+    )
 }
