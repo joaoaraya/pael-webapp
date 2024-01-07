@@ -39,6 +39,7 @@ export default function ModalDeputado(props: DeputadoProps) {
         <div className="modalDeputado">
             <div id="apresentacao">
                 <img
+                    id="fotoURL"
                     src={fotoURL}
                     alt=""
                     onError={onImageLoadError}

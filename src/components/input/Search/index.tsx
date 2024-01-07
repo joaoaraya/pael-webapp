@@ -19,18 +19,16 @@ export default function Search({ placeholderText = 'Search', getInputText }: Sea
     };
 
     return (
-        <div className="sessionSearch">
-            <div className="searchInput">
-                <Icon nome="search" />
+        <div className="searchInput">
+            <Icon nome="search" />
 
-                <input
-                    className="searchBar"
-                    type="search"
-                    placeholder={placeholderText}
-                    value={searchValue}
-                    onChange={onInputChange}
-                />
-            </div>
+            <input
+                className="searchBar"
+                type="search"
+                placeholder={placeholderText}
+                value={searchValue}
+                onChange={onInputChange}
+            />
         </div>
     );
 }

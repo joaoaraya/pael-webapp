@@ -21,7 +21,7 @@
         color: var(--cardGrupoPessoas-text);
     }
 
-    #participantes {
+    #membros {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -45,7 +45,13 @@
         @for $img from 0 through 5 {
             #imgID#{$img} {
                 z-index: 5 - $img;
+                background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+                background-color: var(--cardGrupoPessoas-bg-shadow);
             }
+        }
+
+        .defaultPicture {
+            content-visibility: hidden;
         }
 
         p {
@@ -67,12 +73,18 @@
             color: var(--cardGrupoPessoas-text-hover);
         }
 
-        #participantes {
+        #membros {
 
             img,
             #imgVazio {
                 border: 2px solid var(--cardGrupoPessoas-bg-hover);
                 background-color: var(--cardGrupoPessoas-bg-shadow-hover);
+            }
+
+            @for $img from 0 through 5 {
+                #imgID#{$img} {
+                    background-color: var(--cardGrupoPessoas-bg-shadow-hover);
+                }
             }
 
             p {
@@ -92,7 +104,7 @@ screen and (max-width: 480px) {
             font-size: 18px;
         }
 
-        #participantes {
+        #membros {
 
             img,
             #imgVazio {

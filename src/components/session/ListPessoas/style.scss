@@ -1,4 +1,8 @@
 .listPessoas {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
     .tableHeader {
         display: grid;
         grid-template-columns: 48px 16fr repeat(5, 8fr);
@@ -28,6 +32,7 @@
     .tableData {
         display: flex;
         flex-direction: column;
+        flex: 1;
         gap: 4px;
     }
 }

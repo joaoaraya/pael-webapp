@@ -36,6 +36,16 @@
                 height: 32px;
                 border-radius: 32px;
                 object-fit: cover;
+                background-color: var(--cardGrupoPessoas-bg-shadow);
+            }
+
+            #fotoURL {
+                background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+                background-color: var(--cardGrupoPessoas-bg-shadow);
+            }
+
+            .defaultPicture {
+                content-visibility: hidden;
             }
 
             p {

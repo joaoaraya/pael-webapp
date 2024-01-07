@@ -61,7 +61,7 @@
             flex-direction: column;
             flex-flow: column nowrap;
             justify-content: space-between;
-            gap: 20px;
+            gap: 24px;
             padding: 16px;
             height: 100%;
             color: var(--body-font);
@@ -83,7 +83,7 @@
                 h1 {
                     font-size: 18px;
                     font-weight: 700;
-
+                    padding-bottom: 8px;
                 }
 
                 p {
@@ -99,6 +99,15 @@
 
                 button {
                     width: 100%;
+
+                    &#action {
+                        background-color: var(--body-font-light-2);
+
+                        &:hover {
+                            background-color: var(--body-font);
+                        }
+
+                    }
                 }
             }
         }

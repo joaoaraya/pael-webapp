@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import OpenModal from '@/components/button/OpenModal';
-import ModalDeputado from '@/components/modal/ModalDeputado';
-import TextSituacao from '@/components/text/TextSituacao';
 import { capitalize } from '@/functions/visual';
 import { API } from '@/functions/urls';
 import Link from 'next/link';
+
+import OpenModal from '@/components/button/OpenModal';
+import ModalDeputado from '@/components/modal/ModalDeputado';
+import TextSituacao from '@/components/text/TextSituacao';
+
 import './style.scss';
 
 

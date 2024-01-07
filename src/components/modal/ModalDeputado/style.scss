@@ -26,9 +26,13 @@
             object-fit: cover;
         }
 
+        #fotoURL {
+            background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+            background-color: var(--cardGrupoPessoas-bg-shadow);
+        }
+
         .defaultPicture {
             content-visibility: hidden;
-            background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
         }
 
         p {

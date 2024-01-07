@@ -10,6 +10,7 @@
     --body-bg-attention: #ee5454;
     --body-font: #2E3134;
     --body-font-light: #B6BDC3;
+    --body-font-light-2: #dadee4;
     --body-font-alternative: #ffffff;
     --body-scrollbar: #A9B4BB;
     --body-input-border: #D2DAE2;
@@ -194,6 +195,14 @@ screen and (max-width: 768px) {
 
         p {
             font-size: 14px;
+        }
+    }
+
+    .btnWithIcon {
+        min-width: auto !important;
+
+        p {
+            display: none;
         }
     }
 }

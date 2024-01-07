@@ -16,7 +16,7 @@ type FormsTypes = {
 
 export default function SignIn() {
     const router = useRouter();
-    const [cookies, setCookie] = useCookies(['token', 'idCim']);
+    const [cookies, setCookie] = useCookies(['token']);
     const { register, handleSubmit } = useForm<FormsTypes>();
     const [disableButton, setDisableButton] = useState(false);
 
@@ -50,9 +50,7 @@ export default function SignIn() {
             const { token } = response.data;
 
             if (token) {
-                // Salvar o CIM e o token em um cookie seguro
-                const idCim = data.id_cim.toString();
-                setCookie('idCim', idCim, { secure: true, sameSite: 'strict' });
+                // Salvar o token em um cookie seguro
                 setCookie('token', token, { secure: true, sameSite: 'strict' });
 
                 // Redirecionar para a página...

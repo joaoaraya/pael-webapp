@@ -7,7 +7,8 @@ import { useAPI } from '@/hooks/Api';
 import Link from 'next/link';
 
 import MainHeader from '@/components/session/MainHeader';
-import Search from '@/components/session/Search';
+import ActionHeader from '@/components/session/ActionHeader';
+import Search from '@/components/input/Search';
 import ListPessoas from '@/components/session/ListPessoas';
 import OpenModal from '@/components/button/OpenModal';
 import ModalFiltros from '@/components/modal/ModalFiltros';
@@ -38,28 +39,29 @@ type PessoasProps = {
 export default function PageDeputados() {
     const Router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
-    const [allUsers, setAllUsers] = useState<PessoasProps>([]);
-    const [filtredUsers, setFiltredUsers] = useState<PessoasProps>([]);
-    const [users, setUsers] = useState<PessoasProps>([]);
+    const [userAdmin, setUserAdmin] = useState(false);
+    const [allUsers, setAllUsers] = useState<PessoasProps>([]); // Todos os usuários recebidos da API (Backup) 
+    const [filtredUsers, setFiltredUsers] = useState<PessoasProps>([]); // Todos os usuarios mas com filtro aplicado 
+    const [users, setUsers] = useState<PessoasProps>([]); // Lista final de usuarios no front-end
     const [orderUsersBy, setOrderUsersBy] = useState('nome');
     const { get } = useAPI();
 
     /* Filtrar usuários pelas opções */
-    const filter = (ordenarPor: string, exibir: string) => {
+    const filter = (orderBy: string, showOnly: string) => {
         let ordenedUsers = [...allUsers];
 
-        // Ordenar os usuários de acordo com o critério selecionado
-        if (ordenarPor === 'nome' || ordenarPor === 'cim' || ordenarPor === 'loja' || ordenarPor === 'lojaNumero' || ordenarPor === 'cargo' || ordenarPor === 'situacao') {
+        // Ordenar os usuários de acordo com o critério selecionado (A-Z ou 0-9..)
+        if (orderBy === 'nome' || orderBy === 'cim' || orderBy === 'loja' || orderBy === 'lojaNumero' || orderBy === 'cargo' || orderBy === 'situacao') {
             ordenedUsers.sort((a, b) => {
-                if (a[ordenarPor] < b[ordenarPor]) return -1;
-                if (a[ordenarPor] > b[ordenarPor]) return 1;
+                if (a[orderBy] < b[orderBy]) return -1;
+                if (a[orderBy] > b[orderBy]) return 1;
                 return 0;
             });
         }
 
         let showOnlyUsers = ordenedUsers;
 
-        switch (exibir) {
+        switch (showOnly) {
             case 'ativos':
                 showOnlyUsers = ordenedUsers.filter(user => user.ativo)
                 break;
@@ -76,8 +78,7 @@ export default function PageDeputados() {
 
         setFiltredUsers(showOnlyUsers);
         setUsers(showOnlyUsers);
-
-        setOrderUsersBy(ordenarPor); // Texto em destaque da lista
+        setOrderUsersBy(orderBy); // Texto que fica em destaque na header
     }
 
     /* Filtrar usuários pela barra de pesquisa */
@@ -124,36 +125,50 @@ export default function PageDeputados() {
             }
         }
 
+        const checkUserIsPresidente = async () => {
+            try {
+                const response = await get(`${API}/check/user/presidente`);
+                setUserAdmin(response.data);
+            } catch (error: any) {
+                console.error('Error:', error);
+            }
+        };
+
         loadUserData();
+        checkUserIsPresidente();
     }, []);
 
 
+    if (isLoading) {
+        return (<></>)
+    }
+
     return (
         <>
-            {isLoading ? (<></>) : (
-                <>
-                    <MainHeader titulo="Deputados">
-                        <Link href='/new/deputado'>
-                            <button className="btnPrimary btnFloat">
-                                <p>Novo Deputado</p>
-                            </button>
-                        </Link>
-                    </MainHeader>
+            <MainHeader titulo="Deputados">
+                {userAdmin && (
+                    <Link href='/new/deputado'>
+                        <button className="btnPrimary btnFloat">
+                            <p>Novo Deputado</p>
+                        </button>
+                    </Link>
+                )}
+            </MainHeader>
 
-                    <Search placeholderText="Procure por nome, cim, loja ou cargo..." getInputText={search} />
+            <ActionHeader>
+                <Search placeholderText="Procure por nome, cim, loja ou cargo..." getInputText={search} />
 
-                    <OpenModal
-                        tagType="button"
-                        className="btnSecondary btnFiltro"
-                        modalTitle="Filtros"
-                        modalContent={<ModalFiltros getOptions={filter} />}
-                    >
-                        <Icon nome="options" /><p>Filtros</p>
-                    </OpenModal>
+                <OpenModal
+                    tagType="button"
+                    className="btnSecondary btnWithIcon"
+                    modalTitle="Filtros"
+                    modalContent={<ModalFiltros getOptions={filter} />}
+                >
+                    <Icon nome="options" /><p>Filtros</p>
+                </OpenModal>
+            </ActionHeader>
 
-                    <ListPessoas users={users} headerTextSelected={orderUsersBy} />
-                </>
-            )}
+            <ListPessoas users={users} headerTextSelected={orderUsersBy} admin={userAdmin} />
         </>
     )
 }

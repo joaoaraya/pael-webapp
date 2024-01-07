@@ -1,0 +1,45 @@
+.cardDoc {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    width: 100%;
+    padding: 8px;
+    background-color: var(--body-bg);
+
+    img {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+
+    p {
+        font-size: 16px;
+        font-weight: 400;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--body-font);
+    }
+
+    &:hover {
+        border-radius: 8px;
+        background: var(--body-bg-shadow);
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 520px),
+screen and (max-width: 520px) {
+    .cardDoc {
+        gap: 16px;
+
+        img {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+        }
+    }
+}

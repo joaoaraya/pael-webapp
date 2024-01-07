@@ -1,0 +1,15 @@
+.actionHeader {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .actionHeader {
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+}

@@ -1,0 +1,16 @@
+.modalDocOficial {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+        width: 100%;
+    }
+
+    .attention {
+
+        &:hover {
+            background-color: var(--button-attention);
+        }
+    }
+}

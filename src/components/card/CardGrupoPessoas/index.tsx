@@ -1,83 +1,107 @@
-import OpenModal from '@/components/button/OpenModal'
-import ModalComissao from '@/components/modal/ModalComissao'
+import { useEffect, useState } from 'react';
+import { capitalize } from '@/functions/visual';
+import { API } from '@/functions/urls';
+import { useAPI } from '@/hooks/Api';
+import Link from 'next/link';
 
-import './style.scss'
+import OpenModal from '@/components/button/OpenModal';
+import ModalComissao from '@/components/modal/ModalComissao';
+
+import './style.scss';
+
 
 type CardGrupoPessoasProps = {
-    id: number;
-    nome: string;
-    participantes: {
+    group: {
+        id: number;
         nome: string;
-        fotoURL: string;
-        presidente: boolean;
-    }[];
-};
+        membros: {
+            cim: string;
+            nome: string;
+            presidente: boolean;
+        }[];
+    }
+}
+
 
 export default function CardGrupoPessoas(props: CardGrupoPessoasProps) {
+    const group = props.group;
+    const [userAdmin, setUserAdmin] = useState(false);
+    const { get } = useAPI();
 
-	const listaParticipantes = (props: CardGrupoPessoasProps) => {
-		// Separação do presidente e demais participantes
-		const membroPresidente = props.participantes.filter((membro) => membro.presidente)
-		const membros = props.participantes.filter((membro) => !membro.presidente)
+    useEffect(() => {
+        const checkUserIsPresidente = async () => {
+            try {
+                const responsePresidente = await get(`${API}/check/user/presidente`);
+                const responsePresidenteComissao = await get(`${API}/check/user/presidente/comissao=${group.id}`);
 
-		// Ordenar em ordem alfabética
-		membroPresidente.sort((a, b) => a.nome.localeCompare(b.nome))
-		membros.sort((a, b) => a.nome.localeCompare(b.nome))
+                // Somente atualizar se a resposta for igual a "true"
+                if (responsePresidente.data === true || responsePresidenteComissao.data === true) {
+                    setUserAdmin(true);
+                }
+            } catch (error: any) {
+                console.error('Error:', error);
+            }
+        };
 
-		// Juntar todos os membros e deixar presidente em primeiro lugar
-		return [...membroPresidente, ...membros]
-	}
+        checkUserIsPresidente();
+    }, []);
 
-	const maxPessoasFoto = 3
 
-	const imgParticipantes = (
-		<>
-			{listaParticipantes(props).slice(0, maxPessoasFoto).map((participante, index) => (
-				<img
-					key={index}
-					id={`imgID${index}`}
-					src={participante.fotoURL}
-					alt=""
-				/>
-			))}
-		</>
-	)
+    const [withoutPicture, setWithoutPicture] = useState<string[]>([]);
+    const onImageLoadError = (cim: string) => {
+        setWithoutPicture((prevWithoutPicture) => [...prevWithoutPicture, cim]);
+    };
 
-	const modalContent = (
-		<ModalComissao
-			nome={props.nome}
-			participantes={listaParticipantes(props)}
-		/>
-	)
+    const imgMembros = (
+        <>
+            {group.membros.slice(0, 3).map((membro, index) => (
+                <img
+                    key={index}
+                    id={`imgID${index}`}
+                    src={`${API}/user/${membro.cim}/picture/small`}
+                    alt=""
+                    onError={() => onImageLoadError(membro.cim)}
+                    className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
+                />
+            ))}
+        </>
+    );
 
-	const modalFooterContent = (
-		<div>
-			<a href={`/editComissao&ID=${props.id}`}>
-				<button className="btnPrimary">
-					<p>Editar</p>
-				</button>
-			</a>
-		</div>
-	)
+    const modalContent = (
+        <ModalComissao comissao={group} />
+    );
 
-	return (
-		<OpenModal
-			tagType="button"
-			className="cardGrupoPessoas"
-			modalTitle="Comissão"
-			modalContent={modalContent}
-			modalFooterContent={modalFooterContent}
-		>
-			<h1 id="nomeComissao">{props.nome}</h1>
+    const modalFooterContent = (
+        <div>
+            {userAdmin && (
+                <Link href={'/edit/comissao/' + group.id}>
+                    <button className="btnPrimary">
+                        <p>Gerenciar</p>
+                    </button>
+                </Link>
+            )}
+        </div>
+    );
 
-			<div id="participantes">
-				{imgParticipantes}
-				<div id="imgVazio" />
-				<p>
-					{listaParticipantes(props)[0].nome.split(' ')[0]}
-                    &nbsp;e +{listaParticipantes(props).length}...
-				</p>
-			</div>
-		</OpenModal>
-	)
+
+    return (
+        <OpenModal
+            tagType="button"
+            className="cardGrupoPessoas"
+            modalTitle="Comissão"
+            modalContent={modalContent}
+            modalFooterContent={modalFooterContent}
+        >
+            <h1 id="nomeComissao">{capitalize(group.nome)}</h1>
+
+            <div id="membros">
+                {imgMembros}
+                <div id="imgVazio" />
+                <p>
+                    {capitalize(group.membros[0].nome).split(' ')[0]}
+                    &nbsp;e +{group.membros.length}...
+                </p>
+            </div>
+        </OpenModal>
+    );
 }

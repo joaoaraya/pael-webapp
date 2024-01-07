@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-import { useAPI } from '@/hooks/Api';
-import { API } from '@/functions/urls';
 import CardPessoa from '@/components/card/CardPessoa';
 import './style.scss';
 
@@ -26,26 +23,11 @@ type ListPessoasProps = {
         }[];
     }[];
     headerTextSelected: string;
+    admin: boolean;
 };
 
 
 export default function ListPessoas(props: ListPessoasProps) {
-    const [userAdmin, setUserAdmin] = useState(false);
-    const { get } = useAPI();
-
-    useEffect(() => {
-        const checkUserIsPresidente = async () => {
-            try {
-                const response = await get(`${API}/check/user/presidente`);
-                setUserAdmin(response.data);
-            } catch (error: any) {
-                console.error('Error:', error);
-            }
-        };
-
-        checkUserIsPresidente();
-    }, []);
-
     const labels = [
         { id: 'nome', text: 'Nome' },
         { id: 'cim', text: 'CIM' },
@@ -54,6 +36,7 @@ export default function ListPessoas(props: ListPessoasProps) {
         { id: 'cargo', text: 'Cargo' },
         { id: 'situacao', text: 'Situação' }
     ];
+
 
     return (
         <div className="listPessoas">
@@ -68,7 +51,7 @@ export default function ListPessoas(props: ListPessoasProps) {
 
             <div className="tableData">
                 {props.users.map((user, index) => (
-                    <CardPessoa key={index} user={user} admin={userAdmin} />
+                    <CardPessoa key={index} user={user} admin={props.admin} />
                 ))}
             </div>
         </div>

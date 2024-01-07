@@ -13,7 +13,8 @@
         border-radius: 50%;
         margin-bottom: 20px;
         object-fit: cover;
-        background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+        background: url('../../../assets/images/defaultProfilePictureDark.png') center/100% no-repeat;
+        background-color: var(--body-bg-shadow);
     }
 
     .defaultPicture {
