@@ -65,12 +65,12 @@ export default function PageDocumentos() {
 
 
     if (isLoading) {
-        return (<></>)
+        return (<>Carregando...</>)
     }
 
     return (
         <>
-            <MainHeader titulo="Documentos Oficiais">
+            <MainHeader title="Documentos Oficiais">
                 <Link href='/new/documento'>
                     <button className="btnPrimary btnFloat">
                         <p>Novo Documento</p>

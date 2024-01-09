@@ -1,13 +1,17 @@
-'use client'
+'use client';
 
-import React, { useEffect } from 'react'
-import ButtonLogo from '@/components/button/ButtonLogo'
-import ButtonPerfil from '@/components/button/ButtonPerfil'
-import OpenSidebar from '@/components/button/OpenSidebar'
-import Navigation from '@/components/nav/Navigation'
-import Icon from '@/components/icon/Icon'
+import { useState, useEffect } from 'react';
+import { API } from '@/functions/urls';
+import { useAPI } from '@/hooks/Api';
 
-import './style.scss'
+import ButtonLogo from '@/components/button/ButtonLogo';
+import ButtonPerfil from '@/components/button/ButtonPerfil';
+import OpenSidebar from '@/components/button/OpenSidebar';
+import Navigation from '@/components/nav/Navigation';
+import Icon from '@/components/icon/Icon';
+
+import './style.scss';
+
 
 type PerfilProps = {
     nome: string;
@@ -15,54 +19,57 @@ type PerfilProps = {
     loja: string;
     lojaNumero: number;
     cargo: string;
-    situacao: boolean;
-    fotoURL: string;
+    ativo: boolean;
+    situacao: string;
+    cpf?: string;
+    email?: string;
+    celular?: string;
+    cimSuplente?: string;
+    nomeSuplente?: string;
+    cargos?: {
+        nome: string;
+        dataNomeacao: string;
+        dataTermino: string;
+    }[];
 }
 
-// Banco de Dados Temporario
-const dbPerfil = {
-    nome: 'João Ferrari Duck Dummond Andrade de Oliveira',
-    cim: 1234,
-    loja: 'Oriente Dourado',
-    lojaNumero: 9876,
-    cargo: 'Presidente',
-    situacao: true,
-    fotoURL: 'https://img.freepik.com/fotos-gratis/envelhecido-homem-sorridente-com-olhos-fechados_23-2148036535.jpg?w=2000',
-}
 
 export default function Header() {
-    const [perfil, setPerfil] = React.useState<PerfilProps>(dbPerfil) // Inicia com um Objecto base e dizendo quais os Types dos dados
+    const [user, setUser] = useState<PerfilProps>([]);
+    const { get } = useAPI();
 
     useEffect(() => {
-        // Colocar promisses aqui:
+        const loadUserData = async () => {
+            try {
+                const response = await get(`${API}/user/me`);
+                setUser(response.data);
+            }
+            catch (error: any) {
+                console.error('Error:', error);
+            }
+        }
+        loadUserData();
+    }, []);
 
-        setPerfil(dbPerfil)
-    }, [])
 
     return (
         <header>
-            <OpenSidebar
-                tagType="button"
-                className="mobileNavMenu"
-                sidebarContent={<Navigation />}
-            >
-                <span className="iconMenu">
-                    <Icon nome="menu" />
-                </span>
-            </OpenSidebar>
+            <div className="headerContainer">
+                <OpenSidebar
+                    tagType="button"
+                    className="mobileNavMenu"
+                    sidebarContent={<Navigation />}
+                >
+                    <span className="iconMenu">
+                        <Icon nome="menu" />
+                    </span>
+                </OpenSidebar>
 
-            <ButtonLogo />
+                <ButtonLogo />
 
-            <div className="actions">
-                <ButtonPerfil
-                    nome={perfil.nome}
-                    cim={perfil.cim}
-                    loja={perfil.loja}
-                    lojaNumero={perfil.lojaNumero}
-                    cargo={perfil.cargo}
-                    situacao={perfil.situacao}
-                    fotoURL={perfil.fotoURL}
-                />
+                <div className="actions">
+                    <ButtonPerfil user={user} />
+                </div>
             </div>
         </header>
     )

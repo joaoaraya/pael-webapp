@@ -54,7 +54,7 @@ export default function SignIn() {
                 setCookie('token', token, { secure: true, sameSite: 'strict' });
 
                 // Redirecionar para a página...
-                router.push('/dashboard/deputados');
+                router.push('/dashboard');
             }
             else {
                 // Recarregar página

@@ -5,15 +5,38 @@
     flex: 1;
 
     #pageTitulo {
-        font-weight: 300;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: var(--body-font);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex: 1;
+        gap: 8px;
+
+        h1 {
+            font-weight: 300;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--body-font);
+        }
+
+        #counter {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--body-bg-attention);
+            border-radius: 50%;
+            font-weight: bold;
+
+            p {
+                color: #ffffff;
+                margin: 0;
+            }
+        }
     }
 }
 
-/* Alterções para Desktop */
+/* Alterações para Desktop */
 @media screen and (min-device-width: 768px),
 screen and (min-width: 768px) {
     .mainHeader {
@@ -21,7 +44,15 @@ screen and (min-width: 768px) {
         margin-bottom: 24px;
 
         #pageTitulo {
-            font-size: 26px;
+            h1 {
+                font-size: 26px;
+            }
+
+            #counter {
+                width: 1.5rem;
+                height: 1.5rem;
+                font-size: 0.8rem;
+            }
         }
     }
 }
@@ -35,7 +66,17 @@ screen and (max-width: 768px) {
         margin-bottom: 16px;
 
         #pageTitulo {
-            font-size: 22px;
+            justify-content: center;
+
+            h1 {
+                font-size: 22px;
+            }
+
+            #counter {
+                width: 1.3rem;
+                height: 1.3rem;
+                font-size: 0.6rem;
+            }
         }
     }
 }

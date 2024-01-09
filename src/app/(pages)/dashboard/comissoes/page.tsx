@@ -79,12 +79,12 @@ export default function PageComissoes() {
 
 
     if (isLoading) {
-        return (<></>)
+        return (<>Carregando...</>)
     }
 
     return (
         <>
-            <MainHeader titulo="Comissões">
+            <MainHeader title="Comissões">
                 {userAdmin && (
                     <Link href='/new/comissao'>
                         <button className="btnPrimary btnFloat">

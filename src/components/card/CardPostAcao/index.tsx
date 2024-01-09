@@ -42,7 +42,6 @@ export default function CardPostAcao(props: CardPostAcaoProps) {
     /* Detalhes dos status atual de cadao tipo de ação */
     const statusDetalhado = {
         proposta: [
-            { titulo: "Ação do Autor", descricao: "Ajustes pendentes" },
             { titulo: "Ação do Presidente", descricao: "Aguardando análise" },
             { titulo: "Ação dos demais Deputados", descricao: "Obtendo assinaturas" },
             { titulo: "Ação da Comissão", descricao: "Aguardando parecer da comissão" },
@@ -50,7 +49,6 @@ export default function CardPostAcao(props: CardPostAcaoProps) {
             { titulo: "Ação Concluída", descricao: "Concluído" }
         ],
         emenda: [
-            { titulo: "Ação do Autor", descricao: "Ajustes pendentes" },
             { titulo: "Ação do Presidente", descricao: "Aguardando análise" },
             { titulo: "Ação da Comissão", descricao: "Aguardando parecer da comissão" },
             { titulo: "Ação do Presidente", descricao: "Votação pendente no plenário" },
@@ -65,8 +63,8 @@ export default function CardPostAcao(props: CardPostAcaoProps) {
 
     /* Qual os detalhes da ação */
     const statusAcao = acao.tipo === "proposta" ?
-        statusDetalhado.proposta.slice(1) : acao.tipo === "emenda" ?
-            statusDetalhado.emenda.slice(1) : statusDetalhado.pedido;
+        statusDetalhado.proposta : acao.tipo === "emenda" ?
+            statusDetalhado.emenda : statusDetalhado.pedido;
 
 
     /* Numeração dos status atuais */
@@ -88,6 +86,13 @@ export default function CardPostAcao(props: CardPostAcaoProps) {
     }
 
     const statusAtual = statusAcao[stepAtual] || {}
+
+
+    // Se tiver ajustes pendentes com o Autor
+    if (acao.statusAtual === "autor") {
+        statusAtual.titulo = "Ação do Autor"
+        statusAtual.descricao = "Ajustes pendentes"
+    }
 
 
     return (

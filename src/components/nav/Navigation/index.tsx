@@ -1,21 +1,34 @@
-import { useState, useEffect } from 'react'
-import Icon from '@/components/icon/Icon'
-import Link from 'next/link'
+import { useState, useEffect } from 'react';
+import { API } from '@/functions/urls';
+import { useAPI } from '@/hooks/Api';
+import Icon from '@/components/icon/Icon';
+import Link from 'next/link';
+import './style.scss';
 
-import './style.scss'
 
 type NavigationOption = {
     icon: string;
     title: string;
     path: string;
-};
+}
 
 type NavigationGroup = {
     title: string;
     options: NavigationOption[];
-};
+}
+
 
 const navigation: NavigationGroup[] = [
+    {
+        title: '',
+        options: [
+            {
+                icon: 'home',
+                title: 'Início',
+                path: '/dashboard',
+            },
+        ]
+    },
     {
         title: 'Minhas',
         options: [
@@ -78,32 +91,44 @@ const navigation: NavigationGroup[] = [
                 icon: 'doc',
                 title: 'Documentos',
                 path: '/dashboard/documentos',
-            },
-            {
-                icon: 'none',
-                title: 'Sair',
-                path: '/',
-            },
+            }
         ]
     }
-]
+];
+
 
 export default function Navigation() {
-    const [selectedPage, setSelectedPage] = useState<string>('')
+    const [selectedPage, setSelectedPage] = useState<string>('');
+    const [tarefasCounter, setTarefasCounter] = useState<number>(0);
+    const { get } = useAPI();
+
 
     useEffect(() => {
         // Acessa o caminho atual diretamente do window.location
-        const currentPath = window.location.pathname
+        const currentPath = window.location.pathname;
 
         // Encontra a opção de navegação correspondente ao caminho atual
         const matchingOption = navigation
             .flatMap((group) => group.options)
-            .find((option) => option.path === currentPath)
+            .find((option) => option.path === currentPath);
 
         if (matchingOption) {
             setSelectedPage(matchingOption.title)
         }
-    }, [])
+
+        // Obeter quatidade de tarefas
+        const loadMinhasTarefas = async () => {
+            try {
+                const response = await get(`${API}/acoes/to=me`);
+                setTarefasCounter(response.data.length);
+            }
+            catch (error: any) {
+                console.error('Error:', error);
+            }
+        }
+        loadMinhasTarefas();
+    }, []);
+
 
     return (
         <div className="navigation">
@@ -123,7 +148,14 @@ export default function Navigation() {
                                 onClick={() => setSelectedPage(option.title)}
                             >
                                 <Icon nome={option.icon} />
-                                <p>{option.title}</p>
+                                <p>
+                                    {option.title}
+                                    {option.title === "Tarefas" ? tarefasCounter > 0 &&
+                                        (<div id="iconNotification">
+                                            <p>{tarefasCounter > 99 ? 99 : tarefasCounter}</p>
+                                        </div>) : null
+                                    }
+                                </p>
                             </button>
                         </Link>
                     ))}

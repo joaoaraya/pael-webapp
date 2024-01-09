@@ -140,12 +140,12 @@ export default function PageDeputados() {
 
 
     if (isLoading) {
-        return (<></>)
+        return (<>Carregando...</>)
     }
 
     return (
         <>
-            <MainHeader titulo="Deputados">
+            <MainHeader title="Deputados">
                 {userAdmin && (
                     <Link href='/new/deputado'>
                         <button className="btnPrimary btnFloat">

@@ -1,59 +1,89 @@
-import React from 'react'
-import OpenModal from '@/components/button/OpenModal'
-import ModalDeputado from '@/components/modal/ModalDeputado'
+import React, { useState } from 'react';
+import { capitalize } from '@/functions/visual';
+import { API } from '@/functions/urls';
+import defaultPicture from '@/assets/images/defaultProfilePictureDark.png';
+import OpenModal from '@/components/button/OpenModal';
+import ModalDeputado from '@/components/modal/ModalDeputado';
 
-import './style.scss'
+import './style.scss';
+
 
 type ButtonPerfilProps = {
-    nome: string;
-    cim: number;
-    loja: string;
-    lojaNumero: number;
-    cargo: string;
-    situacao: boolean;
-    fotoURL: string;
-};
+    user: {
+        nome: string;
+        cim: number;
+        loja: string;
+        lojaNumero: number;
+        cargo: string;
+        ativo: boolean;
+        situacao: string;
+        cpf?: string;
+        email?: string;
+        celular?: string;
+        cimSuplente?: string;
+        nomeSuplente?: string;
+        cargos?: {
+            nome: string;
+            dataNomeacao: string;
+            dataTermino: string;
+        }[];
+    };
+}
+
 
 export default function ButtonPerfil(props: ButtonPerfilProps) {
-	const modalContent = (
-		<ModalDeputado
-			nome={props.nome}
-			cim={props.cim}
-			loja={props.loja}
-			lojaNumero={props.lojaNumero}
-			cargo={props.cargo}
-			situacao={props.situacao}
-			fotoURL={props.fotoURL}
-		/>
-	)
+    const user = props.user;
+    const fotoURL = !user.cim ? defaultPicture.src : `${API}/user/${user.cim}/picture/small`;
 
-	const modalFooterContent = (
-		<div>
-			<button className="btnPrimary">
-				<p>Editar</p>
-			</button>
-		</div>
-	)
+    const [withoutPicture, setWithoutPicture] = useState(false);
+    const onImageLoadError = () => {
+        setWithoutPicture(true);
+    }
 
-	const [primeiroNome, segundoNome] = props.nome.split(' ')
-	const cargo = props.cargo.length > 15 ? `${props.cargo.substring(0, 15)}...` : props.cargo
+    const userNome = !user.nome ? "" : user.nome;
+    const userCargo = !user.cargo ? "" : user.cargo;
 
-	return (
-		<OpenModal
-			tagType="button"
-			className="buttonPerfil"
-			modalTitle="Deputado"
-			modalContent={modalContent}
-			modalFooterContent={modalFooterContent}
-		>
-			<img src={props.fotoURL} alt="" />
+    const [primeiroNome] = userNome.split(' ');
+    const cargo = userCargo.length > 15 ? `${userCargo.substring(0, 15)}...` : userCargo;
 
-			<div className="perfilDados">
-				<h1>{`${primeiroNome} ${segundoNome}`}</h1>
-				<p>
-					{props.cim} • {cargo}
-				</p>
-			</div>
-		</OpenModal>
-	)
+
+    const modalContent = (
+        <ModalDeputado user={user} />
+    );
+
+    const modalFooterContent = (
+        <div>
+            <button className="btnPrimary">
+                <p>Editar</p>
+            </button>
+        </div>
+    );
+
+
+    return (
+        <OpenModal
+            tagType="button"
+            className="buttonPerfil"
+            modalTitle="Deputado"
+            modalContent={modalContent}
+            modalFooterContent={modalFooterContent}
+        >
+            <img
+                id="fotoURL"
+                src={fotoURL}
+                alt=""
+                onError={onImageLoadError}
+                className={withoutPicture ? 'defaultPicture' : ''}
+            />
+
+            <div className="perfilDados">
+                <h1>{capitalize(primeiroNome)}</h1>
+                <p>
+                    {user.cim}
+                    {cargo === "" ? "" : " • "}
+                    {capitalize(cargo)}
+                </p>
+            </div>
+        </OpenModal>
+    )
 }

@@ -5,6 +5,7 @@
     justify-content: space-between;
     flex: 1;
     width: 100%;
+    height: 100%;
     border-radius: 20px;
     padding: 16px;
     background-color: var(--cardPostAcao-bg);
@@ -43,7 +44,7 @@
     #statusProgresso {
         display: flex;
         flex-direction: row;
-        gap: 32px;
+        gap: 28px;
         background: linear-gradient(to bottom, transparent calc(50% - 2px), var(--cardPostAcao-bg-shadow) 50%, transparent calc(50% + 2px));
 
         #progresso-0,

@@ -1,24 +1,25 @@
 header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    flex: 1;
-
     position: fixed;
     left: 0;
     top: 0;
     right: 0;
-    margin: auto;
+    padding: 0;
     z-index: 10;
-
     background-color: var(--body-bg);
 
-    .actions {
+    .headerContainer {
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 20px;
+        justify-content: space-between;
+        flex: 1;
+
+        .actions {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
     }
 }
 
@@ -26,11 +27,12 @@ header {
 @media screen and (min-device-width: 768px),
 screen and (min-width: 768px) {
     header {
-        width: 100%;
-        padding: 24px 40px 8px 40px;
+        .headerContainer {
+            padding: 24px 40px 8px 40px;
 
-        .mobileNavMenu {
-            display: none;
+            .mobileNavMenu {
+                display: none;
+            }
         }
     }
 }
@@ -39,39 +41,39 @@ screen and (min-width: 768px) {
 @media screen and (max-device-width: 768px),
 screen and (max-width: 768px) {
     header {
-        width: calc(100% - (8px + 8px));
-        padding: 8px;
+        .headerContainer {
+            padding: 8px;
 
-        .mobileNavMenu {
-            display: flex;
-        }
+            .mobileNavMenu {
+                display: flex;
+            }
 
-        .buttonPerfil {
+            .buttonPerfil {
+                .perfilDados {
+                    display: none;
+                }
+            }
 
-            .perfilDados {
+            .ToggleSwitchTheme {
                 display: none;
             }
-        }
 
-        .ToggleSwitchTheme {
-            display: none;
-        }
+            .mobileNavMenu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 48px;
+                height: 48px;
+                background-color: var(--body-bg);
 
-        .mobileNavMenu {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            background-color: var(--body-bg);
+                .iconMenu {
 
-            .iconMenu {
-
-                &,
-                svg {
-                    width: 24px;
-                    height: 24px;
-                    fill: var(--body-font);
+                    &,
+                    svg {
+                        width: 24px;
+                        height: 24px;
+                        fill: var(--body-font);
+                    }
                 }
             }
         }

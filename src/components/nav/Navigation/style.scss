@@ -31,12 +31,35 @@
                 background-color: var(--body-bg);
 
                 p {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 8px;
+
                     font-size: 18px;
                     font-weight: 400;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     color: var(--body-font-light);
+
+                    #iconNotification {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 50%;
+                        background-color: var(--body-bg-attention);
+
+                        p {
+                            font-weight: bold;
+                            font-size: 8px;
+                            color: #ffffff;
+                            margin: 0;
+                        }
+                    }
                 }
 
                 svg {
@@ -44,6 +67,9 @@
                     width: 22px;
                     fill: var(--body-font-light);
                 }
+
+
+
 
                 &.active {
                     p {

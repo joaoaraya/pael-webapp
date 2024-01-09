@@ -11,10 +11,6 @@ import ModalNovaAcao from '@/components/modal/ModalNovaAcao';
 import ListPostsAcao from '@/components/session/ListPostsAcao';
 
 
-type PageProps = {
-    statusAtual: string;
-}
-
 type AcoesProps = {
     id: string;
     ativo: boolean;
@@ -30,7 +26,7 @@ type AcoesProps = {
 }[];
 
 
-export default function PageAcoes({ params }: { params: PageProps }) {
+export default function PageDashboard() {
     const Router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [acoes, setAcoes] = useState<AcoesProps>([]);
@@ -39,7 +35,7 @@ export default function PageAcoes({ params }: { params: PageProps }) {
     useEffect(() => {
         const loadData = async () => {
             try {
-                const response = await get(`${API}/acoes/status=${params.statusAtual}`);
+                const response = await get(`${API}/acoes/status=todos`);
                 setAcoes(response.data);
                 setIsLoading(false);
             }
@@ -54,26 +50,13 @@ export default function PageAcoes({ params }: { params: PageProps }) {
     }, []);
 
 
-    let pageTitle = "";
-
-    if (params.statusAtual) {
-        switch (params.statusAtual) {
-            case "redacao": pageTitle = "Ações em Redação"; break;
-            case "pauta": pageTitle = "Ações em Pauta"; break;
-            case "comissao": pageTitle = "Ações em Comissão"; break;
-            case "plenario": pageTitle = "Ações em Plenário"; break;
-            case "concluido": pageTitle = "Ações Concluídas"; break;
-        }
-    }
-
-
     if (isLoading) {
         return (<>Carregando...</>)
     }
 
     return (
         <>
-            <MainHeader title={pageTitle}>
+            <MainHeader title="Dashboard">
                 <OpenModal
                     tagType="button"
                     className="btnPrimary btnFloat"

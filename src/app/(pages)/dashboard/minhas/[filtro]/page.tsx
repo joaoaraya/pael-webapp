@@ -12,7 +12,7 @@ import ListPostsAcao from '@/components/session/ListPostsAcao';
 
 
 type PageProps = {
-    statusAtual: string;
+    filtro: string;
 }
 
 type AcoesProps = {
@@ -30,16 +30,20 @@ type AcoesProps = {
 }[];
 
 
-export default function PageAcoes({ params }: { params: PageProps }) {
+export default function PageMinhasAcoes({ params }: { params: PageProps }) {
     const Router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [acoes, setAcoes] = useState<AcoesProps>([]);
     const { get } = useAPI();
 
+    const apiFilter = params.filtro === "tarefas" ?
+        "to" : params.filtro === "acoes" ?
+            "by" : "";
+
     useEffect(() => {
         const loadData = async () => {
             try {
-                const response = await get(`${API}/acoes/status=${params.statusAtual}`);
+                const response = await get(`${API}/acoes/${apiFilter}=me`);
                 setAcoes(response.data);
                 setIsLoading(false);
             }
@@ -53,27 +57,16 @@ export default function PageAcoes({ params }: { params: PageProps }) {
         loadData();
     }, []);
 
-
-    let pageTitle = "";
-
-    if (params.statusAtual) {
-        switch (params.statusAtual) {
-            case "redacao": pageTitle = "Ações em Redação"; break;
-            case "pauta": pageTitle = "Ações em Pauta"; break;
-            case "comissao": pageTitle = "Ações em Comissão"; break;
-            case "plenario": pageTitle = "Ações em Plenário"; break;
-            case "concluido": pageTitle = "Ações Concluídas"; break;
-        }
-    }
+    const pageTitle = apiFilter === "to" ? "Tarefas" : "Acões";
 
 
     if (isLoading) {
-        return (<>Carregando...</>)
+        return (<>Carregando</>)
     }
 
     return (
         <>
-            <MainHeader title={pageTitle}>
+            <MainHeader title={"Minhas " + pageTitle} counter={apiFilter === "to" ? (acoes.length > 99 ? 99 : acoes.length) : 0}>
                 <OpenModal
                     tagType="button"
                     className="btnPrimary btnFloat"
