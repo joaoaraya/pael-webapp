@@ -1,111 +1,141 @@
-import React, { useState } from 'react'
-import Link from 'next/link'
+import React, { useState } from 'react';
+import { API } from '@/functions/urls';
+import Link from 'next/link';
 
-import './style.scss'
+import './style.scss';
+import { capitalize, formatDate } from '@/functions/visual';
+
 
 type CardPostAcaoProps = {
-    id: number; // o id é enviado na request pro bd ao clicar no card 
-    ativo: boolean;
-    tipo: string;
-    titulo: string;
-    dataDeAtualizacao: Date;
-    statusAtual: number;
-    statusFinal?: string;
-    autor: {
-        nome: string;
-        fotoURL: string;
+    post: {
+        id: string;
+        ativo: boolean;
+        tipo: string;
+        titulo: string;
+        statusAtual: string;
+        statusFinal: string;
+        dataDeAtualizacao: string;
+        autor: {
+            cim: string;
+            nome: string
+        }
     }
-    showDetalhes?: boolean;
 }
 
-export default function CardPostAcao({ showDetalhes = true, ...props }: CardPostAcaoProps) {
-	const [postTipo] = useState(props.tipo)
 
-	/* Filtro do stuatus atual para Proposta e Emenda (ignorar os 2 primeiros no card e o ultimo) */
-	const statusAtualFiltrado =
-        postTipo === 'Proposta' || postTipo === 'Emenda' ? (props.statusAtual - 2) : props.statusAtual
+export default function CardPostAcao(props: CardPostAcaoProps) {
+    const acao = props.post;
 
+    const [withoutPicture, setWithoutPicture] = useState(false);
+    const onImageLoadError = () => {
+        setWithoutPicture(true);
+    }
 
-	/* Detalhes do status de cada tipo de post (Proposta, Emenda, Licença e Renúncia) */
-	const statusPostProposta = [
-		//{ responsavelPelaAcao: "Ação do Autor", descricaoDoStatus: "Pendente com o autor" },
-		//{ responsavelPelaAcao: "Ação do Presidente", descricaoDoStatus: "Pendente em redação" },
-		{ responsavelPelaAcao: 'Ação de Demais Deputados', descricaoDoStatus: 'Obtendo assinaturas' },
-		{ responsavelPelaAcao: 'Ação do Presidente', descricaoDoStatus: 'Aguardando encaminhamento para comissão' },
-		{ responsavelPelaAcao: 'Ação da Comissão', descricaoDoStatus: 'Encaminhado para comissão' },
-		{ responsavelPelaAcao: 'Ação do Presidente', descricaoDoStatus: 'Aguardando encaminhamento para plenário' },
-		{ responsavelPelaAcao: 'Ação do Presidente', descricaoDoStatus: 'Pendente em plenário para votação' },
-		//{ responsavelPelaAcao: "Ação Concluída", descricaoDoStatus: "Votação concluída" },
-	]
-
-	const statusPostEmenda = [
-		//{ responsavelPelaAcao: "Ação do Autor", descricaoDoStatus: "Pendente com o autor" },
-		//{ responsavelPelaAcao: "Ação do Presidente", descricaoDoStatus: "Pendente em redação" },
-		{ responsavelPelaAcao: 'Ação do Presidente', descricaoDoStatus: 'Aguardando encaminhamento para comissão' },
-		{ responsavelPelaAcao: 'Ação da Comissão', descricaoDoStatus: 'Encaminhado para comissão' },
-		{ responsavelPelaAcao: 'Ação do Presidente', descricaoDoStatus: 'Aguardando encaminhamento para plenário' },
-		{ responsavelPelaAcao: 'Ação do Presidente', descricaoDoStatus: 'Pendente em plenário para votação' },
-		//{ responsavelPelaAcao: "Ação Concluída", descricaoDoStatus: "Votação concluída" },
-	]
-
-	const statusPostOutro = [
-		{ responsavelPelaAcao: 'Ação do Presidente', descricaoDoStatus: 'Aguardando deferimento' },
-		{ responsavelPelaAcao: 'Ação Concluída', descricaoDoStatus: 'Concluído' }
-	]
+    /* Acentos no título para os tipos de ação */
+    const acaoTipo =
+        acao.tipo === "proposta" ? "Proposta" :
+            acao.tipo === "emenda" ? "Emenda" :
+                acao.tipo === "licenca" ? "Licença" :
+                    acao.tipo === "renuncia" ? "Renúncia" : "Ação";
 
 
-	/* Quantos status tem? (Cada tipo tem quantidades diferentes) */
-	const statusDoPost =
-        postTipo === 'Proposta' ? statusPostProposta :
-        	postTipo === 'Emenda' ? statusPostEmenda :
-        		statusPostOutro
+    /* Detalhes dos status atual de cadao tipo de ação */
+    const statusDetalhado = {
+        proposta: [
+            { titulo: "Ação do Autor", descricao: "Ajustes pendentes" },
+            { titulo: "Ação do Presidente", descricao: "Aguardando análise" },
+            { titulo: "Ação dos demais Deputados", descricao: "Obtendo assinaturas" },
+            { titulo: "Ação da Comissão", descricao: "Aguardando parecer da comissão" },
+            { titulo: "Ação do Presidente", descricao: "Votação pendente no plenário" },
+            { titulo: "Ação Concluída", descricao: "Concluído" }
+        ],
+        emenda: [
+            { titulo: "Ação do Autor", descricao: "Ajustes pendentes" },
+            { titulo: "Ação do Presidente", descricao: "Aguardando análise" },
+            { titulo: "Ação da Comissão", descricao: "Aguardando parecer da comissão" },
+            { titulo: "Ação do Presidente", descricao: "Votação pendente no plenário" },
+            { titulo: "Ação Concluída", descricao: "Concluído" }
+        ],
+        pedido: [
+            { titulo: "Ação do Presidente", descricao: "Aguardando deferimento" },
+            { titulo: "Ação Concluída", descricao: "Concluído" }
+        ]
+    }
 
 
-	/* Filtro do titulo do tipo do post para o uso de acentos */
-	const postTipoTitulo =
-        postTipo === 'Proposta' ? 'Proposta' :
-        	postTipo === 'Emenda' ? 'Emenda' :
-        		postTipo === 'Licenca' ? 'Licença' :
-        			postTipo === 'Renuncia' ? 'Renúncia' :
-        				'Ação'
+    /* Qual os detalhes da ação */
+    const statusAcao = acao.tipo === "proposta" ?
+        statusDetalhado.proposta.slice(1) : acao.tipo === "emenda" ?
+            statusDetalhado.emenda.slice(1) : statusDetalhado.pedido;
 
-	const statusAtual = statusDoPost[statusAtualFiltrado] || {}
-	const dataDeAtualizacao = props.dataDeAtualizacao.toLocaleDateString()
 
-	return (
-		<Link href="/dashboard/acao">
-			<button className={`cardPostAcao postTipo${props.tipo} postAcao${props.statusFinal}`}>
-				<h1 id="tipo">{postTipoTitulo}</h1>
+    /* Numeração dos status atuais */
+    let stepAtual = 0;
 
-				{props.ativo ?
-					showDetalhes ? (<p id="responsavelPelaAcao">{statusAtual.responsavelPelaAcao}</p>)
-						: null
-					: (<p id="responsavelPelaAcao">{`Ação ${props.statusFinal}`}</p>)
-				}
+    if (acao.tipo === "proposta") {
+        if (acao.statusAtual === "pauta") { stepAtual = 1 }
+        if (acao.statusAtual === "comissao") { stepAtual = 2 }
+        if (acao.statusAtual === "plenario") { stepAtual = 3 }
+        if (acao.statusAtual === "concluido") { stepAtual = 4 }
+    }
+    if (acao.tipo === "emenda") {
+        if (acao.statusAtual === "comissao") { stepAtual = 1 }
+        if (acao.statusAtual === "plenario") { stepAtual = 2 }
+        if (acao.statusAtual === "concluido") { stepAtual = 3 }
+    }
+    if (acao.tipo === "licenca" || acao.tipo === "renuncia") {
+        if (acao.statusAtual === "concluido") { stepAtual = 1 }
+    }
 
-				<h2 id="titulo">{props.titulo}</h2>
+    const statusAtual = statusAcao[stepAtual] || {}
 
-				{showDetalhes && (
-					<>
-						<div id="statusProgresso">
-							{statusDoPost.map((status, index) => (
-								<div
-									key={index}
-									id={`progresso-${index}`}
-									className={index <= statusAtualFiltrado ? 'aprovado' : ''}
-								/>
-							))}
-						</div>
-						<p id="descricaoDoStatus">{statusAtual.descricaoDoStatus}</p>
-					</>
-				)}
 
-				<div id="postAutor">
-					<img id="fotoURL" src={props.autor.fotoURL} alt="" />
-					<p id="autor">Por: <b>{props.autor.nome}</b></p>
-					<p id="dataDeAtualizacao">Atualizado: <b>{dataDeAtualizacao}</b></p>
-				</div>
-			</button>
-		</Link>
-	)
+    return (
+        <Link href={"/acao/" + acao.id}>
+            <button className={`cardPostAcao postTipo-${acao.tipo} postAcao-${acao.statusFinal}`}>
+
+                <h1 id="tipo">{acaoTipo}</h1>
+
+                <p id="responsavelPelaAcao">
+                    {acao.ativo ? statusAtual.titulo : capitalize(acao.statusFinal)}
+                </p>
+
+                <h2 id="titulo">{capitalize(acao.titulo)}</h2>
+
+                {acao.ativo && (
+                    <>
+                        <div id="statusProgresso">
+                            {statusAcao.map((status, index) => (
+                                <div
+                                    key={index}
+                                    id={`progresso-${index}`}
+                                    className={index <= stepAtual ? "stepAprovado" : ""}
+                                />
+                            ))}
+                        </div>
+
+                        <p id="descricaoDoStatus">{statusAtual.descricao}</p>
+                    </>
+                )}
+
+                <div id="postAutor">
+                    <img
+                        id="fotoURL"
+                        src={`${API}/user/${acao.autor.cim}/picture/small`}
+                        alt=""
+                        onError={onImageLoadError}
+                        className={withoutPicture ? 'defaultPicture' : ''}
+                    />
+
+                    <p id="autor">
+                        Por: <b>{capitalize(acao.autor.nome)}</b>
+                    </p>
+
+                    <p id="dataDeAtualizacao">
+                        Atualizado: <b>{formatDate(acao.dataDeAtualizacao)}</b>
+                    </p>
+                </div>
+            </button>
+        </Link>
+    )
 }

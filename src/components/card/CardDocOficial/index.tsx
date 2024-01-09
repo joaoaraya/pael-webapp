@@ -7,6 +7,7 @@ import ModalDocOficial from '@/components/modal/ModalDocOficial';
 import iconPdf from '@/assets/images/iconPdf.png';
 
 import './style.scss';
+import Icon from '@/components/icon/Icon';
 
 
 type CardDocProps = {
@@ -44,13 +45,16 @@ export default function CardDocOficial(props: CardDocProps) {
     }, []);
 
     const modalContent = (
-        <ModalDocOficial docFileName={doc.nomeArquivo} />
+        <ModalDocOficial doc={doc} />
     );
 
     const content = (
         <>
-            <img id="icone" src={iconPdf.src} alt="" />
-            <p id="nome">{doc.nome}</p>
+            <img id="icon" src={iconPdf.src} alt="" />
+            <div id="desc" className={userAutor ? 'admin' : 'user'}>
+                <Icon nome='edit' />
+                <p>{doc.nome}</p>
+            </div>
         </>
     );
 

@@ -16,7 +16,7 @@
     --body-input-border: #D2DAE2;
 
     /* Dashboard Cards */
-    .postTipoProposta {
+    .postTipo-proposta {
         --cardPostAcao-bg: #EFFCEF;
         --cardPostAcao-bg-shadow: #DAEDDA;
         --cardPostAcao-bg-highlight: #7CCA81;
@@ -24,7 +24,7 @@
         --cardPostAcao-text-highlight: #3E8242;
     }
 
-    .postTipoEmenda {
+    .postTipo-emenda {
         --cardPostAcao-bg: #F9F4E6;
         --cardPostAcao-bg-shadow: #EAE3D0;
         --cardPostAcao-bg-highlight: #C5A26D;
@@ -32,7 +32,7 @@
         --cardPostAcao-text-highlight: #6C5821;
     }
 
-    .postTipoLicenca {
+    .postTipo-licenca {
         --cardPostAcao-bg: #E6F5F9;
         --cardPostAcao-bg-shadow: #CEEBF2;
         --cardPostAcao-bg-highlight: #78C2DA;
@@ -40,7 +40,7 @@
         --cardPostAcao-text-highlight: #1C6996;
     }
 
-    .postTipoRenuncia {
+    .postTipo-renuncia {
         --cardPostAcao-bg: #FFE9E2;
         --cardPostAcao-bg-shadow: #EBD1D1;
         --cardPostAcao-bg-highlight: #F67272;
@@ -50,11 +50,11 @@
 
     --postAcaoConcluido-bg: #F3F6F8;
 
-    .postAcaoAprovada {
+    .postAcao-aprovado {
         --postAcaoConcluido-highlight: #20B41D;
     }
 
-    .postAcaoReprovada {
+    .postAcao-reprovado {
         --postAcaoConcluido-highlight: #E04646;
     }
 

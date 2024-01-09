@@ -13,4 +13,23 @@
             background-color: var(--button-attention);
         }
     }
+
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        gap: 20px;
+        padding: 20px;
+
+        #icon {
+            width: 30%;
+            height: 30%;
+        }
+
+        #desc {
+            text-align: center;
+        }
+    }
 }

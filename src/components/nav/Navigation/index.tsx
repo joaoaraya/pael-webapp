@@ -37,27 +37,27 @@ const navigation: NavigationGroup[] = [
             {
                 icon: 'dashboard',
                 title: 'Redação',
-                path: '/dashboard/acao/redacao',
+                path: '/dashboard/acoes/redacao',
             },
             {
                 icon: 'dashboard',
                 title: 'Pauta',
-                path: '/dashboard/acao/pauta',
+                path: '/dashboard/acoes/pauta',
             },
             {
                 icon: 'dashboard',
                 title: 'Comissão',
-                path: '/dashboard/acao/comissao',
+                path: '/dashboard/acoes/comissao',
             },
             {
                 icon: 'dashboard',
                 title: 'Plenário',
-                path: '/dashboard/acao/plenario',
+                path: '/dashboard/acoes/plenario',
             },
             {
                 icon: 'dashboard',
                 title: 'Concluídas',
-                path: '/dashboard/acao/concluida',
+                path: '/dashboard/acoes/concluido',
             },
         ]
     },

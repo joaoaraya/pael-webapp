@@ -4,22 +4,28 @@ import { API } from '@/functions/urls';
 import { useAPI } from '@/hooks/Api';
 import Link from 'next/link';
 import Icon from '@/components/icon/Icon';
-import './style.scss';
+import iconPdf from '@/assets/images/iconPdf.png';
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
-
+import './style.scss';
 
 
 type ModalProps = {
-    docFileName: string;
+    doc: {
+        id: string;
+        nome: string;
+        nomeArquivo: string;
+        cimAutor: string;
+    }
 }
 
 
 export default function ModalDocOficial(props: ModalProps) {
+    const doc = props.doc;
     const { del } = useAPI();
 
     const deleteDoc = async () => {
         try {
-            const response = await del(`${API}/doc/${props.docFileName}`);
+            const response = await del(`${API}/doc/${doc.nomeArquivo}`);
 
             if (response) {
                 window.alert(response.data.message);
@@ -35,14 +41,19 @@ export default function ModalDocOficial(props: ModalProps) {
 
     return (
         <div className="modalDocOficial">
-            <a href={API + '/doc/' + props.docFileName} target="_blank">
+            <div className="details">
+                <img id="icon" src={iconPdf.src} alt="" />
+                <p id="desc">{doc.nome}</p>
+            </div>
+
+            <a href={API + '/doc/' + doc.nomeArquivo} target="_blank">
                 <button className="btnSecondary">
                     <Icon nome="doc" />
-                    <p>Vizualizar</p>
+                    <p>Visualizar</p>
                 </button>
             </a>
 
-            <Link href={'/edit/doc/' + props.docFileName}>
+            <Link href={'/edit/doc/' + doc.nomeArquivo}>
                 <button className="btnSecondary">
                     <Icon nome="edit" />
                     <p>Editar descrição</p>

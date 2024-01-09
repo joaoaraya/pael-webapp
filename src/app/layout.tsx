@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'PAEL GOB-SP',
-    description: 'Sistema de gerenciamento da PAEL',
+    description: 'Poderosa Assembleia Estadual Legislativa GOB-SP',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

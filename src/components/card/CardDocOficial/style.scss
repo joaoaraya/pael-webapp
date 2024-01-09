@@ -8,20 +8,46 @@
     padding: 8px;
     background-color: var(--body-bg);
 
-    img {
+    #icon {
         width: 40px;
         height: 40px;
         min-width: 40px;
     }
 
-    p {
-        font-size: 16px;
-        font-weight: 400;
-        text-align: left;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: var(--body-font);
+    #desc {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        p {
+            font-size: 16px;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--body-font);
+        }
+    }
+
+    .user {
+        svg {
+            display: none;
+        }
+
+        p {
+            font-weight: 400;
+        }
+    }
+
+    .admin {
+        p {
+            font-weight: 600;
+        }
     }
 
     &:hover {
@@ -36,7 +62,7 @@ screen and (max-width: 520px) {
     .cardDoc {
         gap: 16px;
 
-        img {
+        #icon {
             width: 32px;
             height: 32px;
             min-width: 32px;
