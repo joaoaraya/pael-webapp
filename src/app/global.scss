@@ -120,7 +120,8 @@ a {
 }
 
 .btnPrimary,
-.btnSecondary {
+.btnSecondary,
+.btnAttention {
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -175,6 +176,18 @@ a {
 
     svg {
         fill: var(--body-font);
+    }
+}
+
+.btnAttention {
+    background-color: var(--button-attention);
+
+    p {
+        color: var(--body-font-alternative);
+    }
+
+    svg {
+        fill: var(--body-font-alternative);
     }
 }
 

@@ -35,7 +35,7 @@ type PerfilProps = {
 
 
 export default function Header() {
-    const [user, setUser] = useState<PerfilProps>([]);
+    const [user, setUser] = useState<PerfilProps>();
     const { get } = useAPI();
 
     useEffect(() => {

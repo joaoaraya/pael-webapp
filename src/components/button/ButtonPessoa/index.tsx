@@ -1,40 +1,72 @@
-import OpenModal from '../OpenModal'
-import ModalDeputado from '@/components/modal/ModalDeputado'
+import { useState } from 'react';
+import { API } from '@/functions/urls';
+import { capitalize } from '@/functions/visual';
+import defaultPicture from '@/assets/images/defaultProfilePictureDark.png';
 
-import './style.scss'
+import OpenModal from '../OpenModal';
+import ModalDeputado from '@/components/modal/ModalDeputado';
+
+import './style.scss';
+
 
 type ButtonPessoaProps = {
-    nome: string;
-    cim: number;
-    loja: string;
-    lojaNumero: number;
-    cargo: string;
-    situacao: boolean;
-    fotoURL: string;
+    user?: {
+        nome: string;
+        cim: number;
+        loja: string;
+        lojaNumero: number;
+        cargo: string;
+        ativo: boolean;
+        situacao: string;
+        cpf?: string;
+        email?: string;
+        celular?: string;
+        cimSuplente?: string;
+        nomeSuplente?: string;
+        cargos?: {
+            nome: string;
+            dataNomeacao: string;
+            dataTermino: string;
+        }[];
+    };
 }
 
-export default function ButtonPessoa(props: ButtonPessoaProps) {
-	const modalContent = (
-		<ModalDeputado
-			nome={props.nome}
-			cim={props.cim}
-			loja={props.loja}
-			lojaNumero={props.lojaNumero}
-			cargo={props.cargo}
-			situacao={props.situacao}
-			fotoURL={props.fotoURL}
-		/>
-	)
 
-	return (
-		<OpenModal
-			tagType="button"
-			className="buttonPessoa"
-			modalTitle="Deputado"
-			modalContent={modalContent}
-		>
-			<img src={props.fotoURL} alt="" />
-			<p>{props.nome}</p>
-		</OpenModal>
-	)
+export default function ButtonPessoa(props: ButtonPessoaProps) {
+    const user = props.user;
+
+    const [withoutPicture, setWithoutPicture] = useState(false);
+    const onImageLoadError = () => {
+        setWithoutPicture(true);
+    }
+    let fotoURL = defaultPicture.src;
+    let userNome = "";
+
+    let modalContent = null;
+
+    // Quando carregar os dados da API
+    if (user) {
+        fotoURL = `${API}/user/${user.cim}/picture/small`;
+        userNome = user.nome;
+        modalContent = (<ModalDeputado user={user} />);
+    }
+
+
+    return (
+        <OpenModal
+            tagType="button"
+            className="buttonPessoa"
+            modalTitle="Deputado"
+            modalContent={modalContent}
+        >
+            <img
+                id="fotoURL"
+                src={fotoURL}
+                alt=""
+                onError={onImageLoadError}
+                className={withoutPicture ? 'defaultPicture' : ''}
+            />
+            <p>{capitalize(userNome)}</p>
+        </OpenModal>
+    )
 }

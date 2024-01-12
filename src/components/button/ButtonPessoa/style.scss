@@ -22,6 +22,15 @@
         object-fit: cover;
     }
 
+    #fotoURL {
+        background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+        background-color: var(--cardGrupoPessoas-bg-shadow);
+    }
+
+    .defaultPicture {
+        content-visibility: hidden;
+    }
+
     p {
         text-align: left;
         font-size: 16px;

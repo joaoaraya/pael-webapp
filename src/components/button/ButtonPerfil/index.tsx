@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCookies } from 'react-cookie';
 import { capitalize } from '@/functions/visual';
 import { API } from '@/functions/urls';
 import defaultPicture from '@/assets/images/defaultProfilePictureDark.png';
@@ -6,10 +8,12 @@ import OpenModal from '@/components/button/OpenModal';
 import ModalDeputado from '@/components/modal/ModalDeputado';
 
 import './style.scss';
+import Link from 'next/link';
+
 
 
 type ButtonPerfilProps = {
-    user: {
+    user?: {
         nome: string;
         cim: number;
         loja: string;
@@ -33,31 +37,55 @@ type ButtonPerfilProps = {
 
 export default function ButtonPerfil(props: ButtonPerfilProps) {
     const user = props.user;
-    const fotoURL = !user.cim ? defaultPicture.src : `${API}/user/${user.cim}/picture/small`;
+
 
     const [withoutPicture, setWithoutPicture] = useState(false);
     const onImageLoadError = () => {
         setWithoutPicture(true);
     }
+    let fotoURL = defaultPicture.src;
 
-    const userNome = !user.nome ? "" : user.nome;
-    const userCargo = !user.cargo ? "" : user.cargo;
+    const userNome = !user?.nome ? "" : user.nome;
+    const userCargo = !user?.cargo ? "" : user.cargo;
 
-    const [primeiroNome] = userNome.split(' ');
-    const cargo = userCargo.length > 15 ? `${userCargo.substring(0, 15)}...` : userCargo;
+    let [primeiroNome] = userNome.split(' ');
+    let cargo = userCargo.length > 15 ? `${userCargo.substring(0, 15)}...` : userCargo;
+
+    // Encerrar / Sair
+    const [, , removeCookie] = useCookies(['token']);
+    const Router = useRouter();
+
+    const sair = () => {
+        removeCookie('token');
+        Router.push('/');
+    }
 
 
-    const modalContent = (
-        <ModalDeputado user={user} />
-    );
+    let modalContent = null;
+    let modalFooterContent = null;
 
-    const modalFooterContent = (
-        <div>
-            <button className="btnPrimary">
-                <p>Editar</p>
-            </button>
-        </div>
-    );
+
+    // Quando carregar os dados da API
+    if (user) {
+        fotoURL = !user.cim ? defaultPicture.src : `${API}/user/${user.cim}/picture/small`;
+
+        modalContent = (<ModalDeputado user={user} />);
+
+        modalFooterContent = (
+            <>
+                <Link href={'/edit/deputado/' + user.cim}>
+                    <button className="btnSecondary">
+                        <p>Gerenciar</p>
+                    </button>
+                </Link>
+
+
+                <button className="btnAttention" onClick={sair}>
+                    <p>Encerrar</p>
+                </button>
+            </>
+        );
+    }
 
 
     return (
@@ -79,7 +107,7 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
             <div className="perfilDados">
                 <h1>{capitalize(primeiroNome)}</h1>
                 <p>
-                    {user.cim}
+                    {user?.cim}
                     {cargo === "" ? "" : " • "}
                     {capitalize(cargo)}
                 </p>
