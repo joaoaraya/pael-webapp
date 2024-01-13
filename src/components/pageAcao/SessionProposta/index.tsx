@@ -7,6 +7,8 @@ import OpenModal from '@/components/button/OpenModal';
 import ModalAssinaturas from '@/components/modal/ModalAssinaturas';
 import ButtonsAcoes from '@/components/pageAcao/ButtonsAcoes';
 import ModalComissoesEncaminhadas from '@/components/modal/ModalComissoesEncaminhadas';
+import ModalPlenarioVotos from '@/components/modal/ModalPlenarioVotos';
+import ModalEmendasVinculadas from '@/components/modal/ModalEmendasVinculadas';
 
 //import './style.scss';
 
@@ -53,7 +55,7 @@ type PropostaProps = {
                 aFavor: number;
                 contra: number;
                 abstencao: number
-            }[];
+            };
 
             anexos?: {
                 titulo: string;
@@ -98,7 +100,7 @@ export default function SessionProposta(props: PropostaProps) {
                 modalContent={<ModalAssinaturas assinaturas={proposta.assinaturas || []} />}
             >
                 Assinaturas: <b>{proposta.assinaturas?.length || 0}</b>
-            </OpenModal>
+            </OpenModal >
         );
 
         const buttonComissoesEncaminhadas = (
@@ -109,6 +111,33 @@ export default function SessionProposta(props: PropostaProps) {
                 modalContent={<ModalComissoesEncaminhadas comissoes={proposta.comissoesEncaminhadas || []} />}
             >
                 Comissões: <b>{proposta.comissoesEncaminhadas?.length || 0}</b>
+            </OpenModal>
+        );
+
+        const totalVotosPlenario =
+            (proposta.plenarioVotos?.aFavor || 0) +
+            (proposta.plenarioVotos?.contra || 0) +
+            (proposta.plenarioVotos?.abstencao || 0);
+
+        const buttonPlenarioVotos = (
+            <OpenModal
+                tagType="p"
+                className="link"
+                modalTitle={`Plenário votos (${totalVotosPlenario})`}
+                modalContent={<ModalPlenarioVotos votos={proposta.plenarioVotos} />}
+            >
+                Plenário votos: <b>{totalVotosPlenario}</b>
+            </OpenModal>
+        );
+
+        const buttonEmendasVinculadas = (
+            <OpenModal
+                tagType="p"
+                className="link"
+                modalTitle={`Emendas vinculadas (${proposta.emendasVinculadas?.length || 0})`}
+                modalContent={<ModalEmendasVinculadas emendas={proposta.emendasVinculadas} />}
+            >
+                Emendas dessa ação: <b>{proposta.emendasVinculadas?.length || 0}</b>
             </OpenModal>
         );
 
@@ -151,49 +180,11 @@ export default function SessionProposta(props: PropostaProps) {
                 )}
 
                 {proposta.plenarioVotos && (
-                    <>
-                        {/*
-
-                    OBS. Ao abrir o modal mostra votos com:
-                        Grafico de pizza (componente)
-
-                    Votos a favor: number; (cor ver)
-                    Votos contra: number; (cor vermelho)
-                    Votos abstencao: number (cor cinza)
-                    ---
-                    Total de votos: number
-
-                    icone na frente + nome da comissão
-
-                    <div className="plenarioVotos">
-                        <OpenModal
-                            tagType="p"
-                            className="showAssinaturas"
-                            modalTitle={`Assinaturas (${post.conteudoProposta?.assinaturas?.length || 0})`}
-                            modalContent={modalAssinaturasContent}
-                        >
-                            Comissões com pareceres: <b>{post.conteudoProposta?.assinaturas?.length || 0}</b>
-                        </OpenModal>
-                        <p>
-                            Comissões encaminhadas: <b>{post.conteudoProposta?.assinaturasNecessarias}</b>
-                        </p>
-                    </div>
-                    */}
-                    </>
+                    <div className="plenarioVotos">{buttonPlenarioVotos}</div>
                 )}
 
                 {proposta.emendasVinculadas && (
-                    <>
-                        {
-                            /* Mostrar modal de emendas vinculadas (ex: emeda 01: em andanmento/concluida)
-                            link para ir para ação da emenda
-
-                            <div className="emendasVinculadas">
-                                <ModalEmendasVinculadas emendas={proposta.emendasVinculadas}/>
-                            </div>
-                            /*/
-                        }
-                    </>
+                    <div className="emendasVinculadas">{buttonEmendasVinculadas}</div>
                 )}
 
                 {proposta.anexos && (

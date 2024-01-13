@@ -1,0 +1,122 @@
+.modalPlenarioVotos {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 8px;
+
+    .votos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .icones {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding: 24px 0;
+
+            #afavor,
+            #contra,
+            #abstencao {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                }
+
+                p {
+                    font-weight: 600;
+                    font-size: 24px;
+                }
+
+            }
+
+            #afavor {
+                svg {
+                    fill: var(--body-bg-ok);
+                }
+
+                p {
+                    color: var(--body-bg-ok);
+                }
+            }
+
+            #contra {
+                svg {
+                    fill: var(--body-bg-attention);
+                }
+
+                p {
+                    color: var(--body-bg-attention);
+                }
+            }
+
+            #abstencao {
+                svg {
+                    fill: var(--body-font-light);
+                }
+
+                p {
+                    color: var(--body-font-light);
+                }
+            }
+        }
+
+        hr {
+            width: 90%;
+            border: 1px solid var(--body-font-light-2);
+        }
+
+        .resultados {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 0;
+
+            p {
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .modalPlenarioVotos {
+        .votos {
+            .icones {
+                gap: 18px;
+
+                #afavor,
+                #contra,
+                #abstencao {
+                    svg {
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    p {
+                        font-weight: 600;
+                        font-size: 18px;
+                    }
+                }
+            }
+
+            .resultados {
+                p {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+
+}

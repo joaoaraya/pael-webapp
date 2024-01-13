@@ -57,7 +57,7 @@ type AcaoProps = {
             aFavor: number;
             contra: number;
             abstencao: number
-        }[];
+        };
 
         anexos?: {
             titulo: string;
