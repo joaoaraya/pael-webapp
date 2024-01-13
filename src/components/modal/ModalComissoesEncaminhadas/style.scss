@@ -1,0 +1,58 @@
+.modalComissoesEncaminhadas {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+
+    h2 {
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: var(--body-font-light);
+    }
+
+    .grupo {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+        margin-bottom: 20px;
+
+        .comissao {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            padding: 4px;
+
+            .icone svg {
+                width: 24px;
+                height: 24px;
+                fill: var(--body-font-light);
+            }
+
+            .aprovado svg {
+                fill: var(--body-bg-ok);
+            }
+
+            .reprovado svg {
+                fill: var(--body-bg-attention);
+            }
+
+            .nome {
+                font-size: 16px;
+                font-weight: 600;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: var(--body-font);
+            }
+
+            &:hover {
+                border-radius: 8px;
+                background-color: var(--body-bg-shadow);
+            }
+        }
+    }
+}

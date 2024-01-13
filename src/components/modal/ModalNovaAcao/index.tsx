@@ -12,7 +12,7 @@ export default function ModalNovaAcao() {
         { title: 'Indicação', path: '/indicacao' },
         { title: 'Requerimento', path: '/requerimento' },
         { title: 'Representação', path: '/representacao' },
-        { title: 'Substantivo', path: '/substantivo' },
+        { title: 'Substitutivo', path: '/substitutivo' },
         { title: 'Decreto Legislativo', path: '/decreto-legislativo' },
         { title: 'Homologação', path: '/homologacao' },
         { title: 'Emenda de Proposta', path: '/emenda-de-proposta' },
@@ -23,13 +23,11 @@ export default function ModalNovaAcao() {
     return (
         <div className="modalNovaAcao">
             {acoes.map((acao: any, index) => (
-                <>
-                    <Link href={"/new/acao" + acao.path}>
-                        <button key={index} >
-                            <p>{acao.title}</p>
-                        </button>
-                    </Link>
-                </>
+                <Link href={"/new/acao" + acao.path}>
+                    <button key={index} >
+                        <p>{acao.title}</p>
+                    </button>
+                </Link>
             ))}
         </div>
     )

@@ -130,6 +130,41 @@ const iconHome = (
     </svg>
 )
 
+const iconOk = (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height={iconDefault.size} width={iconDefault.size} fill={iconDefault.color}>
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+    </svg>
+)
+
+const iconFailed = (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height={iconDefault.size} width={iconDefault.size} fill={iconDefault.color}>
+        <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
+        <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" />
+    </svg>
+)
+
+const iconLike = (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height={iconDefault.size} width={iconDefault.size} fill={iconDefault.color}>
+        <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
+        <path d="M13.12 2.06 7.58 7.6c-.37.37-.58.88-.58 1.41V19c0 1.1.9 2 2 2h9c.8 0 1.52-.48 1.84-1.21l3.26-7.61C23.94 10.2 22.49 8 20.34 8h-5.65l.95-4.58c.1-.5-.05-1.01-.41-1.37-.59-.58-1.53-.58-2.11.01zM3 21c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2s-2 .9-2 2v8c0 1.1.9 2 2 2z" />
+    </svg>
+)
+
+const iconDislike = (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height={iconDefault.size} width={iconDefault.size} fill={iconDefault.color}>
+        <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
+        <path d="m10.88 21.94 5.53-5.54c.37-.37.58-.88.58-1.41V5c0-1.1-.9-2-2-2H6c-.8 0-1.52.48-1.83 1.21L.91 11.82C.06 13.8 1.51 16 3.66 16h5.65l-.95 4.58c-.1.5.05 1.01.41 1.37.59.58 1.53.58 2.11-.01zM21 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+    </svg>
+)
+
+const iconWait = (
+    <svg xmlns="http://www.w3.org/2000/svg" enable-background={`new 0 0 ${iconDefault.size} ${iconDefault.size}`} viewBox="0 0 24 24" height={iconDefault.size} width={iconDefault.size} fill={iconDefault.color}>
+        <g><rect fill="none" height={iconDefault.size} width={iconDefault.size} /><rect fill="none" height={iconDefault.size} width={iconDefault.size} /></g>
+        <g><path d="M12,2C6.48,2,2,6.48,2,12c0,5.52,4.48,10,10,10s10-4.48,10-10C22,6.48,17.52,2,12,2z M7,13.5c-0.83,0-1.5-0.67-1.5-1.5 c0-0.83,0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5C8.5,12.83,7.83,13.5,7,13.5z M12,13.5c-0.83,0-1.5-0.67-1.5-1.5 c0-0.83,0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5C13.5,12.83,12.83,13.5,12,13.5z M17,13.5c-0.83,0-1.5-0.67-1.5-1.5 c0-0.83,0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5C18.5,12.83,17.83,13.5,17,13.5z" /></g>
+    </svg>
+)
+
 const iconNone = (
     <svg xmlns="http://www.w3.org/2000/svg" height={iconDefault.size} viewBox="0 0 24 24" width={iconDefault.size} fill={iconDefault.color} />
 )
@@ -152,6 +187,11 @@ const iconMap: IconMapType = {
     'camera': iconCamera,
     'delete': iconDelete,
     'home': iconHome,
+    'ok': iconOk,
+    'failed': iconFailed,
+    'like': iconLike,
+    'dislike': iconDislike,
+    'wait': iconWait,
     'none': iconNone
 }
 

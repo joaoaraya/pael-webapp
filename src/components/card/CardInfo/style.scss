@@ -32,13 +32,17 @@
     }
 
     .texto {
+        align-self: center;
+
         p {
+
             font-size: 16px;
             line-height: 140%;
             color: var(--body-font-alternative);
         }
 
         #titulo {
+
             font-weight: 700;
         }
 

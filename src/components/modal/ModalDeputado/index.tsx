@@ -31,9 +31,7 @@ export default function ModalDeputado(props: DeputadoProps) {
     const fotoURL = `${API}/user/${user.cim}/picture/large`;
 
     const [withoutPicture, setWithoutPicture] = useState(false);
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
+    const onImageLoadError = () => { setWithoutPicture(true); }
 
     return (
         <div className="modalDeputado">

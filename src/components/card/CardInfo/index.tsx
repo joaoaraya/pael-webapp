@@ -10,16 +10,16 @@ type CardInfoProps = {
 
 export default function CardInfo({ icone = 'info', cor = 'alternative', ...props }: CardInfoProps) {
 
-	return (
-		<div className={`cardInfo cardColor-${cor}`}>
-			<div className="icone">
-				<Icon nome={icone} />
-			</div>
+    return (
+        <div className={`cardInfo cardColor-${cor}`}>
+            <div className="icone">
+                <Icon nome={icone} />
+            </div>
 
-			<div className="texto">
-				<p id="titulo">{props.titulo}</p>
-				<p id="descricao">{props.descricao}</p>
-			</div>
-		</div>
-	)
+            <div className="texto">
+                <p id="titulo">{props.titulo}</p>
+                {props.descricao && (<p id="descricao">{props.descricao}</p>)}
+            </div>
+        </div>
+    )
 }

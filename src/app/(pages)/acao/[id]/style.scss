@@ -1,5 +1,5 @@
-.pageViewAcao {
-    .postTitulo {
+.pageAcao {
+    .titulo {
         margin-bottom: 30px;
 
         h1 {
@@ -9,7 +9,7 @@
         }
     }
 
-    .postAutor {
+    .autor {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -121,7 +121,18 @@
 /* Alterações para Mobile */
 @media screen and (max-device-width: 480px),
 screen and (max-width: 480px) {
-    .pageViewAcao {
+    .pageAcao {
+        margin-top: 16px;
+        padding: 0 8px;
+
+        .titulo {
+            margin-bottom: 16px;
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+
 
         .postAcoes {
             button {
