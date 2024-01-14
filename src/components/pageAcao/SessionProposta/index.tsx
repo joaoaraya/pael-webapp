@@ -9,6 +9,8 @@ import ButtonsAcoes from '@/components/pageAcao/ButtonsAcoes';
 import ModalComissoesEncaminhadas from '@/components/modal/ModalComissoesEncaminhadas';
 import ModalPlenarioVotos from '@/components/modal/ModalPlenarioVotos';
 import ModalEmendasVinculadas from '@/components/modal/ModalEmendasVinculadas';
+import ListEmendasVinculadas from '@/components/session/ListEmendasVinculadas';
+import ModalAnexos from '@/components/modal/ModalAnexos';
 
 //import './style.scss';
 
@@ -99,7 +101,7 @@ export default function SessionProposta(props: PropostaProps) {
                 modalTitle={`Assinaturas (${proposta.assinaturas?.length || 0})`}
                 modalContent={<ModalAssinaturas assinaturas={proposta.assinaturas || []} />}
             >
-                Assinaturas: <b>{proposta.assinaturas?.length || 0}</b>
+                Assinaturas (<b>{proposta.assinaturas?.length || 0}</b>)
             </OpenModal >
         );
 
@@ -110,7 +112,7 @@ export default function SessionProposta(props: PropostaProps) {
                 modalTitle={`Comissões (${proposta.comissoesEncaminhadas?.length || 0})`}
                 modalContent={<ModalComissoesEncaminhadas comissoes={proposta.comissoesEncaminhadas || []} />}
             >
-                Comissões: <b>{proposta.comissoesEncaminhadas?.length || 0}</b>
+                Comissões encaminhadas (<b>{proposta.comissoesEncaminhadas?.length || 0}</b>)
             </OpenModal>
         );
 
@@ -126,19 +128,23 @@ export default function SessionProposta(props: PropostaProps) {
                 modalTitle={`Plenário votos (${totalVotosPlenario})`}
                 modalContent={<ModalPlenarioVotos votos={proposta.plenarioVotos} />}
             >
-                Plenário votos: <b>{totalVotosPlenario}</b>
+                Plenário votos (<b>{totalVotosPlenario}</b>)
             </OpenModal>
         );
 
-        const buttonEmendasVinculadas = (
+        const buttonAnexos = (
             <OpenModal
                 tagType="p"
                 className="link"
-                modalTitle={`Emendas vinculadas (${proposta.emendasVinculadas?.length || 0})`}
-                modalContent={<ModalEmendasVinculadas emendas={proposta.emendasVinculadas} />}
+                modalTitle={`Anexos (${proposta.anexos?.length || 0})`}
+                modalContent={<ModalAnexos acao={acao} anexos={proposta.anexos} />}
             >
-                Emendas dessa ação: <b>{proposta.emendasVinculadas?.length || 0}</b>
+                Anexos (<b>{proposta.anexos?.length || 0})</b>
             </OpenModal>
+        );
+
+        const listEmendasVinculadas = (
+            <ListEmendasVinculadas emendas={proposta.emendasVinculadas} />
         );
 
 
@@ -183,21 +189,12 @@ export default function SessionProposta(props: PropostaProps) {
                     <div className="plenarioVotos">{buttonPlenarioVotos}</div>
                 )}
 
-                {proposta.emendasVinculadas && (
-                    <div className="emendasVinculadas">{buttonEmendasVinculadas}</div>
+                {proposta.anexos && (
+                    <div className="anexos">{buttonAnexos}</div>
                 )}
 
-                {proposta.anexos && (
-                    <>
-                        {
-                            /*Mostrar blocos de pdfs com nome em baixo 
-                            
-                            <div className="anexos">
-                                <ListAnexos docs={proposta.anexos} />
-                            </div>
-                            */
-                        }
-                    </>
+                {proposta.emendasVinculadas && (
+                    <div className="emendasVinculadas">{listEmendasVinculadas}</div>
                 )}
             </div>
         );
