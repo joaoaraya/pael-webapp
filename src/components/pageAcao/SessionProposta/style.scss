@@ -1,0 +1,55 @@
+.sessionProposta {
+
+    .cardStatusFinal,
+    .cardInfoDesc,
+    .cardAlteracoes {
+        margin-bottom: 16px;
+    }
+
+    .data,
+    .propostaTexto,
+    .assinaturasDeputados {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .data {
+        gap: 4px;
+        padding: 16px 0;
+    }
+
+    .propostaTexto {
+        gap: 16px;
+        padding: 16px 0;
+    }
+
+    .assinaturasDeputados {
+        gap: 4px;
+
+        p {
+            line-height: 130%;
+        }
+    }
+
+    .anexos,
+    .assinaturasDeputados,
+    .comissoesEncaminhadas,
+    .plenarioVotos {
+        padding: 8px 0;
+    }
+
+    .link {
+        display: inline-block;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+            font-weight: 600;
+            color: var(--body-bg-highlight);
+        }
+    }
+
+    .emendasVinculadas {
+        margin: 24px 0;
+    }
+}

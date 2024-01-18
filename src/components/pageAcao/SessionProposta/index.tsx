@@ -2,17 +2,16 @@
 
 import { formatDate } from '@/functions/visual';
 
-import CardInfo from '@/components/card/CardInfo';
 import OpenModal from '@/components/button/OpenModal';
+import ModalAnexos from '@/components/modal/ModalAnexos';
 import ModalAssinaturas from '@/components/modal/ModalAssinaturas';
-import ButtonsAcoes from '@/components/pageAcao/ButtonsAcoes';
 import ModalComissoesEncaminhadas from '@/components/modal/ModalComissoesEncaminhadas';
 import ModalPlenarioVotos from '@/components/modal/ModalPlenarioVotos';
-import ModalEmendasVinculadas from '@/components/modal/ModalEmendasVinculadas';
+import TextBoxExpand from '@/components/session/TextBoxExpand';
+import CardInfo from '@/components/card/CardInfo';
 import ListEmendasVinculadas from '@/components/session/ListEmendasVinculadas';
-import ModalAnexos from '@/components/modal/ModalAnexos';
 
-//import './style.scss';
+import './style.scss';
 
 
 type PropostaProps = {
@@ -73,6 +72,8 @@ export default function SessionProposta(props: PropostaProps) {
     const proposta = props.acao.conteudoProposta;
 
     if (proposta) {
+
+        /* Componentes da Página */
         const cardStatusFinalAprovado = (
             <CardInfo titulo="Aprovado" icone="like" cor="ok" />
         );
@@ -92,6 +93,17 @@ export default function SessionProposta(props: PropostaProps) {
                 icone="edit"
                 cor="warning"
             />
+        );
+
+        const buttonAnexos = (
+            <OpenModal
+                tagType="p"
+                className="link"
+                modalTitle={`Anexos (${proposta.anexos?.length || 0})`}
+                modalContent={<ModalAnexos acao={acao} anexos={proposta.anexos} />}
+            >
+                Anexos (<b>{proposta.anexos?.length || 0})</b>
+            </OpenModal>
         );
 
         const buttonAssinaturas = (
@@ -132,22 +144,12 @@ export default function SessionProposta(props: PropostaProps) {
             </OpenModal>
         );
 
-        const buttonAnexos = (
-            <OpenModal
-                tagType="p"
-                className="link"
-                modalTitle={`Anexos (${proposta.anexos?.length || 0})`}
-                modalContent={<ModalAnexos acao={acao} anexos={proposta.anexos} />}
-            >
-                Anexos (<b>{proposta.anexos?.length || 0})</b>
-            </OpenModal>
-        );
-
         const listEmendasVinculadas = (
             <ListEmendasVinculadas emendas={proposta.emendasVinculadas} />
         );
 
 
+        /* Construção da Página */
         return (
             <div className="sessionProposta">
 
@@ -157,7 +159,7 @@ export default function SessionProposta(props: PropostaProps) {
                     </div>
                 )}
 
-                <div className="cardInfo">{cardInfo}</div>
+                <div className="cardInfoDesc">{cardInfo}</div>
 
                 {acao.statusAtual === "autor" && (
                     <div className="cardAlteracoes">{cardAlteracoes}</div>
@@ -170,14 +172,20 @@ export default function SessionProposta(props: PropostaProps) {
 
                 <div className="propostaTexto">
                     <p><b>Proposta:</b></p>
-                    <p>{proposta.textoProposta}</p>
-                    <button>Mostrar Mais !FAZER!</button>
+                    {<TextBoxExpand text={proposta.textoProposta} />}
                 </div>
+
+                {proposta.anexos && (
+                    <div className="anexos">{buttonAnexos}</div>
+                )}
 
                 {(acao.statusAtual === "pauta" || proposta.assinaturas) && (
                     <div className="assinaturasDeputados">
-                        {buttonAssinaturas}
-                        <p>Assinaturas necessárias: <b>{proposta.assinaturasNecessarias}</b></p>
+                        <p>
+                            {buttonAssinaturas}
+                            <br />
+                            Assinaturas necessárias: <b>{proposta.assinaturasNecessarias}</b>
+                        </p>
                     </div>
                 )}
 
@@ -189,16 +197,10 @@ export default function SessionProposta(props: PropostaProps) {
                     <div className="plenarioVotos">{buttonPlenarioVotos}</div>
                 )}
 
-                {proposta.anexos && (
-                    <div className="anexos">{buttonAnexos}</div>
-                )}
-
                 {proposta.emendasVinculadas && (
                     <div className="emendasVinculadas">{listEmendasVinculadas}</div>
                 )}
             </div>
         );
     }
-
-    return (<></>);
 }

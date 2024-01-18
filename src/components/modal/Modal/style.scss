@@ -124,3 +124,25 @@
         }
     }
 }
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+    .modal {
+        .modalContainer {
+            .modalContent {
+                .modalHeader {
+                    padding: 16px 8px !important;
+                }
+
+                .modalMain {
+                    padding: 0 8px 0 12px;
+                }
+
+                .modalFooter {
+                    padding: 8px;
+                }
+            }
+        }
+    }
+}

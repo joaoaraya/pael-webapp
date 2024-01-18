@@ -7,9 +7,9 @@ import './style.scss';
 type DeputadoProps = {
     user: {
         nome: string;
-        cim: number;
+        cim: string;
         loja: string;
-        lojaNumero: number;
+        lojaNumero: string;
         cargo: string;
         ativo: boolean;
         situacao: string;

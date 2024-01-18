@@ -23,98 +23,19 @@
         }
     }
 
-    .postAcoes,
-    .buttonsGrupo {
+    .botoes {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-end;
         justify-content: flex-start;
+        flex: 1;
         gap: 16px;
         width: 100%;
+        padding-bottom: 32px;
     }
 
-    .postAcoes {
-        margin: 40px 0;
-    }
-
-    .buttonsGrupo {
-        flex-direction: row;
-
-        .aprovar {
-            background-color: var(--button-ok);
-        }
-
-        .reprovar {
-            background-color: var(--button-attention);
-        }
-
-        .aprovar,
-        .reprovar {
-            &:hover {
-                background-color: var(--body-font);
-
-                p,
-                svg>* {
-                    color: var(--body-font-alternative);
-                    fill: var(--body-font-alternative);
-                }
-            }
-        }
-    }
-
-    .postTipoProposta,
-    .postTipoEmenda,
-    .postTipoLicenca,
-    .postTipoRenuncia {
-
-        .postInfo,
-        .postAlteracoes,
-        .postTexto,
-        .postAssinaturas {
-            p {
-                font-size: 16px;
-                font-weight: 400;
-                white-space: pre-line; // Interpretar \n como quebra de linha
-                line-height: 130%;
-            }
-        }
-
-        .postInfo,
-        .postData,
-        .postAlteracoes {
-            margin-bottom: 24px;
-        }
-
-        .postTexto,
-        .postData {
-            p {
-                overflow: auto;
-                color: var(--body-font);
-            }
-        }
-
-        .postTexto {
-            margin-bottom: 36px;
-
-            p {
-                padding: 8px 0;
-            }
-        }
-
-        .postAssinaturas {
-            color: var(--body-font);
-
-            .showAssinaturas {
-                display: inline;
-                cursor: pointer;
-
-                &:hover {
-                    font-weight: bold;
-                    color: var(--body-bg-highlight);
-                    text-decoration: underline;
-                }
-            }
-        }
+    .sessao {
+        margin-bottom: 48px;
     }
 }
 
@@ -134,8 +55,12 @@ screen and (max-width: 480px) {
         }
 
 
-        .postAcoes {
-            button {
+        .botoes {
+            padding-bottom: 0;
+
+            button,
+            #botaoVoltar {
+                width: 100%;
                 min-width: 100%;
             }
         }

@@ -25,7 +25,10 @@ export default function ModalAnexos(props: AnexosProps) {
                     <Link href={`${API}/acao/${props.acao.id}/doc/${doc.nomeArquivo}`} target="_blank" key={index}>
                         <div className="doc">
                             <img src={iconPdf.src} alt="" />
-                            <p>{doc.titulo}</p>
+
+                            <p title={doc.titulo}>
+                                {doc.titulo}
+                            </p>
                         </div>
                     </Link>
                 ))}

@@ -67,8 +67,8 @@
     --cardGrupoPessoas-text-hover:#FFFFFF;
 
     /* Botões */
+    --button-sucess: #39b960;
     --button-attention: #cf3f3f;
-    --button-ok: #39b960;
 }
 
 .temaEscuro:root {
@@ -121,6 +121,7 @@ a {
 
 .btnPrimary,
 .btnSecondary,
+.btnSucess,
 .btnAttention {
     display: flex;
     flex-direction: row;
@@ -176,6 +177,18 @@ a {
 
     svg {
         fill: var(--body-font);
+    }
+}
+
+.btnSucess {
+    background-color: var(--button-sucess);
+
+    p {
+        color: var(--body-font-alternative);
+    }
+
+    svg {
+        fill: var(--body-font-alternative);
     }
 }
 

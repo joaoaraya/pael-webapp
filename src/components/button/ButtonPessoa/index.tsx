@@ -12,9 +12,9 @@ import './style.scss';
 type ButtonPessoaProps = {
     user?: {
         nome: string;
-        cim: number;
+        cim: string;
         loja: string;
-        lojaNumero: number;
+        lojaNumero: string;
         cargo: string;
         ativo: boolean;
         situacao: string;

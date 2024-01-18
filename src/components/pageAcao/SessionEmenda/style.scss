@@ -1,0 +1,44 @@
+.sessionEmenda {
+
+    .cardStatusFinal,
+    .cardInfoDesc,
+    .cardAlteracoes {
+        margin-bottom: 16px;
+    }
+
+    .data,
+    .propostaTexto {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .data {
+        gap: 4px;
+        padding: 16px 0;
+    }
+
+    .propostaTexto {
+        gap: 16px;
+        padding: 16px 0;
+    }
+
+    .comissoesEncaminhadas,
+    .plenarioVotos {
+        padding: 8px 0;
+    }
+
+    .link {
+        display: inline-block;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+            font-weight: 600;
+            color: var(--body-bg-highlight);
+        }
+    }
+
+    .propostaVinculada {
+        margin: 24px 0;
+    }
+}

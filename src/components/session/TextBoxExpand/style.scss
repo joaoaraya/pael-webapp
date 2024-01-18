@@ -1,0 +1,73 @@
+.textBoxExpand {
+    width: 100%;
+
+    .fade {
+        height: 64px;
+        margin-top: -64px;
+        position: relative;
+        background: linear-gradient(0deg, var(--body-bg) 0%, rgba(255, 255, 255, 0) 100%);
+        z-index: 2;
+
+        &.minimized {
+            display: block;
+        }
+
+        &.expanded {
+            display: none;
+        }
+    }
+
+    .textBox {
+        overflow: hidden;
+        position: relative;
+
+        p {
+            font-size: 16px;
+            font-weight: 400;
+            white-space: pre-line; // Interpretar '\n' como quebra de linha
+            line-height: 130%;
+        }
+
+        &.minimized {
+            max-height: 192px;
+        }
+
+        &.expanded {
+            margin-bottom: 24px;
+            max-height: none;
+        }
+    }
+
+    .expandArea {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 50%;
+            height: 1px;
+            background: var(--body-font-light-2);
+            z-index: -1;
+        }
+
+        &:before {
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        &:after {
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .expandButton {
+            border-left: solid 16px var(--body-bg);
+            border-right: solid 16px var(--body-bg);
+        }
+    }
+}

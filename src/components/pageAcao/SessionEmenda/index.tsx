@@ -1,43 +1,158 @@
 'use client';
 
+import { capitalize, formatDate } from '@/functions/visual';
+
+import OpenModal from '@/components/button/OpenModal';
+import ModalComissoesEncaminhadas from '@/components/modal/ModalComissoesEncaminhadas';
+import ModalPlenarioVotos from '@/components/modal/ModalPlenarioVotos';
+import ListPropostaVinculada from '@/components/session/ListPropostaVinculada';
+import TextBoxExpand from '@/components/session/TextBoxExpand';
+import CardInfo from '@/components/card/CardInfo';
+
 import './style.scss';
 
 
-export default function SessionEmenda() {
+type EmendaProps = {
+    acao: {
+        id: string;
+        ativo: boolean;
+        tipo: string;
+        statusAtual: string;
+        statusFinal: string;
+        cimAutor: string;
+        dataDeCriacao: string;
+        dataDeAtualizacao: string;
+        titulo: string;
 
-    const emenda = (
-        <div className="postTipoEmenda">
-            <div className="postInfo">
-                <CardInfo
-                    titulo={acao.conteudoEmenda?.info.titulo || ''}
-                    descricao={acao.conteudoEmenda?.info.descricao || ''}
-                />
+        conteudoEmenda?: {
+            idPropostaVinculada: string;
+            textoArtigo: string;
+            textoProposta: string;
+            textoJustificativa: string;
+            alteracoes: string;
+            info: {
+                titulo: string;
+                descricao: string;
+            };
+
+            comissoesEncaminhadas?: {
+                id: string;
+                nome: string;
+                parecer: string;
+            }[];
+
+            plenarioVotos?: {
+                aFavor: number;
+                contra: number;
+                abstencao: number;
+            };
+        }
+    }
+}
+
+
+
+export default function SessionEmenda(props: EmendaProps) {
+    const acao = props.acao;
+    const emenda = props.acao.conteudoEmenda;
+
+    if (emenda) {
+        /* Componentes da Página */
+        const cardStatusFinalAprovado = (
+            <CardInfo titulo="Aprovado" icone="like" cor="ok" />
+        );
+
+        const cardStatusFinalReprovado = (
+            <CardInfo titulo="Reprovado" icone="dislike" cor="attention" />
+        );
+
+        const cardInfo = (
+            <CardInfo titulo={"Emenda " + capitalize(emenda.info.titulo)} descricao={emenda.info.descricao} />
+        );
+
+        const cardAlteracoes = (
+            <CardInfo
+                titulo="Alterações solicitadas pelo presidente:"
+                descricao={emenda.alteracoes}
+                icone="edit"
+                cor="warning"
+            />
+        );
+
+        const listPropostaVinculada = (
+            <ListPropostaVinculada id={emenda.idPropostaVinculada} />
+        );
+
+        const buttonComissoesEncaminhadas = (
+            <OpenModal
+                tagType="p"
+                className="link"
+                modalTitle={`Comissões (${emenda.comissoesEncaminhadas?.length || 0})`}
+                modalContent={<ModalComissoesEncaminhadas comissoes={emenda.comissoesEncaminhadas || []} />}
+            >
+                Comissões encaminhadas (<b>{emenda.comissoesEncaminhadas?.length || 0}</b>)
+            </OpenModal>
+        );
+
+        const totalVotosPlenario =
+            (emenda.plenarioVotos?.aFavor || 0) +
+            (emenda.plenarioVotos?.contra || 0) +
+            (emenda.plenarioVotos?.abstencao || 0);
+
+        const buttonPlenarioVotos = (
+            <OpenModal
+                tagType="p"
+                className="link"
+                modalTitle={`Plenário votos (${totalVotosPlenario})`}
+                modalContent={<ModalPlenarioVotos votos={emenda.plenarioVotos} />}
+            >
+                Plenário votos (<b>{totalVotosPlenario}</b>)
+            </OpenModal>
+        );
+
+
+        /* Construção da Página */
+        return (
+            <div className="sessionEmenda">
+                {acao.statusAtual === "concluido" && (
+                    <div className="cardStatusFinal">
+                        {acao.statusFinal === "aprovado" ? cardStatusFinalAprovado : cardStatusFinalReprovado}
+                    </div>
+                )}
+
+                <div className="cardInfoDesc">{cardInfo}</div>
+
+                {acao.statusAtual === "autor" && (
+                    <div className="cardAlteracoes">{cardAlteracoes}</div>
+                )}
+
+                <div className="data">
+                    <p><b>Criado em: </b>{formatDate(acao.dataDeCriacao)}</p>
+                    <p><b>Atualizado em: </b>{formatDate(acao.dataDeAtualizacao)}</p>
+                </div>
+
+                <div className="propostaTexto">
+                    <p><b>Artigo:</b> {emenda.textoArtigo}</p>
+
+                    <p><b>Proposta:</b></p>
+                    {<TextBoxExpand text={emenda.textoProposta} />}
+
+                    <p><b>Justificativa:</b></p>
+                    {<TextBoxExpand text={emenda.textoJustificativa} />}
+                </div>
+
+                {emenda.comissoesEncaminhadas && (
+                    <div className="comissoesEncaminhadas">{buttonComissoesEncaminhadas}</div>
+                )}
+
+                {emenda.plenarioVotos && (
+                    <div className="plenarioVotos">{buttonPlenarioVotos}</div>
+                )}
+
+                <div className="propostaVinculada">
+                    {listPropostaVinculada}
+                </div>
             </div>
-
-            <div className="postData">
-                <p><b>Criado em:</b> {dataDeCriacao} </p>
-                <p><b>Atualizado em:</b> {dataDeAtualizacao}</p>
-            </div>
-
-            <div className="postTexto">
-                <p><b>Artigo:</b> {acao.conteudoEmenda?.textoArtigo}</p>
-                <p><b>Proposta:</b> <br /> {acao.conteudoEmenda?.textoProposta}</p>
-                <p><b>Justificativa:</b> <br /> {acao.conteudoEmenda?.textoJustificativa}</p>
-            </div>
-
-            <div className="postAcoes">
-                <button className="btnSecondary">
-                    <p>Voltar</p>
-                </button>
-
-                {/*O botão de ação muda de acordo com "status" e nivel de usuario*/}
-                <button className="btnPrimary">
-                    <img src="https://example.com/icone.png" alt="" />
-                    <p>Encaminhar...</p>
-                </button>
-            </div>
-        </div>
-    );
-
-    return (<></>)
+        );
+    }
 }

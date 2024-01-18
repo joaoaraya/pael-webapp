@@ -67,3 +67,22 @@
         }
     }
 }
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+    .modalDeputado {
+        #apresentacao {
+            gap: 24px;
+
+            img {
+                width: 128px;
+                height: 128px;
+            }
+
+            p {
+                font-size: 18px;
+            }
+        }
+    }
+}

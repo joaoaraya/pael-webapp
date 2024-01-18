@@ -13,9 +13,9 @@ import './style.scss';
 type CardPessoaProps = {
     user: {
         nome: string;
-        cim: number;
+        cim: string;
         loja: string;
-        lojaNumero: number;
+        lojaNumero: string;
         cargo: string;
         ativo: boolean;
         situacao: string;

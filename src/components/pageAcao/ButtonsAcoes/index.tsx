@@ -1,164 +1,233 @@
 'use client';
 
+import { useEffect, useState } from "react";
+import { useAPI } from "@/hooks/Api";
+import { API } from "@/functions/urls";
+import OpenConfirmModal from "@/components/button/OpenConfirmModal";
+
 import './style.scss';
 
 
-export default function ButtonsAcoes() {
+type ButtonsAcoesProps = {
+    autor: string;
 
-    const acao = (<div className="postAcoes">
-        {acao.ativo && (
-            <>
-                {acao.statusAtual === "autor" && (
-                    <div className="buttonsGrupo">
-                        {/* Somente o Autor / se user.id_cim === 1249 */}
+    acao: {
+        tipo: string;
+        statusAtual: string;
 
-                        {acao.conteudoProposta?.alteracoes !== '' && (
-                            <button className="btnPrimary">
-                                <p>Editar proposta</p>
-                                {/* abre modal para editar o texto da proposta + botao salvar */}
-                            </button>
-                        )}
+        conteudoProposta?: {
+            assinaturasNecessarias: number;
 
-                        <button className="btnPrimary">
-                            <p>Enc. redação</p>
-                            {/* status = 1, data atulizada */}
-                        </button>
-                    </div>
-                )}
+            assinaturas?: {
+                cim: string;
+                nome: string;
+            }[];
 
-                {acao.statusAtual === "redacao" && (
-                    <div className="buttonsGrupo">
-                        {/* Somente o Presidente: */}
+            comissoesEncaminhadas?: {
+                id: string;
+                parecer: string;
+            }[];
+        };
 
-                        <button className="btnPrimary">
-                            <p>Solicitar alterações</p>
-                            {/* abre modal com caixa de texto + botao enviar / status = 0, alteracao = "texto..." */}
-                        </button>
-
-                        <button className="btnPrimary">
-                            <p>Pautar</p>
-                            {/* status = 2, data atualizada */}
-                        </button>
-
-                        <button className="btnPrimary reprovar">
-                            <p>Reprovar</p>
-                            {/* statusFinal = "reprovado", data atualizada*/}
-                        </button>
-                    </div>
-                )}
-
-                {acao.statusAtual === "pauta" && (
-                    <div className="buttonsGrupo">
-                        {/* Todos */}
-
-                        <button className="btnPrimary">
-                            <p>Apoiar</p>
-                            {/* abre modal de confirmação + seu nome será adicionado a lista de assinaturas 
-                                        se você for o numero que define o minimo (ex: assinaturas minimas: 21 e vc for o 20)
-                                        ao apoiar você mudará o status = 3 + data atualizada */}
-                        </button>
-                    </div>
-                )}
-
-                {acao.statusAtual === "pauta" && (
-                    <div className="buttonsGrupo">
-                        {/* Todos */}
-
-                        <button className="btnPrimary">
-                            <p>Apoiar</p>
-                            {/* abre modal de confirmação + seu nome será adicionado a lista de assinaturas */}
-                        </button>
-
-                        {/* Somente o Presidente */}
-
-                        <button className="btnPrimary">
-                            <p>Enc. comissão</p>
-                            {/* abre modal de comissões + status = 4, data atualizada */}
-                        </button>
-                    </div>
-                )}
-
-                {acao.statusAtual === "comissao" && (
-                    <div className="buttonsGrupo">
-                        {/* Somente Presidente(s) da(s) Comissao(es) encaminhada(s) */}
-
-                        <button className="btnPrimary">
-                            <p>Parecer</p>
-                            {/* Abre modal com um dois radio buttons (aprovar) - (reprovar) + botão de enivar (modal de confirmacao) 
-                                            É possivel alterar a resposta enquanto for status = 4.*/}
-                        </button>
-
-                        {/* Somente Presidente */}
-
-                        <button className="btnPrimary">
-                            <p>Enc. comissão</p>
-                            {/* abre modal de comissões */}
-                        </button>
-
-                        {/* Quanto todas as Comissões encaminhadas derem um pareecer ou a resposta nao for = "" */}
-                        {acao.conteudoProposta?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== '') && (
-                            <>
-                                <button className="btnPrimary">
-                                    <p>Enc. plenário</p>
-                                    {/* abre modal de confirmação, status = 5, atualiza data*/}
-                                </button>
-
-                                <button className="btnPrimary reprovar">
-                                    <p>Reprovar</p>
-                                    {/* abre modal de confirmação, ativo = false, statusFinal = "reprovado', data atualizada,*/}
-                                </button>
-                            </>
-                        )}
-                    </div>
-                )}
-
-                {acao.statusAtual === "plenario" && (
-                    <div className="buttonsGrupo">
-                        {/* Somente o Presidente */}
-
-                        <button className="btnPrimary">
-                            <p>Priorizar</p>
-                            {/* só atualiza a data de atualização para NOW() */}
-                        </button>
-
-                        <button className="btnPrimary">
-                            <p>Cadastrar votação</p>
-                            {/* abre modal de cadastro de votos + botao gerar resultado
-                                        se for: aprovado -> data atualizada, ativo = false, statusFinal = "aprovado' 
-                                        se for: reprovado -> data atualizada, ativo = false, statusFinal = "reprovado'*/}
-                        </button>
-                    </div>
-                )}
-            </>
-        )}
-
-        <button className="btnSecondary">
-            <p>Voltar</p>
-        </button>
+        conteudoEmenda?: {
+            comissoesEncaminhadas?: {
+                id: string;
+                parecer: string;
+            }[];
+        }
+    }
+}
 
 
-        {/* TESTES 
-                    <OpenModal
-                        tagType="button"
-                        className="btnPrimary"
-                        modalTitle="Comissões"
-                        modalContent={<ModalEncaminharComissao />}
-                        modalFooterContent={
-                            <OpenConfirmModal
-                                tagType="button"
-                                className="btnPrimary"
-                                confirmModalTitle="Deseja salvar?"
-                                confirmModalText="Salvar alterações no"
-                                confirmModalAction={() => { }}
-                                confirmModalActionText="Salvar"
-                            >
-                                <p>Salvar</p>
-                            </OpenConfirmModal>}
-                    >
-                        <p>Encaminhar..</p>
-                    </OpenModal>
-                    */}
-    </div>);
+export default function ButtonsAcoes(props: ButtonsAcoesProps) {
+    const acao = props.acao;
+    const [userPresidente, setUserPresidente] = useState(false);
+    const [userPresidenteComissao, setUserPresidenteComissao] = useState(false);
+    const [userAutor, setUserAutor] = useState(false);
+    const { get } = useAPI();
 
-    return (<></>)
+    useEffect(() => {
+        const checkUserIs = async () => {
+            try {
+                const responsePresidente = await get(`${API}/check/user/presidente`);
+                //const responsePresidenteComissao = await get(`${API}/check/user/presidente/comissao=${group.id}`);
+                const responseAutor = await get(`${API}/check/user/autor/cim=${props.autor}`);
+
+                // Somente atualizar se a resposta for igual a "true"
+                if (responsePresidente.data === true) {
+                    setUserPresidente(true);
+                }
+
+                if (responseAutor.data === true) {
+                    setUserAutor(true);
+                }
+            }
+            catch (error: any) {
+                console.error('Error:', error);
+            }
+        };
+
+        checkUserIs();
+    }, []);
+
+
+    const confirmButton = (botaoTexto: string, modalPergunta: string, modalDescricao: string, botaoAcao: () => void, botaoCor: string) => (
+        <OpenConfirmModal
+            tagType="button"
+            className={botaoCor}
+            title={modalPergunta}
+            text={modalDescricao}
+            action={botaoAcao}
+            actionText={botaoTexto}
+        >
+            <p>{botaoTexto}</p>
+        </OpenConfirmModal>
+    );
+
+    let buttons = (<></>);
+
+
+    if (acao.tipo === "proposta") {
+        const assinaturasNecessarias = (acao.conteudoProposta?.assinaturas?.length || 0) > (acao.conteudoProposta?.assinaturasNecessarias || 0);
+        const todosPareceres = acao.conteudoProposta?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "")
+
+        /* Quais botões mostrar em cada status */
+
+        if (acao.statusAtual === "autor" && userAutor) {
+            buttons = (
+                <>
+                    {/* Editar proposta */}
+                </>
+            )
+        }
+
+        if (acao.statusAtual === "redacao" && userPresidente) {
+            buttons = (
+                <>
+                    {confirmButton("Pautar", "Mover ação para a pauta?", "Para receber apoio dos deputados", () => { }, "btnPrimary")}
+                    {/* Solicitar ajustes */}
+                    {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", () => { }, "btnAttention")}
+                </>
+            )
+        }
+
+        if (acao.statusAtual === "pauta") {
+            buttons = (
+                <>
+                    {confirmButton("Assinar apoio", "Apoiar proposta?", "Sua assinatura será a favor dessa ação", () => { }, "btnPrimary")}
+
+                    {(assinaturasNecessarias && userPresidente) && (
+                        {/* Enc. comissão... */ }
+                    )}
+                </>
+            )
+        }
+
+        if (acao.statusAtual === "comissao" && userPresidente) {
+            buttons = (
+                <>
+                    {/* Enviar parecer */}
+
+                    {/* Enc. comissão */}
+
+                    {todosPareceres && (
+                        <>
+                            {confirmButton("Enc. plenário", "Encaminhar para o plenário?", "A ação ficará disponível para votação", () => { }, "btnPrimary")}
+                            {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", () => { }, "btnAttention")}
+                        </>
+                    )}
+                </>
+            )
+        }
+
+        if (acao.statusAtual === "plenario" && userPresidente) {
+            buttons = (
+                <>
+                    {confirmButton("Priorizar", "Deseja priorizar a proposta?", "A ação será atualizada para o início da lista", () => { }, "btnPrimary")}
+                    {/* Cadastrar votação */}
+                </>
+            )
+        }
+    }
+
+
+    if (acao.tipo === "emenda") {
+        const todosPareceres = acao.conteudoEmenda?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "")
+
+        /* Quais botões mostrar em cada status */
+
+        if (acao.statusAtual === "autor" && userAutor) {
+            buttons = (
+                <>
+                    {/* Editar proposta */}
+                </>
+            )
+        }
+
+        if (acao.statusAtual === "redacao" && userPresidente) {
+            buttons = (
+                <>
+                    {/* Enc. comissão... */}
+                    {/* Solicitar ajustes */}
+                    {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", () => { }, "btnAttention")}
+                </>
+            )
+        }
+
+        if (acao.statusAtual === "comissao" && userPresidente) {
+            buttons = (
+                <>
+                    {/* Enviar parecer */}
+
+                    {/* Enc. comissão */}
+
+                    {todosPareceres && (
+                        <>
+                            {confirmButton("Enc. plenário", "Encaminhar para o plenário?", "A ação ficará disponível para votação", () => { }, "btnPrimary")}
+                            {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", () => { }, "btnAttention")}
+                        </>
+                    )}
+                </>
+            )
+        }
+
+        if (acao.statusAtual === "plenario" && userPresidente) {
+            buttons = (
+                <>
+                    {confirmButton("Priorizar", "Deseja priorizar a emenda?", "A ação será atualizada para o início da lista", () => { }, "btnPrimary")}
+                    {/* Cadastrar votação */}
+                </>
+            )
+        }
+    }
+
+
+    if (acao.tipo === "licenca") {
+        if (acao.statusAtual === "pendente" && userPresidente) {
+            buttons = (
+                <>
+                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de licença será aceito", () => { }, "btnSucess")}
+                    {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de licença será negado", () => { }, "btnAttention")}
+                </>
+            )
+        }
+    }
+
+    if (acao.tipo === "renuncia") {
+        if (acao.statusAtual === "pendente" && userPresidente) {
+            buttons = (
+                <>
+                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", () => { }, "btnSucess")}
+                    {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de renúncia será negado", () => { }, "btnAttention")}
+                </>
+            )
+        }
+    }
+
+
+    return (
+        <div className="buttonsAcoes">
+            {buttons}
+        </div>
+    );
 }

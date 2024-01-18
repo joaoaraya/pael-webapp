@@ -1,0 +1,17 @@
+.sessionRenuncia {
+
+    .cardStatusFinal {
+        margin-bottom: 16px;
+    }
+
+    .data,
+    .pedidoTexto {
+        padding: 16px 0;
+    }
+
+    .pedidoTexto {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}

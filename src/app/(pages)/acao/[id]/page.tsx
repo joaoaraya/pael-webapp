@@ -8,8 +8,13 @@ import { capitalize } from '@/functions/visual';
 
 import ButtonPessoa from '@/components/button/ButtonPessoa';
 import SessionProposta from '@/components/pageAcao/SessionProposta';
+import SessionEmenda from '@/components/pageAcao/SessionEmenda';
+import SessionLicenca from '@/components/pageAcao/SessionLicenca';
+import SessionRenuncia from '@/components/pageAcao/SessionRenuncia';
+import ButtonsAcoes from '@/components/pageAcao/ButtonsAcoes';
 
 import './style.scss';
+import Link from 'next/link';
 
 
 type PageProps = {
@@ -86,7 +91,7 @@ type AcaoProps = {
             aFavor: number;
             contra: number;
             abstencao: number;
-        }[];
+        };
     };
 
     conteudoLicenca?: {
@@ -101,9 +106,9 @@ type AcaoProps = {
 
 type AutorProps = {
     nome: string;
-    cim: number;
+    cim: string;
     loja: string;
-    lojaNumero: number;
+    lojaNumero: string;
     cargo: string;
     ativo: boolean;
     situacao: string;
@@ -168,12 +173,22 @@ export default function PageAcao({ params }: { params: PageProps }) {
                     <ButtonPessoa user={autor} />
                 </div>
 
-                {acao.tipo === "proposta" && (<SessionProposta acao={acao} />)}
-                {acao.tipo === "emenda" && (<SessionProposta acao={acao} />)}
-                {acao.tipo === "licenca" && (<SessionProposta acao={acao} />)}
-                {acao.tipo === "renuncia" && (<SessionProposta acao={acao} />)}
+                <div className="sessao">
+                    {acao.tipo === "proposta" && (<SessionProposta acao={acao} />)}
+                    {acao.tipo === "emenda" && (<SessionEmenda acao={acao} />)}
+                    {acao.tipo === "licenca" && (<SessionLicenca acao={acao} />)}
+                    {acao.tipo === "renuncia" && (<SessionRenuncia acao={acao} />)}
+                </div>
 
-                {/*<ButtonsAcoes session={acao.tipo} status={acao.statusAtual} />*/}
+                <div className="botoes">
+                    {<ButtonsAcoes autor={autor.cim} acao={acao} />}
+
+                    <Link href="/dashboard" id="botaoVoltar">
+                        <button className="btnSecondary">
+                            <p>Voltar</p>
+                        </button>
+                    </Link>
+                </div>
             </div>
         )
     }

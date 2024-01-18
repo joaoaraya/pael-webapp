@@ -1,44 +1,63 @@
 'use client';
 
+import { formatDate } from '@/functions/visual';
+import CardInfo from '@/components/card/CardInfo';
+import TextBoxExpand from '@/components/session/TextBoxExpand';
 import './style.scss';
 
 
-export default function SessionRenuncia() {
+type RenunciaProps = {
+    acao: {
+        id: string;
+        ativo: boolean;
+        tipo: string;
+        statusAtual: string;
+        statusFinal: string;
+        cimAutor: string;
+        dataDeCriacao: string;
+        dataDeAtualizacao: string;
+        titulo: string;
 
-    const renuncia = (
-        <div className="postTipoRenuncia">
-            <div className="postData">
-                <p><b>Solicitado em:</b> {dataDeCriacao} </p>
-            </div>
+        conteudoRenuncia?: {
+            textoFormal: string;
+        }
+    }
+}
 
-            <div className="postTexto">
-                <p>
-                    <b>Pedido de Renúncia:</b>
-                    <br />
-                    {acao.conteudoRenuncia?.textoFormal}
-                </p>
-            </div>
 
-            <div className="postAcoes">
-                <div className="buttonsGrupo">
-                    {/*O botão de ação muda de acordo com "status" e nivel de usuario*/}
-                    <button className="btnPrimary aprovar">
-                        <p>Deferir</p>
-                    </button>
+export default function SessionRenuncia(props: RenunciaProps) {
+    const acao = props.acao;
+    const renuncia = props.acao.conteudoRenuncia;
 
-                    <button className="btnPrimary reprovar">
-                        <p>Indeferir</p>
-                    </button>
+    if (renuncia) {
+        /* Componentes da Página */
+        const cardStatusFinalAprovado = (
+            <CardInfo titulo="Deferido" icone="like" cor="ok" />
+        );
+
+        const cardStatusFinalReprovado = (
+            <CardInfo titulo="Indeferido" icone="dislike" cor="attention" />
+        );
+
+
+        /* Construção da Página */
+        return (
+            <div className="sessionRenuncia">
+                {acao.statusAtual === "concluido" && (
+                    <div className="cardStatusFinal">
+                        {acao.statusFinal === "aprovado" ? cardStatusFinalAprovado : cardStatusFinalReprovado}
+                    </div>
+                )}
+
+                <div className="data">
+                    <p><b>Solicitado em: </b>{formatDate(acao.dataDeCriacao)}</p>
                 </div>
 
-                <div className="buttonsGrupo">
-                    <button className="btnSecondary">
-                        <p>Voltar</p>
-                    </button>
+                <div className="pedidoTexto">
+                    <p><b>Pedido de Renúncia:</b></p>
+                    {<TextBoxExpand text={renuncia.textoFormal} />}
                 </div>
             </div>
-        </div>
-    );
-
-    return (<></>)
+        );
+    }
 }
