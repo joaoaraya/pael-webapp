@@ -8,13 +8,15 @@
     }
 }
 
-@keyframes slideUp {
+@keyframes scaleIn {
     from {
-        transform: translateY(100%);
+        transform: scale(0);
+        opacity: 0;
     }
 
     to {
-        transform: translateY(0);
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
@@ -27,7 +29,7 @@
     overflow: hidden;
     background: rgba(0, 0, 0, 0.25);
     z-index: 99;
-    // Efeito Fade-in
+    // Efeito
     animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -44,8 +46,8 @@
     overflow: hidden;
     cursor: default;
     z-index: 100;
-    // Efeito SlideUp
-    animation: slideUp 0.3s ease-in-out;
+    // Efeito 
+    animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
 
     .responseModalContainer {
         width: 90%;
@@ -61,14 +63,36 @@
             flex-direction: column;
             flex-flow: column nowrap;
             justify-content: space-between;
-            gap: 24px;
+            gap: 8px;
             padding: 16px;
             height: 100%;
             color: var(--body-font);
 
+            .icon {
+                align-self: center;
+
+                svg {
+                    width: 64px;
+                    height: 64px;
+                }
+            }
+
+            .sucess svg {
+                fill: var(--body-bg-ok);
+            }
+
+            .error svg {
+                fill: var(--body-bg-attention);
+            }
+
+            .warning svg {
+                fill: var(--body-bg-warning);
+            }
+
             .message {
+                margin-bottom: 8px;
+
                 p {
-                    flex: 1;
                     text-align: center;
                     word-wrap: break-word;
                     color: var(--body-font);

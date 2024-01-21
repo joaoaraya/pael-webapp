@@ -8,6 +8,7 @@ import axios from 'axios';
 import { API } from '@/functions/urls';
 import IconLoader from '@/components/icon/IconLoader';
 import './style.scss';
+import ResponseModal from '@/components/modal/ResponseModal';
 
 type FormsTypes = {
     id_cim: string;
@@ -19,7 +20,7 @@ export default function SignIn() {
     const [cookies, setCookie] = useCookies(['token']);
     const { register, handleSubmit } = useForm<FormsTypes>();
     const [disableButton, setDisableButton] = useState(false);
-
+    const [showResponseModal, setShowResponseModal] = useState(<></>);
 
     // Mostrar imagem do usuário ao digitar o CIM
     const [cimValue, setCimValue] = useState('');
@@ -34,48 +35,40 @@ export default function SignIn() {
         setWithoutPicture(true);
     }
 
+
     // Enviar dados para o servidor
-    const onSubmit = handleSubmit(async (data) => {
+    const sendData = handleSubmit(async (data) => {
         try {
             setDisableButton(true); // Desabilitar o botão ao iniciar a solicitação
 
             // Enviar os dados em formato JSON
             const response = await axios.post(`${API}/user/login`, JSON.stringify(data), {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' }
             });
 
-            // Verificar se a resposta contém um token
-            const { token } = response.data;
+            const { token } = response.data; // Verificar se a resposta contém um token
 
             if (token) {
-                // Salvar o token em um cookie seguro
-                setCookie('token', token, { secure: true, sameSite: 'strict' });
-
-                // Redirecionar para a página...
-                router.push('/dashboard');
+                setCookie('token', token, { secure: true, sameSite: 'strict' }); // Salvar o token em um cookie seguro
+                router.push('/dashboard'); // Redirecionar para a página...
             }
             else {
                 // Recarregar página
-                console.log('Token não encontrado na resposta da API.');
+                setShowResponseModal(<ResponseModal icon="error" message="Erro interno! Tente novamente ou mais tarde" />);
+                console.log("Token não encontrado na resposta da API");
             }
         }
         catch (error: any) {
-            let message = "";
+            let message = "Falha no servidor! Tente novamente ou mais tarde";
 
             if (error.response && error.response.data) {
-                message = error.response.data.message;
+                message = error.response.data.message || message;
             }
-            else {
-                message = "Falha no servidor! Tente novamente ou mais tarde";
-            }
-            window.alert(message);
-            console.error('Erro ao fazer a solicitação:', error);
+            setShowResponseModal(<ResponseModal icon="error" message={message} />);
+            console.error("Erro: ", error);
         }
         finally {
-            // Após concluír a ação, reativar o botão
-            setDisableButton(false);
+            setDisableButton(false); // Reativar o botão após concluír a ação
         }
     });
 
@@ -89,12 +82,13 @@ export default function SignIn() {
                 className={`profilePicture ${withoutPicture ? 'defaultPicture' : ''}`}
             />
 
-            <form onSubmit={onSubmit}>
+            <form onSubmit={sendData}>
                 <label>
                     <p>CIM:</p>
 
                     <input
                         {...register('id_cim')}
+                        className="inputText"
                         onChange={onChangeCim}
                         name="id_cim"
                         type="number"
@@ -109,6 +103,7 @@ export default function SignIn() {
 
                     <input
                         {...register('ds_password')}
+                        className="inputText"
                         name="ds_password"
                         type="password"
                         placeholder="******"
@@ -119,6 +114,8 @@ export default function SignIn() {
                 <button type="submit" className="btnPrimary" disabled={disableButton}>
                     {disableButton ? <IconLoader /> : <p>Entrar</p>}
                 </button>
+
+                {showResponseModal}
             </form>
         </div>
     );

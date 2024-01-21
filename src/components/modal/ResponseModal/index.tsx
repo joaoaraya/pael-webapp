@@ -6,7 +6,7 @@ import './style.scss';
 type ModalProps = {
     icon: string;
     message: string;
-    actionButton?: MouseEventHandler;
+    action?: MouseEventHandler;
 }
 
 
@@ -16,16 +16,14 @@ export default function ResponseModal(props: ModalProps) {
     const handleActionButtonClick: MouseEventHandler<HTMLButtonElement> = (event) => {
         setDisableButton(true);
 
-        if (props.actionButton && !disableButton) {
-            props.actionButton(event);
+        if (props.action && !disableButton) {
+            props.action(event);
         }
         else {
             // A função padrão do botão ok é recarregar a página
             location.reload();
         }
     };
-
-    console.log("helooooo")
 
     return (
         <>
@@ -48,12 +46,12 @@ export default function ResponseModal(props: ModalProps) {
                                 type="submit"
                                 onClick={handleActionButtonClick}
                             >
-                                <p>ok</p>
+                                <p>OK</p>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }

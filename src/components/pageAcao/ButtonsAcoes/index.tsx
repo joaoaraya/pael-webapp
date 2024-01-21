@@ -8,8 +8,8 @@ import OpenConfirmModal from "@/components/button/OpenConfirmModal";
 import OpenModal from "@/components/button/OpenModal";
 import ModalEncaminharComissao from "@/components/modal/ModalEncaminharComissao";
 
-import './style.scss';
 import ModalSolicitarAjustes from "@/components/modal/ModalSolicitarAjustes";
+import './style.scss';
 
 
 type ButtonsAcoesProps = {
@@ -190,7 +190,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {encComissaoButton}
-                    {/* Solicitar ajustes */}
+                    {modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")}
                     {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", () => { }, "btnAttention")}
                 </>
             );

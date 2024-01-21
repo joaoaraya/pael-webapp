@@ -35,14 +35,13 @@
         align-self: center;
 
         p {
-
             font-size: 16px;
             line-height: 140%;
+            white-space: pre-line; // Interpretar '\n' como quebra de linha
             color: var(--body-font-alternative);
         }
 
         #titulo {
-
             font-weight: 700;
         }
 

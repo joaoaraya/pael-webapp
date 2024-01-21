@@ -33,19 +33,13 @@ export const useAPI = () => {
             return response;
         }
         catch (error: any) {
-            let message = '';
+            let message = "Falha no servidor! Tente novamente ou mais tarde";
 
             if (error.response && error.response.data) {
                 message = error.response.data.message || message;
             }
-            else {
-                message = 'Falha no servidor! Tente novamente ou mais tarde';
-            }
 
-            if (message !== '') {
-                window.alert(message);
-            }
-
+            window.alert(message);
             throw new Error(message);
         }
     }
