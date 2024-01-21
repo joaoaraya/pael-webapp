@@ -9,6 +9,7 @@
     padding: 20px;
     border-radius: 8px;
     background: var(--cardGrupoPessoas-bg);
+    border: solid var(--cardGrupoPessoas-bg) 2px;
 
     transition: 0.2s;
 
@@ -68,6 +69,7 @@
 
     &:hover {
         background-color: var(--cardGrupoPessoas-bg-hover);
+        border: solid var(--cardGrupoPessoas-bg-hover) 2px;
 
         #nomeComissao {
             color: var(--cardGrupoPessoas-text-hover);
@@ -92,6 +94,11 @@
             }
         }
     }
+}
+
+.inativa {
+    background-color: var(--body-bg);
+    border: dashed var(--cardGrupoPessoas-bg-hover) 2px;
 }
 
 /* Alterações para Mobile */

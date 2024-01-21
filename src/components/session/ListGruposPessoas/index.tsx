@@ -6,6 +6,7 @@ type ListGruposPessoasProps = {
     userGroups: {
         id: number;
         nome: string;
+        ativa: boolean;
         membros: {
             cim: string;
             nome: string;

@@ -1,31 +1,65 @@
-import React from 'react'
-import './style.scss'
+import { useEffect, useState } from 'react';
+import { useAPI } from '@/hooks/Api';
+import { API } from '@/functions/urls';
+import { capitalize } from '@/functions/visual';
+
+import './style.scss';
+import OpenConfirmModal from '@/components/button/OpenConfirmModal';
 
 
-// Banco de dados temporario (request: listar comissões + cim do presidente)
-const dbComissoes = {
-	nome: '',
-	comissaoID: 2353,
-	/* Só o presidente da comissão terá o acesso para deferir/in 
-    (se o usuario logado estiver na comissão de mesmo id e for presidente...)*/
-}
+type ComissoesProps = {
+    id: number;
+    nome: string;
+    ativa: string;
+}[];
+
 
 export default function ModalEncaminharComissao() {
-	return (
-		<div className="modalEncaminhar">
-			<h1>Encaminhar para...</h1>
+    const [isLoading, setIsLoading] = useState(true);
+    const [comissoes, setComissoes] = useState<ComissoesProps>();
+    const { get } = useAPI();
 
-			<div>
-				<p><input type="radio" name="opcao" id="opcao1" />Teste 1</p>
-				<p><input type="radio" name="opcao" id="opcao2" />Teste 2</p>
-				<p><input type="radio" name="opcao" id="opcao3" />Teste 3</p>
-				<p><input type="radio" name="opcao" id="opcao4" />Teste 4</p>
-				<p><input type="radio" name="opcao" id="opcao5" />Teste 5</p>
-				<p><input type="radio" name="opcao" id="opcao6" />Teste 6</p>
-				<p><input type="radio" name="opcao" id="opcao7" />Teste 7</p>
-				<p><input type="radio" name="opcao" id="opcao8" />Teste 8</p>
-				<p><input type="radio" name="opcao" id="opcao9" />Teste 9</p>
-			</div>
-		</div>
-	)
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const response = await get(`${API}/comissoes`);
+                setComissoes(response.data);
+                setIsLoading(false);
+            }
+            catch (error: any) {
+                console.error('Error:', error);
+                setIsLoading(false);
+            }
+        }
+
+        loadData();
+    }, []);
+
+    const encaminharParaComissao = () => { };
+
+
+    if (isLoading) {
+        return (<>Carregando...</>)
+    }
+
+    if (comissoes) {
+        return (
+            <div className="modalEncaminharComissao">
+                {comissoes.map((comissao, index) =>
+                    comissao.ativa && (
+                        <OpenConfirmModal
+                            key={index}
+                            tagType="button"
+                            className="btnSecondary"
+                            title={`Encaminhar ação para a ${capitalize(comissao.nome)}?`}
+                            action={encaminharParaComissao}
+                            actionText="Encaminhar"
+                        >
+                            <p>{capitalize(comissao.nome)}</p>
+                        </OpenConfirmModal>
+                    )
+                )}
+            </div>
+        )
+    }
 }

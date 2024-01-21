@@ -5,6 +5,7 @@ type RequestProps = {
     method: Method;
     url: string;
     data?: any;
+    contentType?: string;
 }
 
 export const useAPI = () => {
@@ -12,7 +13,7 @@ export const useAPI = () => {
     const [cookies] = useCookies(['token']);
     const token = cookies.token || null;
 
-    const makeRequest = async ({ method, url, data }: RequestProps) => {
+    const makeRequest = async ({ method, url, contentType, data }: RequestProps) => {
         if (!token) {
             throw new Error('Token ausente');
         }
@@ -23,6 +24,7 @@ export const useAPI = () => {
                 url,
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    'Content-Type': contentType || null
                 },
                 data: data || null,
             }
@@ -49,9 +51,9 @@ export const useAPI = () => {
     }
 
     const get = (url: string) => makeRequest({ method: 'GET', url });
-    const post = (url: string, data?: any) => makeRequest({ method: 'POST', url, data });
-    const put = (url: string, data?: any) => makeRequest({ method: 'PUT', url, data });
-    const del = (url: string, data?: any) => makeRequest({ method: 'DELETE', url, data });
+    const post = (url: string, contentType?: string, data?: any) => makeRequest({ method: 'POST', url, contentType, data });
+    const put = (url: string, contentType?: string, data?: any) => makeRequest({ method: 'PUT', url, contentType, data });
+    const del = (url: string, contentType?: string, data?: any) => makeRequest({ method: 'DELETE', url, contentType, data });
 
     return { get, post, put, del }
 }

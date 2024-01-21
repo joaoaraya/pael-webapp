@@ -14,6 +14,7 @@ type CardGrupoPessoasProps = {
     group: {
         id: number;
         nome: string;
+        ativa: boolean;
         membros: {
             cim: string;
             nome: string;
@@ -87,8 +88,8 @@ export default function CardGrupoPessoas(props: CardGrupoPessoasProps) {
     return (
         <OpenModal
             tagType="button"
-            className="cardGrupoPessoas"
-            modalTitle="Comissão"
+            className={`cardGrupoPessoas ${group.ativa ? '' : 'inativa'}`}
+            modalTitle={`Comissão ${group.ativa ? '' : '(inativa)'}`}
             modalContent={modalContent}
             modalFooterContent={modalFooterContent}
         >

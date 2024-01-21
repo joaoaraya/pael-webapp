@@ -181,7 +181,7 @@ export default function PageAcao({ params }: { params: PageProps }) {
                 </div>
 
                 <div className="botoes">
-                    {<ButtonsAcoes autor={autor.cim} acao={acao} />}
+                    <ButtonsAcoes autor={autor.cim} acao={acao} />
 
                     <Link href="/dashboard" id="botaoVoltar">
                         <button className="btnSecondary">

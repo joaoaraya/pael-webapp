@@ -11,15 +11,12 @@ type ModalProps = {
 }
 
 export default function ConfirmModal(props: ModalProps) {
-    const [disableButton, setDisableButton] = useState(false); // Inicializando como false para habilitar o botão
+    const [disableButton, setDisableButton] = useState(false);
 
     const handleActionButtonClick: MouseEventHandler<HTMLButtonElement> = (event) => {
-        // Aqui você pode adicionar a lógica para desabilitar o botão
-        // Por exemplo, ao clicar no botão de ação, ele será desabilitado
         setDisableButton(true);
 
-        // Além disso, você pode chamar o callback original, se necessário
-        if (props.actionButton) {
+        if (props.actionButton && !disableButton) {
             props.actionButton(event);
         }
     };
@@ -40,21 +37,19 @@ export default function ConfirmModal(props: ModalProps) {
                                 id="action"
                                 className="btnSecondary"
                                 type="submit"
-                                onClick={handleActionButtonClick} // Utilize a função criada para lidar com o clique do botão de ação
+                                onClick={handleActionButtonClick}
                             >
                                 {disableButton ? <IconLoader /> : <p>{props.actionButtonText}</p>}
                             </button>
 
-                            {disableButton ?
-                                null
-                                :
+                            {!disableButton && (
                                 <button
                                     className="btnSecondary"
                                     onClick={props.backButton}
                                 >
                                     <p>Cancelar</p>
                                 </button>
-                            }
+                            )}
                         </div>
                     </div>
                 </div>

@@ -32,11 +32,11 @@ export default function SessionLicenca(props: LicencaProps) {
     if (licenca) {
         /* Componentes da Página */
         const cardStatusFinalAprovado = (
-            <CardInfo titulo="Deferido" icone="like" cor="ok" />
+            <CardInfo titulo={"Deferido em: " + formatDate(acao.dataDeAtualizacao)} icone="like" cor="ok" />
         );
 
         const cardStatusFinalReprovado = (
-            <CardInfo titulo="Indeferido" icone="dislike" cor="attention" />
+            <CardInfo titulo={"Indeferido em: " + formatDate(acao.dataDeAtualizacao)} icone="dislike" cor="attention" />
         );
 
 
