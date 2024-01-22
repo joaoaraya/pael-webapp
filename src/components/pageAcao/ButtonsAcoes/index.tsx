@@ -9,6 +9,7 @@ import OpenModal from "@/components/button/OpenModal";
 import ModalEncaminharComissao from "@/components/modal/ModalEncaminharComissao";
 
 import ModalSolicitarAjustes from "@/components/modal/ModalSolicitarAjustes";
+import ResponseModal from "@/components/modal/ResponseModal";
 import './style.scss';
 
 
@@ -47,7 +48,8 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     const [userPresidente, setUserPresidente] = useState(false);
     const [userPresidenteComissao, setUserPresidenteComissao] = useState(false);
     const [userAutor, setUserAutor] = useState(false);
-    const { get } = useAPI();
+    const { get, put } = useAPI();
+    const [showResponseModal, setShowResponseModal] = useState(<></>);
 
     useEffect(() => {
         const checkUserIs = async () => {
@@ -106,6 +108,56 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     );
 
 
+    /* Ações */
+    const acaoPautar = async () => {
+        try {
+            const response = await put(`${API}/acao/${acao.id}/status=pauta`);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            console.error('Error:', error);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+    const acaoReprovar = async () => {
+        try {
+            const response = await put(
+                `${API}/acao/${acao.id}/status=concluido`,
+                "application/json",
+                JSON.stringify({ statusFinal: "reprovado" })
+            );
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            console.error(error);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+    const acaoAssinarApoio = async () => {
+        try {
+            const response = await put(`${API}/acao/${acao.id}/pauta/assinatura`);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            console.error('Error:', error);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+    const acaoEncPlenario = async () => {
+        try {
+            const response = await put(`${API}/acao/${acao.id}/status=plenario`);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            console.error('Error:', error);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+
     /* Grupos de Botões para cada tipo de ação */
 
     let buttons;
@@ -129,9 +181,9 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "redacao" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Pautar", "Mover ação para a pauta?", "Para receber apoio dos deputados", () => { }, "btnPrimary")}
+                    {confirmButton("Pautar", "Mover ação para a pauta?", "Para receber apoio dos deputados", acaoPautar, "btnPrimary")}
                     {modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")}
-                    {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", () => { }, "btnAttention")}
+                    {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")}
                 </>
             );
         }
@@ -139,7 +191,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "pauta") {
             buttons = (
                 <>
-                    {confirmButton("Assinar apoio", "Apoiar proposta?", "Sua assinatura será a favor dessa ação", () => { }, "btnPrimary")}
+                    {confirmButton("Assinar apoio", "Apoiar proposta?", "Sua assinatura será a favor dessa ação", acaoAssinarApoio, "btnPrimary")}
                     {(assinaturasNecessarias && userPresidente) && ({ encComissaoButton })}
                 </>
             );
@@ -148,13 +200,13 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "comissao" && userPresidente) {
             buttons = (
                 <>
-                    {/* Enviar parecer */}
+                    {/* Enviar parecer (somente presidente da comissao) */}
 
                     {encComissaoButton}
                     {todosPareceres && (
                         <>
-                            {confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa proposta ficará disponível para votação", () => { }, "btnPrimary")}
-                            {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", () => { }, "btnAttention")}
+                            {confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa proposta ficará disponível para votação", acaoEncPlenario, "btnPrimary")}
+                            {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")}
                         </>
                     )}
                 </>
@@ -191,7 +243,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 <>
                     {encComissaoButton}
                     {modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")}
-                    {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", () => { }, "btnAttention")}
+                    {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", acaoReprovar, "btnAttention")}
                 </>
             );
         }
@@ -199,12 +251,12 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "comissao" && userPresidente) {
             buttons = (
                 <>
-                    {/* Enviar parecer */}
+                    {/* Enviar parecer (somente presidente da comissao) */}
                     {encComissaoButton}
                     {todosPareceres && (
                         <>
-                            {confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa emenda ficará disponível para votação", () => { }, "btnPrimary")}
-                            {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", () => { }, "btnAttention")}
+                            {confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa emenda ficará disponível para votação", acaoEncPlenario, "btnPrimary")}
+                            {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", acaoReprovar, "btnAttention")}
                         </>
                     )}
                 </>
@@ -226,7 +278,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de licença será aceito", () => { }, "btnSucess")}
-                    {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de licença será negado", () => { }, "btnAttention")}
+                    {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de licença será negado", acaoReprovar, "btnAttention")}
                 </>
             );
         }
@@ -237,7 +289,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", () => { }, "btnSucess")}
-                    {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de renúncia será negado", () => { }, "btnAttention")}
+                    {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de renúncia será negado", acaoReprovar, "btnAttention")}
                 </>
             );
         }
@@ -247,6 +299,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     return (
         <div className="buttonsAcoes">
             {buttons}
+            {showResponseModal}
         </div>
     );
 }

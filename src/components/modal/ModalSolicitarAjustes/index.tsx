@@ -29,7 +29,8 @@ export default function ModalSolicitarAjustes(props: ModalProps) {
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            console.error('Error:', error);
+            console.error(error);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
         }
     }
 

@@ -35,11 +35,13 @@ export const useAPI = () => {
         catch (error: any) {
             let message = "Falha no servidor! Tente novamente ou mais tarde";
 
-            if (error.response && error.response.data) {
-                message = error.response.data.message || message;
+            if (error.response.data) {
+                message = error.response.data.message;
+            }
+            else {
+                window.alert(message);
             }
 
-            window.alert(message);
             throw new Error(message);
         }
     }
