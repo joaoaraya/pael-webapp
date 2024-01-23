@@ -204,14 +204,14 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "comissao" && userPresidente) {
             buttons = (
                 <>
-                    {/* Enviar parecer (somente presidente da comissao) */}
-                    {todosPareceres && (
+                    {/* userPresidenteComissao: Enviar parecer */}
+                    {userPresidente && (
                         <>
-                            {encPlenarioButton}
+                            {todosPareceres && ({ encPlenarioButton })}
+                            {encComissaoButton}
+                            {reprovarButton}
                         </>
                     )}
-                    {encComissaoButton}
-                    {reprovarButton}
                 </>
             );
         }
@@ -256,14 +256,14 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "comissao" && userPresidente) {
             buttons = (
                 <>
-                    {/* Enviar parecer (somente presidente da comissao) */}
-                    {todosPareceres && (
+                    {/* userPresidenteComissao: Enviar parecer */}
+                    {userPresidente && (
                         <>
-                            {encPlenarioButton}
+                            {todosPareceres && ({ encPlenarioButton })}
+                            {encComissaoButton}
+                            {reprovarButton}
                         </>
                     )}
-                    {encComissaoButton}
-                    {reprovarButton}
                 </>
             );
         }
