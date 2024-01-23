@@ -207,7 +207,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                     {/* userPresidenteComissao: Enviar parecer */}
                     {userPresidente && (
                         <>
-                            {todosPareceres && ({ encPlenarioButton })}
+                            {todosPareceres && (encPlenarioButton)}
                             {encComissaoButton}
                             {reprovarButton}
                         </>
@@ -259,7 +259,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                     {/* userPresidenteComissao: Enviar parecer */}
                     {userPresidente && (
                         <>
-                            {todosPareceres && ({ encPlenarioButton })}
+                            {todosPareceres && (encPlenarioButton)}
                             {encComissaoButton}
                             {reprovarButton}
                         </>
