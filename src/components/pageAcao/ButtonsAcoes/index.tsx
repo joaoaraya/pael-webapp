@@ -76,6 +76,52 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     }, []);
 
 
+    /* Ações */
+    const acaoPautar = async () => {
+        try {
+            const response = await put(`${API}/acao/${acao.id}/status=pauta`);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+    const acaoReprovar = async () => {
+        try {
+            const response = await put(
+                `${API}/acao/${acao.id}/status=concluido`,
+                "application/json",
+                JSON.stringify({ statusFinal: "reprovado" })
+            );
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+    const acaoAssinarApoio = async () => {
+        try {
+            const response = await put(`${API}/acao/${acao.id}/pauta/assinatura`);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+    const acaoEncPlenario = async () => {
+        try {
+            const response = await put(`${API}/acao/${acao.id}/status=plenario`);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
+
     /* Botões */
 
     const confirmButton = (botaoTexto: string, modalPergunta: string, modalDescricao: string, botaoAcao: () => void, botaoCor: string) => (
@@ -107,60 +153,18 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         modalButton("Enc. comissão", "Encaminhar para...", <ModalEncaminharComissao />, <></>, "btnPrimary")
     );
 
+    const encPlenarioButton = (
+        confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa proposta ficará disponível para votação", acaoEncPlenario, "btnPrimary")
+    );
 
-    /* Ações */
-    const acaoPautar = async () => {
-        try {
-            const response = await put(`${API}/acao/${acao.id}/status=pauta`);
-            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
-        }
-        catch (error: any) {
-            console.error('Error:', error);
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
-        }
-    }
-
-    const acaoReprovar = async () => {
-        try {
-            const response = await put(
-                `${API}/acao/${acao.id}/status=concluido`,
-                "application/json",
-                JSON.stringify({ statusFinal: "reprovado" })
-            );
-            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
-        }
-        catch (error: any) {
-            console.error(error);
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
-        }
-    }
-
-    const acaoAssinarApoio = async () => {
-        try {
-            const response = await put(`${API}/acao/${acao.id}/pauta/assinatura`);
-            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
-        }
-        catch (error: any) {
-            console.error('Error:', error);
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
-        }
-    }
-
-    const acaoEncPlenario = async () => {
-        try {
-            const response = await put(`${API}/acao/${acao.id}/status=plenario`);
-            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
-        }
-        catch (error: any) {
-            console.error('Error:', error);
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
-        }
-    }
+    const reprovarButton = (
+        confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")
+    );
 
 
     /* Grupos de Botões para cada tipo de ação */
-
     let buttons;
+
 
     if (acao.tipo === "proposta") {
         const assinaturasNecessarias = (acao.conteudoProposta?.assinaturas?.length || 0) > (acao.conteudoProposta?.assinaturasNecessarias || 0);
@@ -183,7 +187,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 <>
                     {confirmButton("Pautar", "Mover ação para a pauta?", "Para receber apoio dos deputados", acaoPautar, "btnPrimary")}
                     {modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")}
-                    {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")}
+                    {reprovarButton}
                 </>
             );
         }
@@ -201,14 +205,13 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {/* Enviar parecer (somente presidente da comissao) */}
-
-                    {encComissaoButton}
                     {todosPareceres && (
                         <>
-                            {confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa proposta ficará disponível para votação", acaoEncPlenario, "btnPrimary")}
-                            {confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")}
+                            {encPlenarioButton}
                         </>
                     )}
+                    {encComissaoButton}
+                    {reprovarButton}
                 </>
             );
         }
@@ -216,12 +219,14 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "plenario" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Priorizar", "Deseja priorizar a proposta?", "A ação será atualizada para o início da lista", () => { }, "btnPrimary")}
-                    {/* Cadastrar votação */}
+                    {/* A votação aconteceu? */}
+                    {/* SIM: aprovarButton + reprovarButton */}
+                    {/* NÃO: Cadastrar votação */}
                 </>
             );
         }
     }
+
 
     if (acao.tipo === "emenda") {
         const todosPareceres = acao.conteudoEmenda?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "")
@@ -243,7 +248,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 <>
                     {encComissaoButton}
                     {modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")}
-                    {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", acaoReprovar, "btnAttention")}
+                    {reprovarButton}
                 </>
             );
         }
@@ -252,13 +257,13 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {/* Enviar parecer (somente presidente da comissao) */}
-                    {encComissaoButton}
                     {todosPareceres && (
                         <>
-                            {confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa emenda ficará disponível para votação", acaoEncPlenario, "btnPrimary")}
-                            {confirmButton("Reprovar", "Reprovar ação?", "Essa emenda será finalizada", acaoReprovar, "btnAttention")}
+                            {encPlenarioButton}
                         </>
                     )}
+                    {encComissaoButton}
+                    {reprovarButton}
                 </>
             );
         }
@@ -266,12 +271,14 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "plenario" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Priorizar", "Deseja priorizar a emenda?", "A ação será atualizada para o início da lista", () => { }, "btnPrimary")}
-                    {/* Cadastrar votação */}
+                    {/* A votação aconteceu? */}
+                    {/* SIM: aprovarButton + reprovarButton */}
+                    {/* NÃO: Cadastrar votação */}
                 </>
             );
         }
     }
+
 
     if (acao.tipo === "licenca") {
         if (acao.statusAtual === "pendente" && userPresidente) {
@@ -283,6 +290,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             );
         }
     }
+
 
     if (acao.tipo === "renuncia") {
         if (acao.statusAtual === "pendente" && userPresidente) {

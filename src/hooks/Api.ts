@@ -39,6 +39,7 @@ export const useAPI = () => {
                 message = error.response.data.message;
             }
             else {
+                console.error(error);
                 window.alert(message);
             }
 
