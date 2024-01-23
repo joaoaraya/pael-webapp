@@ -48,7 +48,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     const [userPresidente, setUserPresidente] = useState(false);
     const [userPresidenteComissao, setUserPresidenteComissao] = useState(false);
     const [userAutor, setUserAutor] = useState(false);
-    const { get, put } = useAPI();
+    const { get, post, put } = useAPI();
     const [showResponseModal, setShowResponseModal] = useState(<></>);
 
     useEffect(() => {
@@ -101,9 +101,23 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         }
     }
 
+    const acaoAprovar = async () => {
+        try {
+            const response = await put(
+                `${API}/acao/${acao.id}/status=concluido`,
+                "application/json",
+                JSON.stringify({ statusFinal: "aprovado" })
+            );
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
+
     const acaoAssinarApoio = async () => {
         try {
-            const response = await put(`${API}/acao/${acao.id}/pauta/assinatura`);
+            const response = await post(`${API}/acao/${acao.id}/pauta/assinatura`);
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
