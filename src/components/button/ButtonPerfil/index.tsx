@@ -61,8 +61,8 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
     }
 
 
-    let modalContent = null;
-    let modalFooterContent = null;
+    let modalContent;
+    let modalFooterContent;
 
 
     // Quando carregar os dados da API
@@ -92,7 +92,7 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
         <OpenModal
             tagType="button"
             className="buttonPerfil"
-            modalTitle="Deputado"
+            modalTitle="Meus dados"
             modalContent={modalContent}
             modalFooterContent={modalFooterContent}
         >
@@ -106,11 +106,14 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
 
             <div className="perfilDados">
                 <h1>{capitalize(primeiroNome)}</h1>
-                <p>
-                    {user?.cim}
-                    {cargo === "" ? "" : " • "}
-                    {capitalize(cargo)}
-                </p>
+
+                {user?.cim !== "000000" && (
+                    <p>
+                        {user?.cim}
+                        {cargo === "" ? "" : " • "}
+                        {capitalize(cargo)}
+                    </p>
+                )}
             </div>
         </OpenModal>
     )

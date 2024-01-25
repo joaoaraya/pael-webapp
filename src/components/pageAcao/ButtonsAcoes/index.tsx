@@ -11,6 +11,7 @@ import ModalEncaminharComissao from "@/components/modal/ModalEncaminharComissao"
 import ModalSolicitarAjustes from "@/components/modal/ModalSolicitarAjustes";
 import ResponseModal from "@/components/modal/ResponseModal";
 import './style.scss';
+import ModalEnviarParecer from "@/components/modal/ModalEnviarParecer";
 
 
 type ButtonsAcoesProps = {
@@ -54,18 +55,38 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     useEffect(() => {
         const checkUserIs = async () => {
             try {
-                const responsePresidente = await get(`${API}/check/user/presidente`);
-                //const responsePresidenteComissao = await get(`${API}/check/user/presidente/comissao=${group.id}`);
                 const responseAutor = await get(`${API}/check/user/autor/cim=${props.autor}`);
+                const responsePresidente = await get(`${API}/check/user/presidente`);
 
                 // Somente atualizar se a resposta for igual a "true"
+                if (responseAutor.data === true) {
+                    setUserAutor(true);
+                }
                 if (responsePresidente.data === true) {
                     setUserPresidente(true);
                 }
 
-                if (responseAutor.data === true) {
-                    setUserAutor(true);
-                }
+                // Função para verificar se o usuário é presidente de alguma comissão
+                const checkUserPresidenteComissao = async (comissaoId: string) => {
+                    const response = await get(`${API}/check/user/presidente/comissao=${comissaoId}`);
+                    return response.data === true;
+                };
+
+                // Verificar as comissões e definir o estado correspondente
+                const checkComissoes = async (conteudo?: { comissoesEncaminhadas?: { id: string }[] }) => {
+                    if (conteudo?.comissoesEncaminhadas) {
+                        for (const comissao of conteudo.comissoesEncaminhadas) {
+                            if (await checkUserPresidenteComissao(comissao.id)) {
+
+                                setUserPresidenteComissao(true);
+                                break;  // Se encontrou uma comissão, não precisa verificar as outras
+                            }
+                        }
+                    }
+                };
+
+                checkComissoes(acao.conteudoProposta);
+                checkComissoes(acao.conteudoEmenda);
             }
             catch (error: any) {
                 console.error('Error:', error);
@@ -163,8 +184,33 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         </OpenModal>
     );
 
+
+    const editarPropostaButton = (
+        <Link href={`/edit/acao/${acao.id}`}>
+            <button className="btnPrimary">
+                <p>Editar proposta</p>
+            </button>
+        </Link>
+    );
+
+    const solicitarAjustesButton = (
+        modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")
+    );
+
+    const pautarButton = (
+        confirmButton("Pautar", "Mover ação para a pauta?", "Para receber apoio dos deputados", acaoPautar, "btnPrimary")
+    );
+
+    const assinarApoioButton = (
+        confirmButton("Assinar apoio", "Apoiar proposta?", "Sua assinatura será a favor dessa ação", acaoAssinarApoio, "btnPrimary")
+    );
+
     const encComissaoButton = (
-        modalButton("Enc. comissão", "Encaminhar para...", <ModalEncaminharComissao />, <></>, "btnPrimary")
+        modalButton("Enc. comissão", "Encaminhar para...", <ModalEncaminharComissao acaoId={acao.id} />, <></>, "btnPrimary")
+    );
+
+    const enviarParecerButton = (
+        modalButton("Enviar parecer", "Parecer", <ModalEnviarParecer acaoId={acao.id} />, <></>, "btnPrimary")
     );
 
     const encPlenarioButton = (
@@ -175,32 +221,30 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")
     );
 
+    const aprovarButton = (
+        confirmButton("Aprovar", "Aprovar ação?", "Essa proposta será finalizada", acaoAprovar, "btnSucess")
+    );
+
 
     /* Grupos de Botões para cada tipo de ação */
     let buttons;
 
 
     if (acao.tipo === "proposta") {
-        const assinaturasNecessarias = (acao.conteudoProposta?.assinaturas?.length || 0) > (acao.conteudoProposta?.assinaturasNecessarias || 0);
+        const assinaturasNecessarias = (acao.conteudoProposta?.assinaturas?.length || 0) >= (acao.conteudoProposta?.assinaturasNecessarias || 0);
         const todosPareceres = acao.conteudoProposta?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "");
 
         /* Quais botões mostrar em cada status */
 
         if (acao.statusAtual === "autor" && userAutor) {
-            buttons = (
-                <Link href={`/edit/acao/${acao.id}`}>
-                    <button className="btnPrimary">
-                        <p>Editar proposta</p>
-                    </button>
-                </Link>
-            );
+            buttons = (editarPropostaButton);
         }
 
         if (acao.statusAtual === "redacao" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Pautar", "Mover ação para a pauta?", "Para receber apoio dos deputados", acaoPautar, "btnPrimary")}
-                    {modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")}
+                    {pautarButton}
+                    {solicitarAjustesButton}
                     {reprovarButton}
                 </>
             );
@@ -209,16 +253,16 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "pauta") {
             buttons = (
                 <>
-                    {confirmButton("Assinar apoio", "Apoiar proposta?", "Sua assinatura será a favor dessa ação", acaoAssinarApoio, "btnPrimary")}
-                    {(assinaturasNecessarias && userPresidente) && ({ encComissaoButton })}
+                    {assinarApoioButton}
+                    {(assinaturasNecessarias && userPresidente) && (encComissaoButton)}
                 </>
             );
         }
 
-        if (acao.statusAtual === "comissao" && userPresidente) {
+        if (acao.statusAtual === "comissao") {
             buttons = (
                 <>
-                    {/* userPresidenteComissao: Enviar parecer */}
+                    {userPresidenteComissao && (enviarParecerButton)}
                     {userPresidente && (
                         <>
                             {todosPareceres && (encPlenarioButton)}
@@ -248,29 +292,23 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         /* Quais botões mostrar em cada status */
 
         if (acao.statusAtual === "autor" && userAutor) {
-            buttons = (
-                <Link href={`/edit/acao/${acao.id}`}>
-                    <button className="btnPrimary">
-                        <p>Editar proposta</p>
-                    </button>
-                </Link>
-            );
+            buttons = (editarPropostaButton);
         }
 
         if (acao.statusAtual === "redacao" && userPresidente) {
             buttons = (
                 <>
                     {encComissaoButton}
-                    {modalButton("Solicitar ajustes", "Ajustes", <ModalSolicitarAjustes acaoId={acao.id} />, <></>, "btnPrimary")}
+                    {solicitarAjustesButton}
                     {reprovarButton}
                 </>
             );
         }
 
-        if (acao.statusAtual === "comissao" && userPresidente) {
+        if (acao.statusAtual === "comissao") {
             buttons = (
                 <>
-                    {/* userPresidenteComissao: Enviar parecer */}
+                    {userPresidenteComissao && (enviarParecerButton)}
                     {userPresidente && (
                         <>
                             {todosPareceres && (encPlenarioButton)}
@@ -298,7 +336,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "pendente" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de licença será aceito", () => { }, "btnSucess")}
+                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de licença será aceito", acaoAprovar, "btnSucess")}
                     {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de licença será negado", acaoReprovar, "btnAttention")}
                 </>
             );
@@ -310,7 +348,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "pendente" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", () => { }, "btnSucess")}
+                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", acaoAprovar, "btnSucess")}
                     {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de renúncia será negado", acaoReprovar, "btnAttention")}
                 </>
             );

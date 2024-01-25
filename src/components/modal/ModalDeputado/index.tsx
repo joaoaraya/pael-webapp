@@ -46,71 +46,73 @@ export default function ModalDeputado(props: DeputadoProps) {
                 <p>{capitalize(user.nome)}</p>
             </div>
 
-            <div id="dados">
-                <p className="label">CIM</p>
-                <p>{user.cim}</p>
+            {user.cim !== "000000" && (
+                <div id="dados">
+                    <p className="label">CIM</p>
+                    <p>{user.cim}</p>
 
-                <p className="label">LOJA</p>
-                <p>{capitalize(user.loja)}</p>
+                    <p className="label">LOJA</p>
+                    <p>{capitalize(user.loja)}</p>
 
-                <p className="label">Nº LOJA</p>
-                <p>{user.lojaNumero}</p>
+                    <p className="label">Nº LOJA</p>
+                    <p>{user.lojaNumero}</p>
 
-                <p className="label">SITUAÇÃO</p>
-                <TextSituacao ativo={user.ativo} situacao={capitalize(user.situacao)} />
+                    <p className="label">SITUAÇÃO</p>
+                    <TextSituacao ativo={user.ativo} situacao={capitalize(user.situacao)} />
 
-                {user.cpf && (
-                    <>
-                        <br />
-                        <p className="label">CPF</p>
-                        <p>{user.cpf}</p>
-                    </>
-                )}
+                    {user.cpf && (
+                        <>
+                            <br />
+                            <p className="label">CPF</p>
+                            <p>{user.cpf}</p>
+                        </>
+                    )}
 
-                {user.email && (
-                    <>
-                        <p className="label">EMAIL</p>
-                        <p>{user.email}</p>
-                    </>
-                )}
+                    {user.email && (
+                        <>
+                            <p className="label">EMAIL</p>
+                            <p>{user.email}</p>
+                        </>
+                    )}
 
-                {user.celular && (
-                    <>
-                        <p className="label">CELULAR</p>
-                        <p>{user.celular}</p>
-                    </>
-                )}
+                    {user.celular && (
+                        <>
+                            <p className="label">CELULAR</p>
+                            <p>{user.celular}</p>
+                        </>
+                    )}
 
-                {user.cimSuplente && (
-                    <>
-                        <br />
-                        <p className="label">CIM DO SUPLENTE</p>
-                        <p>{user.cimSuplente}</p>
-                    </>
-                )}
+                    {user.cimSuplente && (
+                        <>
+                            <br />
+                            <p className="label">CIM DO SUPLENTE</p>
+                            <p>{user.cimSuplente}</p>
+                        </>
+                    )}
 
-                {user.nomeSuplente && (
-                    <>
-                        <p className="label">NOME DO SUPLENTE</p>
-                        <p>{capitalize(user.nomeSuplente)}</p>
-                        <br />
-                    </>
-                )}
+                    {user.nomeSuplente && (
+                        <>
+                            <p className="label">NOME DO SUPLENTE</p>
+                            <p>{capitalize(user.nomeSuplente)}</p>
+                            <br />
+                        </>
+                    )}
 
-                <p className="label">CARGO ATUAL</p>
-                <p>{capitalize(user.cargo || 'Nenhum')}</p>
+                    <p className="label">CARGO ATUAL</p>
+                    <p>{capitalize(user.cargo || 'Nenhum')}</p>
 
-                {user.cargos && (
-                    <>
-                        {user.cargos.map((cargo) =>
-                            <>
-                                <p className="label">DE {cargo.dataNomeacao} A {cargo.dataTermino}</p>
-                                <p>{capitalize(cargo.nome || 'Nenhum')}</p>
-                            </>
-                        )}
-                    </>
-                )}
-            </div>
+                    {user.cargos && (
+                        <>
+                            {user.cargos.map((cargo) =>
+                                <>
+                                    <p className="label">DE {cargo.dataNomeacao} A {cargo.dataTermino}</p>
+                                    <p>{capitalize(cargo.nome || 'Nenhum')}</p>
+                                </>
+                            )}
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

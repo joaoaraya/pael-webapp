@@ -1,18 +1,8 @@
 .modalDocOficial {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 8px;
-
-    button {
-        width: 100%;
-    }
-
-    .attention {
-
-        &:hover {
-            background-color: var(--button-attention);
-        }
-    }
 
     .details {
         display: flex;
@@ -24,12 +14,28 @@
         padding: 20px;
 
         #icon {
-            width: 30%;
-            height: 30%;
+            width: 40%;
         }
 
         #desc {
             text-align: center;
+        }
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        button {
+            width: 100%;
+        }
+
+        .attention {
+
+            &:hover {
+                background-color: var(--button-attention);
+            }
         }
     }
 }

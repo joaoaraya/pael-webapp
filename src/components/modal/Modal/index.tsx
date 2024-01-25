@@ -12,29 +12,29 @@ type ModalProps = {
 
 export default function Modal(props: ModalProps) {
 
-	return (
-		<>
-			<div className="modalBG" />
-			<div className="modal">
-				<div className="modalContainer ">
-					<div className="modalContent">
-						<div className="modalHeader">
-							<h1>{props.title}</h1>
-							<button onClick={props.closeButton}>
-								<Icon nome="close" />
-							</button>
-						</div>
+    return (
+        <>
+            <div className="modalBG" />
+            <div className="modal">
+                <div className="modalContainer ">
+                    <div className="modalContent">
+                        <div className="modalHeader">
+                            <h1>{props.title}</h1>
+                            <button onClick={props.closeButton}>
+                                <Icon nome="close" />
+                            </button>
+                        </div>
 
-						<div className="modalMain">
-							{props.children}
-						</div>
+                        <div className="modalMain">
+                            {props.children}
+                        </div>
 
-						<div className="modalFooter">
-							{props.modalFooterContent}
-						</div>
-					</div>
-				</div>
-			</div>
-		</>
-	)
+                        <div className="modalFooter">
+                            {props.modalFooterContent}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }

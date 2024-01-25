@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
 import { capitalize } from '@/functions/visual';
+import OpenConfirmModal from '@/components/button/OpenConfirmModal';
+import ResponseModal from '@/components/modal/ResponseModal';
 
 import './style.scss';
-import OpenConfirmModal from '@/components/button/OpenConfirmModal';
 
+
+type ModalProps = {
+    acaoId: string;
+}
 
 type ComissoesProps = {
     id: number;
@@ -14,10 +19,11 @@ type ComissoesProps = {
 }[];
 
 
-export default function ModalEncaminharComissao() {
+export default function ModalEncaminharComissao(props: ModalProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [comissoes, setComissoes] = useState<ComissoesProps>();
-    const { get } = useAPI();
+    const { get, put } = useAPI();
+    const [showResponseModal, setShowResponseModal] = useState(<></>);
 
     useEffect(() => {
         const loadData = async () => {
@@ -35,7 +41,20 @@ export default function ModalEncaminharComissao() {
         loadData();
     }, []);
 
-    const encaminharParaComissao = () => { };
+
+    const encaminharParaComissao = async (id: number) => {
+        try {
+            const response = await put(
+                `${API}/acao/${props.acaoId}/status=comissao`,
+                "application/json",
+                JSON.stringify({ id_comissao: id })
+            );
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+        }
+    }
 
 
     if (isLoading) {
@@ -52,13 +71,15 @@ export default function ModalEncaminharComissao() {
                             tagType="button"
                             className="btnSecondary"
                             title={`Encaminhar ação para a ${capitalize(comissao.nome)}?`}
-                            action={encaminharParaComissao}
+                            action={() => encaminharParaComissao(comissao.id)}
                             actionText="Encaminhar"
                         >
                             <p>{capitalize(comissao.nome)}</p>
                         </OpenConfirmModal>
                     )
                 )}
+
+                {showResponseModal}
             </div>
         )
     }

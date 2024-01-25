@@ -7,14 +7,15 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { API } from '@/functions/urls';
 import IconLoader from '@/components/icon/IconLoader';
-import './style.scss';
 import ResponseModal from '@/components/modal/ResponseModal';
-import Link from 'next/link';
+import profilePicture from '@/assets/images/defaultProfilePictureDark.png'
+import './style.scss';
+
 
 type FormsTypes = {
-    id_cim: string;
     ds_password: string
 }
+
 
 export default function SignIn() {
     const router = useRouter();
@@ -23,27 +24,19 @@ export default function SignIn() {
     const [disableButton, setDisableButton] = useState(false);
     const [showResponseModal, setShowResponseModal] = useState(<></>);
 
-    // Mostrar imagem do usuário ao digitar o CIM
-    const [cimValue, setCimValue] = useState('');
-    const [withoutPicture, setWithoutPicture] = useState(true);
-
-    const onChangeCim = (event: any) => {
-        setCimValue(event.target.value);
-        setWithoutPicture(false);
-    }
-
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
-
 
     // Enviar dados para o servidor
     const sendData = handleSubmit(async (data) => {
         try {
             setDisableButton(true); // Desabilitar o botão ao iniciar a solicitação
 
+            const loginData = {
+                id_cim: "000000",
+                ds_password: data.ds_password
+            }
+
             // Enviar os dados em formato JSON
-            const response = await axios.post(`${API}/user/login`, JSON.stringify(data), {
+            const response = await axios.post(`${API}/user/login`, JSON.stringify(loginData), {
                 headers: { 'Content-Type': 'application/json' }
             });
 
@@ -54,9 +47,7 @@ export default function SignIn() {
                 router.push('/dashboard'); // Redirecionar para a página...
             }
             else {
-                // Recarregar página
                 setShowResponseModal(<ResponseModal icon="error" message="Erro interno! Tente novamente ou mais tarde" />);
-                console.log("Token não encontrado na resposta da API");
             }
         }
         catch (error: any) {
@@ -75,30 +66,13 @@ export default function SignIn() {
 
 
     return (
-        <div className="login">
-            <img
-                src={API + '/user/' + cimValue + '/picture/large'}
-                alt=""
-                onError={onImageLoadError}
-                className={`profilePicture ${withoutPicture ? 'defaultPicture' : ''}`}
-            />
+        <div className="suporte">
+            <div className="profile">
+                <img src={profilePicture.src} alt="" />
+                <h1>Suporte</h1>
+            </div>
 
             <form onSubmit={sendData}>
-                <label>
-                    <p>CIM:</p>
-
-                    <input
-                        {...register('id_cim')}
-                        className="inputText"
-                        onChange={onChangeCim}
-                        name="id_cim"
-                        type="number"
-                        autoComplete="id_cim"
-                        placeholder="Digite seu CIM"
-                        required
-                    />
-                </label>
-
                 <label>
                     <p>Senha:</p>
 
@@ -116,15 +90,6 @@ export default function SignIn() {
                     {disableButton ? <IconLoader /> : <p>Entrar</p>}
                 </button>
             </form>
-
-            <footer>
-                <p>
-                    &#169; 2024 PAEL&nbsp;
-                    <a className="link" href="https://gobsp.com.br/" target="_blank">GOB-SP</a>
-                    &nbsp; | &nbsp;
-                    <Link className="link" href="/suporte">Suporte</Link>
-                </p>
-            </footer>
 
             {showResponseModal}
         </div>

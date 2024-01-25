@@ -71,4 +71,22 @@
             appearance: none;
         }
     }
+
+    footer {
+        text-align: center;
+        margin: 48px 16px 0 16px;
+        color: var(--body-font);
+
+        .link {
+            display: inline-block;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: underline;
+            color: var(--body-font);
+
+            &:hover {
+                color: var(--body-bg-highlight);
+            }
+        }
+    }
 }

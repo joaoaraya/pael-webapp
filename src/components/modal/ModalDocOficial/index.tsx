@@ -46,31 +46,34 @@ export default function ModalDocOficial(props: ModalProps) {
                 <p id="desc">{doc.nome}</p>
             </div>
 
-            <a href={API + '/doc/' + doc.nomeArquivo} target="_blank">
-                <button className="btnSecondary">
-                    <Icon nome="doc" />
-                    <p>Visualizar</p>
-                </button>
-            </a>
+            <div className="actions">
+                <a href={API + '/doc/' + doc.nomeArquivo} target="_blank">
+                    <button className="btnSecondary">
+                        <Icon nome="doc" />
+                        <p>Visualizar</p>
+                    </button>
+                </a>
 
-            <Link href={'/edit/doc/' + doc.nomeArquivo}>
-                <button className="btnSecondary">
-                    <Icon nome="edit" />
-                    <p>Editar descrição</p>
-                </button>
-            </Link>
+                <Link href={'/edit/doc/' + doc.nomeArquivo}>
+                    <button className="btnSecondary">
+                        <Icon nome="edit" />
+                        <p>Editar descrição</p>
+                    </button>
+                </Link>
 
-            <OpenConfirmModal
-                tagType="button"
-                className="btnSecondary attention"
-                title="Excluir Documento?"
-                text="A ação não poderá ser desfeita"
-                action={deleteDoc}
-                actionText="Excluir"
-            >
-                <Icon nome="delete" />
-                <p>Excluir</p>
-            </OpenConfirmModal>
+                <OpenConfirmModal
+                    tagType="button"
+                    className="btnSecondary attention"
+                    title="Excluir Documento?"
+                    text="A ação não poderá ser desfeita"
+                    action={deleteDoc}
+                    actionText="Excluir"
+                >
+                    <Icon nome="delete" />
+                    <p>Excluir</p>
+                </OpenConfirmModal>
+            </div>
+
         </div>
     )
 }
