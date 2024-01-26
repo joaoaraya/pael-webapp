@@ -310,7 +310,8 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
 
 
     if (acao.tipo === "emenda") {
-        const todosPareceres = acao.conteudoEmenda?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "")
+        const todosPareceres = acao.conteudoEmenda?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "");
+        const votacaoConcluida = acao.conteudoEmenda?.plenarioVotos;
 
         /* Quais botões mostrar em cada status */
 
@@ -346,9 +347,9 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "plenario" && userPresidente) {
             buttons = (
                 <>
-                    {/* A votação aconteceu? */}
-                    {/* SIM: aprovarButton + reprovarButton */}
-                    {/* NÃO: Cadastrar votação */}
+                    {!votacaoConcluida && (registrarVotos)}
+                    {votacaoConcluida && (aprovarButton)}
+                    {votacaoConcluida && (reprovarButton)}
                 </>
             );
         }
