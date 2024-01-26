@@ -28,6 +28,8 @@ type ButtonsAcoesProps = {
                 nome: string;
             }[];
 
+            aceitarEmendas: boolean;
+
             comissoesEncaminhadas?: {
                 id: string;
                 parecer: string;
@@ -200,7 +202,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
 
 
     const editarPropostaButton = (
-        <Link href={`/edit/acao/${acao.id}`}>
+        <Link href={`/edit/acao/${acao.id}`} className="linkButton">
             <button className="btnPrimary">
                 <p>Editar proposta</p>
             </button>
@@ -247,6 +249,14 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         confirmButton("Excluir ação", "Excluir a ação?", "Todos os dados e progressos dessa ação serão perdidos!", acaoExcluir, "btnAttention")
     );
 
+    const criarEmendaButton = (
+        <Link href={`/new/acao/emenda-a-proposta/${acao.id}`} className="linkButton">
+            <button className="btnPrimary">
+                <p>Criar emenda</p>
+            </button>
+        </Link>
+    );
+
 
     /* Grupos de Botões para cada tipo de ação */
     let buttons;
@@ -256,6 +266,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         const assinaturasNecessarias = (acao.conteudoProposta?.assinaturas?.length || 0) >= (acao.conteudoProposta?.assinaturasNecessarias || 0);
         const todosPareceres = acao.conteudoProposta?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "");
         const votacaoConcluida = acao.conteudoProposta?.plenarioVotos;
+        const aceitarEmendas = acao.conteudoProposta?.aceitarEmendas;
 
         /* Quais botões mostrar em cada status */
 
@@ -278,6 +289,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 <>
                     {assinarApoioButton}
                     {(assinaturasNecessarias && userPresidente) && (encComissaoButton)}
+                    {aceitarEmendas && (criarEmendaButton)}
                 </>
             );
         }
@@ -293,6 +305,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                             {reprovarButton}
                         </>
                     )}
+                    {aceitarEmendas && (criarEmendaButton)}
                 </>
             );
         }

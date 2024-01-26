@@ -8,7 +8,7 @@ import ModalPlenarioVotos from '@/components/modal/ModalPlenarioVotos';
 import ListPropostaVinculada from '@/components/session/ListPropostaVinculada';
 import TextBoxExpand from '@/components/session/TextBoxExpand';
 import CardInfo from '@/components/card/CardInfo';
-
+import CardAcaoSteps from '@/components/card/CardAcaoSteps';
 import './style.scss';
 
 
@@ -51,7 +51,6 @@ type EmendaProps = {
 }
 
 
-
 export default function SessionEmenda(props: EmendaProps) {
     const acao = props.acao;
     const emenda = props.acao.conteudoEmenda;
@@ -64,6 +63,10 @@ export default function SessionEmenda(props: EmendaProps) {
 
         const cardStatusFinalReprovado = (
             <CardInfo titulo={"Reprovado em: " + formatDate(acao.dataDeAtualizacao)} icone="dislike" cor="attention" />
+        );
+
+        const cardAcaoSteps = (
+            <CardAcaoSteps statusAtual={acao.statusAtual} tipo={acao.tipo} />
         );
 
         const cardInfo = (
@@ -114,11 +117,15 @@ export default function SessionEmenda(props: EmendaProps) {
         /* Construção da Página */
         return (
             <div className="sessionEmenda">
-                {acao.statusAtual === "concluido" && (
-                    <div className="cardStatusFinal">
+                {acao.statusAtual === "concluido" ?
+                    <div className="cardStatus">
                         {acao.statusFinal === "aprovado" ? cardStatusFinalAprovado : cardStatusFinalReprovado}
                     </div>
-                )}
+                    :
+                    <div className="cardStatus">
+                        {cardAcaoSteps}
+                    </div>
+                }
 
                 <div className="cardInfoDesc">{cardInfo}</div>
 

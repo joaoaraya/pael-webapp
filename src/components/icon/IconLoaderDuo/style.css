@@ -1,4 +1,4 @@
-.loader {
+.loaderDuo {
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -9,7 +9,7 @@
     animation: rotation 1s linear infinite;
 }
 
-.loader::after {
+.loaderDuo::after {
     content: '';
     box-sizing: border-box;
     position: absolute;

@@ -12,6 +12,7 @@ import CardInfo from '@/components/card/CardInfo';
 import ListEmendasVinculadas from '@/components/session/ListEmendasVinculadas';
 
 import './style.scss';
+import CardAcaoSteps from '@/components/card/CardAcaoSteps';
 
 
 type PropostaProps = {
@@ -45,6 +46,8 @@ type PropostaProps = {
                 nome: string;
                 parecer: string;
             }[];
+
+            aceitarEmendas: boolean;
 
             emendasVinculadas?: {
                 id: string;
@@ -80,6 +83,10 @@ export default function SessionProposta(props: PropostaProps) {
 
         const cardStatusFinalReprovado = (
             <CardInfo titulo={"Reprovado em: " + formatDate(acao.dataDeAtualizacao)} icone="dislike" cor="attention" />
+        );
+
+        const cardAcaoSteps = (
+            <CardAcaoSteps statusAtual={acao.statusAtual} tipo={acao.tipo} />
         );
 
         const cardInfo = (
@@ -153,11 +160,15 @@ export default function SessionProposta(props: PropostaProps) {
         return (
             <div className="sessionProposta">
 
-                {acao.statusAtual === "concluido" && (
-                    <div className="cardStatusFinal">
+                {acao.statusAtual === "concluido" ?
+                    <div className="cardStatus">
                         {acao.statusFinal === "aprovado" ? cardStatusFinalAprovado : cardStatusFinalReprovado}
                     </div>
-                )}
+                    :
+                    <div className="cardStatus">
+                        {cardAcaoSteps}
+                    </div>
+                }
 
                 <div className="cardInfoDesc">{cardInfo}</div>
 

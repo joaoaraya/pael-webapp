@@ -48,6 +48,8 @@ type AcaoProps = {
             nome: string;
         }[];
 
+        aceitarEmendas: boolean;
+
         comissoesEncaminhadas?: {
             id: string;
             nome: string;

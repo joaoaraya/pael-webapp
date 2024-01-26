@@ -1,0 +1,46 @@
+.cardAcaoSteps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    max-width: 540px;
+    height: 100%;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: var(--body-bg-shadow);
+
+    #statusProgresso {
+        width: 100%;
+        max-width: 360px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(to bottom, transparent calc(50% - 2px), var(--body-bg-shadow-2) 50%, transparent calc(50% + 2px));
+
+        #progresso-0,
+        #progresso-1,
+        #progresso-2,
+        #progresso-3,
+        #progresso-4 {
+            padding: 6px;
+            background-color: var(--body-bg-shadow-2);
+            border-radius: 50%;
+            border: 4px solid var(--body-bg-shadow);
+        }
+
+        .stepAprovado {
+            padding: 8px !important;
+            background-color: var(--body-bg-ok) !important;
+        }
+    }
+
+    #descricaoDoStatus {
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        margin: 8px 8px 0 8px;
+        color: var(--body-font);
+    }
+}

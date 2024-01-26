@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import ButtonLogo from '@/components/button/ButtonLogo';
 
 import './style.scss';

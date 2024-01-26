@@ -15,7 +15,6 @@ export default function ModalNovaAcao() {
         { title: 'Substitutivo', path: '/substitutivo' },
         { title: 'Decreto Legislativo', path: '/decreto-legislativo' },
         { title: 'Homologação', path: '/homologacao' },
-        { title: 'Emenda de Proposta', path: '/emenda-de-proposta' },
         { title: 'Pedido de Licença', path: '/pedido-de-licenca' },
         { title: 'Pedido de Renúncia', path: '/pedido-de-renuncia' }
     ];
