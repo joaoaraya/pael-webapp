@@ -4,14 +4,14 @@ import { ReactNode, useEffect, useState } from "react";
 import { useAPI } from "@/hooks/Api";
 import { API } from "@/functions/urls";
 import Link from "next/link";
-import OpenConfirmModal from "@/components/button/OpenConfirmModal";
 import OpenModal from "@/components/button/OpenModal";
-import ModalEncaminharComissao from "@/components/modal/ModalEncaminharComissao";
-
-import ModalSolicitarAjustes from "@/components/modal/ModalSolicitarAjustes";
+import OpenConfirmModal from "@/components/button/OpenConfirmModal";
 import ResponseModal from "@/components/modal/ResponseModal";
-import './style.scss';
+import ModalSolicitarAjustes from "@/components/modal/ModalSolicitarAjustes";
+import ModalEncaminharComissao from "@/components/modal/ModalEncaminharComissao";
 import ModalEnviarParecer from "@/components/modal/ModalEnviarParecer";
+import ModalRegistrarVotos from "@/components/modal/ModalRegistrarVotos";
+import './style.scss';
 
 
 type ButtonsAcoesProps = {
@@ -32,6 +32,8 @@ type ButtonsAcoesProps = {
                 id: string;
                 parecer: string;
             }[];
+
+            plenarioVotos?: {};
         };
 
         conteudoEmenda?: {
@@ -39,6 +41,8 @@ type ButtonsAcoesProps = {
                 id: string;
                 parecer: string;
             }[];
+
+            plenarioVotos?: {};
         }
     }
 }
@@ -49,7 +53,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     const [userPresidente, setUserPresidente] = useState(false);
     const [userPresidenteComissao, setUserPresidenteComissao] = useState(false);
     const [userAutor, setUserAutor] = useState(false);
-    const { get, post, put } = useAPI();
+    const { get, post, put, del } = useAPI();
     const [showResponseModal, setShowResponseModal] = useState(<></>);
 
     useEffect(() => {
@@ -97,14 +101,18 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     }, []);
 
 
-    /* Ações */
-    const acaoPautar = async () => {
+    /* Ações botões de confirmação */
+    const acaoAprovar = async () => {
         try {
-            const response = await put(`${API}/acao/${acao.id}/status=pauta`);
+            const response = await put(
+                `${API}/acao/${acao.id}/status=concluido`,
+                "application/json",
+                JSON.stringify({ statusFinal: "aprovado" })
+            );
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
         }
     }
 
@@ -118,21 +126,27 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
         }
     }
 
-    const acaoAprovar = async () => {
+    const acaoExcluir = async () => {
         try {
-            const response = await put(
-                `${API}/acao/${acao.id}/status=concluido`,
-                "application/json",
-                JSON.stringify({ statusFinal: "aprovado" })
-            );
+            const response = await del(`${API}/acao/${acao.id}`);
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
+        }
+    }
+
+    const acaoPautar = async () => {
+        try {
+            const response = await put(`${API}/acao/${acao.id}/status=pauta`);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
         }
     }
 
@@ -142,7 +156,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
         }
     }
 
@@ -152,7 +166,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
         }
     }
 
@@ -217,12 +231,20 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         confirmButton("Enc. plenário", "Encaminhar ação para plenário?", "Essa proposta ficará disponível para votação", acaoEncPlenario, "btnPrimary")
     );
 
-    const reprovarButton = (
-        confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")
+    const registrarVotos = (
+        modalButton("Registrar votos", "Votação do plenário", <ModalRegistrarVotos acaoId={acao.id} />, <></>, "btnPrimary")
     );
 
     const aprovarButton = (
         confirmButton("Aprovar", "Aprovar ação?", "Essa proposta será finalizada", acaoAprovar, "btnSucess")
+    );
+
+    const reprovarButton = (
+        confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")
+    );
+
+    const excluirButton = (
+        confirmButton("Excluir ação", "Excluir a ação?", "Todos os dados e progressos dessa ação serão perdidos!", acaoExcluir, "btnAttention")
     );
 
 
@@ -233,6 +255,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     if (acao.tipo === "proposta") {
         const assinaturasNecessarias = (acao.conteudoProposta?.assinaturas?.length || 0) >= (acao.conteudoProposta?.assinaturasNecessarias || 0);
         const todosPareceres = acao.conteudoProposta?.comissoesEncaminhadas?.every(comissao => comissao.parecer !== "");
+        const votacaoConcluida = acao.conteudoProposta?.plenarioVotos;
 
         /* Quais botões mostrar em cada status */
 
@@ -277,9 +300,9 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "plenario" && userPresidente) {
             buttons = (
                 <>
-                    {/* A votação aconteceu? */}
-                    {/* SIM: aprovarButton + reprovarButton */}
-                    {/* NÃO: Cadastrar votação */}
+                    {!votacaoConcluida && (registrarVotos)}
+                    {votacaoConcluida && (aprovarButton)}
+                    {votacaoConcluida && (reprovarButton)}
                 </>
             );
         }
@@ -353,6 +376,11 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 </>
             );
         }
+    }
+
+    /* Se a ação estiver concluída, mostrar em todos os tipos */
+    if (acao.statusAtual === "concluido" && userPresidente) {
+        buttons = (excluirButton);
     }
 
 

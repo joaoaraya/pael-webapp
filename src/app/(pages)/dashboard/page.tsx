@@ -9,6 +9,8 @@ import MainHeader from '@/components/session/MainHeader';
 import OpenModal from '@/components/button/OpenModal';
 import ModalNovaAcao from '@/components/modal/ModalNovaAcao';
 import ListPostsAcao from '@/components/session/ListPostsAcao';
+import ErrorPage from '@/components/session/ErrorPage';
+import LoadingPage from '@/components/session/LoadingPage';
 
 
 type AcoesProps = {
@@ -51,7 +53,7 @@ export default function PageDashboard() {
 
 
     if (isLoading) {
-        return (<>Carregando...</>)
+        return (<LoadingPage />)
     }
 
     return (
@@ -67,7 +69,7 @@ export default function PageDashboard() {
                 </OpenModal>
             </MainHeader>
 
-            {!acoes.length && (<p>Nenhuma ação</p>)}
+            {!acoes.length && (<ErrorPage icon="sucess" title="Tudo OK" text="Nenhuma ação pendente!" />)}
 
             <ListPostsAcao posts={acoes} />
         </>

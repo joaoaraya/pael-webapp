@@ -2,7 +2,6 @@ import './style.css'
 
 type LoaderProps = {
     size?: string;
-    color?: string;
 }
 
 export default function IconLoader(props: LoaderProps) {

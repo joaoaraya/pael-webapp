@@ -33,15 +33,16 @@ export const useAPI = () => {
             return response;
         }
         catch (error: any) {
-            let message = "Falha no servidor! Tente novamente ou mais tarde";
+            let message = "Falha no servidor! Tente novamente ou mais tarde.";
 
-            if (error.response.data) {
+            if (error.response && error.response.data) {
                 message = error.response.data.message;
             }
             else {
-                console.error(error);
                 window.alert(message);
+                window.location.href = "/";
             }
+            console.error(error);
 
             throw new Error(message);
         }

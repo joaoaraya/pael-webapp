@@ -1,0 +1,36 @@
+.modalRegistrarVotos {
+    height: 100%;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        height: 100%;
+
+        .inputForms {
+            display: flex;
+            flex-direction: column;
+            gap: 24px
+        }
+
+        .inputForms,
+        label,
+        .inputText,
+        button {
+            width: 100%;
+        }
+
+        label p {
+            margin-bottom: 8px;
+        }
+
+        /* Ocultar as setas do input number */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+    }
+}

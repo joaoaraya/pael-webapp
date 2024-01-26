@@ -9,6 +9,8 @@ import MainHeader from '@/components/session/MainHeader';
 import OpenModal from '@/components/button/OpenModal';
 import ModalNovaAcao from '@/components/modal/ModalNovaAcao';
 import ListPostsAcao from '@/components/session/ListPostsAcao';
+import ErrorPage from '@/components/session/ErrorPage';
+import LoadingPage from '@/components/session/LoadingPage';
 
 
 type PageProps = {
@@ -33,6 +35,7 @@ type AcoesProps = {
 export default function PageMinhasAcoes({ params }: { params: PageProps }) {
     const Router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
+    const [errorStatus, setErrorStatus] = useState(0);
     const [acoes, setAcoes] = useState<AcoesProps>([]);
     const { get } = useAPI();
 
@@ -48,9 +51,9 @@ export default function PageMinhasAcoes({ params }: { params: PageProps }) {
                 setIsLoading(false);
             }
             catch (error: any) {
-                // Se der erro voltar para a pagina de login
-                console.error('Error:', error);
-                Router.push('/');
+                // Ações de erro no hook de API
+                setErrorStatus(404);
+                setIsLoading(false);
             }
         }
 
@@ -61,7 +64,15 @@ export default function PageMinhasAcoes({ params }: { params: PageProps }) {
 
 
     if (isLoading) {
-        return (<>Carregando</>)
+        return (<LoadingPage />)
+    }
+
+    if (errorStatus === 404) {
+        return (
+            <div className="pageAcao">
+                <ErrorPage icon="failed" title="404" text="Página não encontrada!" />
+            </div>
+        )
     }
 
     return (
@@ -77,7 +88,12 @@ export default function PageMinhasAcoes({ params }: { params: PageProps }) {
                 </OpenModal>
             </MainHeader>
 
-            {!acoes.length && (<p>Nenhuma ação</p>)}
+            {!acoes.length && (
+                apiFilter === "to" ?
+                    <ErrorPage icon="sucess" title="Tudo OK" text="Nenhuma ação pendente!" />
+                    :
+                    <ErrorPage icon="info" title="Vazio" text="Você ainda não criou nenhuma ação!" />
+            )}
 
             <ListPostsAcao posts={acoes} />
         </>

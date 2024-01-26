@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { API } from '@/functions/urls';
 import { useAPI } from '@/hooks/Api';
 import { capitalize } from '@/functions/visual';
+import Link from 'next/link';
 
 import ButtonPessoa from '@/components/button/ButtonPessoa';
 import SessionProposta from '@/components/pageAcao/SessionProposta';
@@ -12,9 +13,10 @@ import SessionEmenda from '@/components/pageAcao/SessionEmenda';
 import SessionLicenca from '@/components/pageAcao/SessionLicenca';
 import SessionRenuncia from '@/components/pageAcao/SessionRenuncia';
 import ButtonsAcoes from '@/components/pageAcao/ButtonsAcoes';
+import ErrorPage from '@/components/session/ErrorPage';
+import LoadingPage from '@/components/session/LoadingPage';
 
 import './style.scss';
-import Link from 'next/link';
 
 
 type PageProps = {
@@ -131,6 +133,7 @@ export default function PageAcao({ params }: { params: PageProps }) {
     const [acao, setAcao] = useState<AcaoProps>();
     const [autor, setAutor] = useState<AutorProps>();
     const { get } = useAPI();
+    const [errorStatus, setErrorStatus] = useState(0);
 
     useEffect(() => {
         const loadData = async () => {
@@ -144,11 +147,16 @@ export default function PageAcao({ params }: { params: PageProps }) {
                 setIsLoading(false);
             }
             catch (error: any) {
-                console.error('Error:', error);
+                const errorMessage = error.toString().slice(7);
 
-                // Se for erro de autenticação:
-                // FAZER!!
-                //Router.push('/');
+                // Se não tiver permição
+                if (errorMessage === "Permição negada!") {
+                    setErrorStatus(403);
+                }
+                // Se a ação não existir
+                if (errorMessage === "Ação não encontrada!") {
+                    setErrorStatus(404);
+                }
                 setIsLoading(false);
             }
         }
@@ -158,7 +166,7 @@ export default function PageAcao({ params }: { params: PageProps }) {
 
 
     if (isLoading) {
-        return (<>Carregando...</>)
+        return (<LoadingPage />)
     }
 
     if (acao && autor) {
@@ -193,5 +201,19 @@ export default function PageAcao({ params }: { params: PageProps }) {
         )
     }
 
-    return (<>Você não tem permição para ver essa ação...</>)
+    if (errorStatus === 403) {
+        return (
+            <div className="pageAcao">
+                <ErrorPage icon="loked" title="Privado" text="Você não tem permição para ver essa ação!" />
+            </div>
+        )
+    }
+
+    if (errorStatus === 404) {
+        return (
+            <div className="pageAcao">
+                <ErrorPage icon="failed" title="404" text="Ação não encontrada!" />
+            </div>
+        )
+    }
 }

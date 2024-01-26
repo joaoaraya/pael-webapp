@@ -1,0 +1,32 @@
+.loadingPage {
+    width: 75%;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    animation: fadeIn 1s ease-in-out;
+
+    p {
+        color: var(--body-font-light);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .loadingPage {
+        width: 100%;
+    }
+}

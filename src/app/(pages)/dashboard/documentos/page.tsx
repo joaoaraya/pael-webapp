@@ -10,6 +10,7 @@ import MainHeader from '@/components/session/MainHeader';
 import ActionHeader from '@/components/session/ActionHeader';
 import Search from '@/components/input/Search';
 import ListDocsOficiais from '@/components/session/ListDocsOficiais';
+import LoadingPage from '@/components/session/LoadingPage';
 
 
 type DocsProps = {
@@ -54,9 +55,7 @@ export default function PageDocumentos() {
                 setIsLoading(false);
             }
             catch (error: any) {
-                // Se der erro voltar para a pagina de login
-                console.error('Error:', error);
-                Router.push('/');
+                // Ações de erro no hook de API
             }
         }
 
@@ -65,7 +64,7 @@ export default function PageDocumentos() {
 
 
     if (isLoading) {
-        return (<>Carregando...</>)
+        return (<LoadingPage />)
     }
 
     return (

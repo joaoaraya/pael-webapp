@@ -1,6 +1,7 @@
+import LoadingPage from "@/components/session/LoadingPage";
+
 export default function Loading() {
-	return(
-		<> Carregando... </>
-	// Add a skeleton loader here
-	)
+    return (
+        <LoadingPage />
+    )
 }

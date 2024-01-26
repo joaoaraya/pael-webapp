@@ -4,6 +4,7 @@ import { API } from '@/functions/urls';
 import { capitalize } from '@/functions/visual';
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
 import ResponseModal from '@/components/modal/ResponseModal';
+import LoadingCard from '@/components/session/LoadingCard';
 
 import './style.scss';
 
@@ -52,13 +53,13 @@ export default function ModalEncaminharComissao(props: ModalProps) {
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(6)} />);
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
         }
     }
 
 
     if (isLoading) {
-        return (<>Carregando...</>)
+        return (<LoadingCard />)
     }
 
     if (comissoes) {

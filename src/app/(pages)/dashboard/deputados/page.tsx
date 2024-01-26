@@ -13,6 +13,7 @@ import ListPessoas from '@/components/session/ListPessoas';
 import OpenModal from '@/components/button/OpenModal';
 import ModalFiltros from '@/components/modal/ModalFiltros';
 import Icon from '@/components/icon/Icon';
+import LoadingPage from '@/components/session/LoadingPage';
 
 
 type PessoasProps = {
@@ -45,6 +46,7 @@ export default function PageDeputados() {
     const [users, setUsers] = useState<PessoasProps>([]); // Lista final de usuarios no front-end
     const [orderUsersBy, setOrderUsersBy] = useState('nome');
     const { get } = useAPI();
+
 
     /* Filtrar usuários pelas opções */
     const filter = (orderBy: string, showOnly: string) => {
@@ -119,9 +121,7 @@ export default function PageDeputados() {
                 setIsLoading(false);
             }
             catch (error: any) {
-                // Se der erro voltar para a pagina de login
-                console.error('Error:', error);
-                Router.push('/');
+                // Ações de erro no hook de API
             }
         }
 
@@ -140,7 +140,7 @@ export default function PageDeputados() {
 
 
     if (isLoading) {
-        return (<>Carregando...</>)
+        return (<LoadingPage />)
     }
 
     return (

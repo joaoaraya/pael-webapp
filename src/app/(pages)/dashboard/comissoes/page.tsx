@@ -10,11 +10,13 @@ import MainHeader from '@/components/session/MainHeader';
 import ActionHeader from '@/components/session/ActionHeader';
 import Search from '@/components/input/Search';
 import ListGruposPessoas from '@/components/session/ListGruposPessoas';
+import LoadingPage from '@/components/session/LoadingPage';
 
 
 type GrupoPessoasProps = {
     id: number;
     nome: string;
+    ativa: boolean;
     membros: {
         cim: string;
         nome: string;
@@ -58,9 +60,7 @@ export default function PageComissoes() {
                 setIsLoading(false);
             }
             catch (error: any) {
-                // Se der erro voltar para a pagina de login
-                console.error('Error:', error);
-                Router.push('/');
+                // Ações de erro no hook de API
             }
         }
 
@@ -68,7 +68,8 @@ export default function PageComissoes() {
             try {
                 const response = await get(`${API}/check/user/presidente`);
                 setUserAdmin(response.data);
-            } catch (error: any) {
+            }
+            catch (error: any) {
                 console.error('Error:', error);
             }
         };
@@ -79,7 +80,7 @@ export default function PageComissoes() {
 
 
     if (isLoading) {
-        return (<>Carregando...</>)
+        return (<LoadingPage />)
     }
 
     return (
