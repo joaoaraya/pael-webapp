@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import TextSituacao from '@/components/text/TextSituacao';
-import { capitalize } from '@/functions/visual';
+import { capitalize, formatCPF, formatPhoneNumber } from '@/functions/visual';
 import { API } from '@/functions/urls';
 import './style.scss';
 
@@ -13,6 +13,7 @@ type DeputadoProps = {
         cargo: string;
         ativo: boolean;
         situacao: string;
+        dataNascimento?: string;
         cpf?: string;
         email?: string;
         celular?: string;
@@ -60,11 +61,18 @@ export default function ModalDeputado(props: DeputadoProps) {
                     <p className="label">SITUAÇÃO</p>
                     <TextSituacao ativo={user.ativo} situacao={capitalize(user.situacao)} />
 
-                    {user.cpf && (
+                    {user.dataNascimento && (
                         <>
                             <br />
+                            <p className="label">DATA DE NASCIMENTO</p>
+                            <p>{user.dataNascimento}</p>
+                        </>
+                    )}
+
+                    {user.cpf && (
+                        <>
                             <p className="label">CPF</p>
-                            <p>{user.cpf}</p>
+                            <p>{formatCPF(user.cpf)}</p>
                         </>
                     )}
 
@@ -78,7 +86,7 @@ export default function ModalDeputado(props: DeputadoProps) {
                     {user.celular && (
                         <>
                             <p className="label">CELULAR</p>
-                            <p>{user.celular}</p>
+                            <p>{formatPhoneNumber(user.celular)}</p>
                         </>
                     )}
 

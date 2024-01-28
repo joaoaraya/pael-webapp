@@ -18,6 +18,7 @@ type ButtonPessoaProps = {
         cargo: string;
         ativo: boolean;
         situacao: string;
+        dataNascimento?: string;
         cpf?: string;
         email?: string;
         celular?: string;
