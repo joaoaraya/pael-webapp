@@ -26,7 +26,7 @@ type GrupoPessoasProps = {
 
 
 export default function PageComissoes() {
-    const Router = useRouter();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [userAdmin, setUserAdmin] = useState(false);
     const [allUserGroups, setAllUserGroups] = useState<GrupoPessoasProps>([]); // Todos os grupos de usuários recebidos da API (Backup) 

@@ -33,7 +33,7 @@ type AcoesProps = {
 
 
 export default function PageMinhasAcoes({ params }: { params: PageProps }) {
-    const Router = useRouter();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [errorStatus, setErrorStatus] = useState(0);
     const [acoes, setAcoes] = useState<AcoesProps>([]);
@@ -90,7 +90,7 @@ export default function PageMinhasAcoes({ params }: { params: PageProps }) {
 
             {!acoes.length && (
                 apiFilter === "to" ?
-                    <ErrorPage icon="sucess" title="Tudo OK" text="Nenhuma ação pendente!" />
+                    <ErrorPage icon="success" title="Tudo OK" text="Nenhuma ação pendente!" />
                     :
                     <ErrorPage icon="info" title="Vazio" text="Você ainda não criou nenhuma ação!" />
             )}

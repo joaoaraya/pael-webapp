@@ -39,7 +39,7 @@ type PessoasProps = {
 
 
 export default function PageDeputados() {
-    const Router = useRouter();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [userAdmin, setUserAdmin] = useState(false);
     const [allUsers, setAllUsers] = useState<PessoasProps>([]); // Todos os usuários recebidos da API (Backup) 

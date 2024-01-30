@@ -1,11 +1,13 @@
 'use-strict';
 
+import { useState } from 'react';
 import { API } from '@/functions/urls';
 import { useAPI } from '@/hooks/Api';
 import Link from 'next/link';
 import Icon from '@/components/icon/Icon';
 import iconPdf from '@/assets/images/iconPdf.png';
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
+import ResponseModal from '../ResponseModal';
 import './style.scss';
 
 
@@ -20,24 +22,21 @@ type ModalProps = {
 
 
 export default function ModalDocOficial(props: ModalProps) {
+    const [showResponseModal, setShowResponseModal] = useState(<></>);
     const doc = props.doc;
     const { del } = useAPI();
+
 
     const deleteDoc = async () => {
         try {
             const response = await del(`${API}/doc/${doc.nomeArquivo}`);
-
-            if (response) {
-                window.alert(response.data.message);
-                location.reload();
-            }
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
-            console.error('Error:', error);
-            window.alert('Não foi possível deletar documento');
-            location.reload();
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
         }
     }
+
 
     return (
         <div className="modalDocOficial">
@@ -74,6 +73,7 @@ export default function ModalDocOficial(props: ModalProps) {
                 </OpenConfirmModal>
             </div>
 
+            {showResponseModal}
         </div>
     )
 }

@@ -54,11 +54,11 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
 
     // Encerrar / Sair
     const [, , removeCookie] = useCookies(['token']);
-    const Router = useRouter();
+    const router = useRouter();
 
     const sair = () => {
         removeCookie('token');
-        Router.push('/');
+        router.push('/');
     }
 
 

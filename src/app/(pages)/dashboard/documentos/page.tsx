@@ -22,7 +22,7 @@ type DocsProps = {
 
 
 export default function PageDocumentos() {
-    const Router = useRouter();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [allDocs, setAllDocs] = useState<DocsProps>([]); // Todos os grupos de usuários recebidos da API (Backup) 
     const [docs, setDocs] = useState<DocsProps>([]); // Lista final de grupos de usuarios no front-end

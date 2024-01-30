@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { API } from '@/functions/urls';
 import { useAPI } from '@/hooks/Api';
 import { capitalize } from '@/functions/visual';
-import Link from 'next/link';
 
 import ButtonPessoa from '@/components/button/ButtonPessoa';
 import SessionProposta from '@/components/pageAcao/SessionProposta';
@@ -131,7 +130,7 @@ type AutorProps = {
 
 
 export default function PageAcao({ params }: { params: PageProps }) {
-    const Router = useRouter();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [acao, setAcao] = useState<AcaoProps>();
     const [autor, setAutor] = useState<AutorProps>();
@@ -194,11 +193,9 @@ export default function PageAcao({ params }: { params: PageProps }) {
                 <div className="botoes">
                     <ButtonsAcoes autor={autor.cim} acao={acao} />
 
-                    <Link href="/dashboard" id="botaoVoltar">
-                        <button className="btnSecondary">
-                            <p>Voltar</p>
-                        </button>
-                    </Link>
+                    <button className="btnSecondary" onClick={router.back}>
+                        <p>Voltar</p>
+                    </button>
                 </div>
             </div>
         )

@@ -29,7 +29,7 @@ type AcoesProps = {
 
 
 export default function PageDashboard() {
-    const Router = useRouter();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [acoes, setAcoes] = useState<AcoesProps>([]);
     const { get } = useAPI();
@@ -44,7 +44,7 @@ export default function PageDashboard() {
             catch (error: any) {
                 // Se der erro voltar para a pagina de login
                 console.error('Error:', error);
-                Router.push('/');
+                router.push('/');
             }
         }
 
@@ -69,7 +69,7 @@ export default function PageDashboard() {
                 </OpenModal>
             </MainHeader>
 
-            {!acoes.length && (<ErrorPage icon="sucess" title="Tudo OK" text="Nenhuma ação pendente!" />)}
+            {!acoes.length && (<ErrorPage icon="success" title="Tudo OK" text="Nenhuma ação pendente!" />)}
 
             <ListPostsAcao posts={acoes} />
         </>

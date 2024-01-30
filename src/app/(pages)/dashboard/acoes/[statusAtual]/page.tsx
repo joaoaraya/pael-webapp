@@ -33,7 +33,7 @@ type AcoesProps = {
 
 
 export default function PageAcoes({ params }: { params: PageProps }) {
-    const Router = useRouter();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [errorStatus, setErrorStatus] = useState(0);
     const [acoes, setAcoes] = useState<AcoesProps>([]);
@@ -95,7 +95,7 @@ export default function PageAcoes({ params }: { params: PageProps }) {
                 </OpenModal>
             </MainHeader>
 
-            {!acoes.length && (<ErrorPage icon="sucess" title="Tudo OK" text="Nenhuma ação pendente!" />)}
+            {!acoes.length && (<ErrorPage icon="success" title="Tudo OK" text="Nenhuma ação pendente!" />)}
 
             <ListPostsAcao posts={acoes} />
         </>

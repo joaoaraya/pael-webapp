@@ -68,7 +68,7 @@
     --cardGrupoPessoas-text-hover:#FFFFFF;
 
     /* Botões */
-    --button-sucess: #39b960;
+    --button-success: #39b960;
     --button-attention: #cf3f3f;
 }
 
@@ -122,7 +122,7 @@ a {
 
 .btnPrimary,
 .btnSecondary,
-.btnSucess,
+.btnSuccess,
 .btnAttention {
     display: flex;
     flex-direction: row;
@@ -181,8 +181,8 @@ a {
     }
 }
 
-.btnSucess {
-    background-color: var(--button-sucess);
+.btnSuccess {
+    background-color: var(--button-success);
 
     p {
         color: var(--body-font-alternative);
@@ -213,6 +213,13 @@ a {
     border-radius: 8px;
     border: 1px solid var(--body-input-border);
     background: transparent;
+
+    &:focus {
+        &::placeholder {
+            padding-left: 4px;
+            transition: padding 0.3s;
+        }
+    }
 }
 
 /* Alterações para Mobile */

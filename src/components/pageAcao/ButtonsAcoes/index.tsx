@@ -238,7 +238,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     );
 
     const aprovarButton = (
-        confirmButton("Aprovar", "Aprovar ação?", "Essa proposta será finalizada", acaoAprovar, "btnSucess")
+        confirmButton("Aprovar", "Aprovar ação?", "Essa proposta será finalizada", acaoAprovar, "btnSuccess")
     );
 
     const reprovarButton = (
@@ -373,7 +373,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "pendente" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de licença será aceito", acaoAprovar, "btnSucess")}
+                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de licença será aceito", acaoAprovar, "btnSuccess")}
                     {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de licença será negado", acaoReprovar, "btnAttention")}
                 </>
             );
@@ -385,7 +385,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "pendente" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", acaoAprovar, "btnSucess")}
+                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", acaoAprovar, "btnSuccess")}
                     {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de renúncia será negado", acaoReprovar, "btnAttention")}
                 </>
             );

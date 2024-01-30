@@ -36,7 +36,7 @@ export default function ModalEnviarParecer(props: ModalProps) {
 
             <OpenConfirmModal
                 tagType="button"
-                className="btnSucess btnParecer"
+                className="btnSuccess btnParecer"
                 title="Aprovar essa proposta para o Presidente?"
                 action={() => enviarParecer("aprovado")}
                 actionText="Aprovar"
