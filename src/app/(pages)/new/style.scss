@@ -1,4 +1,5 @@
-.pageAcao {
+.page {
+
     .titulo {
         margin-bottom: 30px;
 
@@ -23,26 +24,39 @@
         }
     }
 
-    .botoes {
+    form {
         display: flex;
-        flex-wrap: wrap;
-        align-items: flex-end;
-        justify-content: flex-start;
-        flex: 1;
+        flex-direction: column;
         gap: 16px;
-        width: 100%;
-        padding-bottom: 32px;
-    }
 
-    .sessao {
-        margin-bottom: 48px;
+        .inputLabel>p {
+            font-weight: 600;
+            color: var(--body-font);
+            margin: 0 0 8px 4px;
+        }
+
+        .inputText {
+            width: 100%;
+        }
+
+        .actionButtons {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: flex-start;
+            flex: 1;
+            gap: 16px;
+            margin-top: 24px;
+            padding-bottom: 32px;
+        }
     }
 }
 
 /* Alterações para Mobile */
 @media screen and (max-device-width: 480px),
 screen and (max-width: 480px) {
-    .pageAcao {
+    .page {
         margin-top: 16px;
         padding: 0 8px;
 
@@ -54,15 +68,14 @@ screen and (max-width: 480px) {
             }
         }
 
+        form {
+            .actionButtons {
+                padding-bottom: 0;
 
-        .botoes {
-            padding-bottom: 0;
-
-            button,
-            .linkButton {
-                width: 100%;
+                button {
+                    width: 100%;
+                }
             }
         }
-
     }
 }

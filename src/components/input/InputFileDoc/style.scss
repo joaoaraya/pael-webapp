@@ -1,0 +1,93 @@
+.inputFileDoc {
+    width: 100%;
+
+    .fileButton {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        border: 2px dashed var(--body-input-border);
+        border-radius: 8px;
+        background-color: var(--body-bg-shadow);
+        transition: border 0.1s, color 0.1s;
+        cursor: pointer;
+
+        .title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+
+            p {
+                font-size: 16px;
+                text-align: center;
+                text-decoration: none;
+                font-weight: 600;
+                color: var(--body-font);
+            }
+
+            svg {
+                width: 24px;
+                height: 24px;
+                fill: var(--body-font);
+            }
+        }
+
+        &:hover {
+            border-color: var(--body-bg-highlight);
+
+            .title {
+                p {
+                    color: var(--body-bg-highlight);
+                }
+
+                svg {
+                    fill: var(--body-bg-highlight);
+                }
+            }
+        }
+
+        .fileInput {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0;
+            cursor: pointer;
+        }
+    }
+
+    .fileNameCard {
+        width: 100%;
+        margin-top: 8px;
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex: 1;
+            gap: 16px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: var(--body-bg-shadow);
+
+            #icon {
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+            }
+
+            #fileName {
+                font-size: 16px;
+                text-align: left;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: var(--body-font);
+            }
+        }
+    }
+}
