@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAPI } from "@/hooks/Api";
 import { API } from "@/functions/urls";
 import Link from "next/link";
@@ -57,6 +58,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     const [userAutor, setUserAutor] = useState(false);
     const { get, post, put, del } = useAPI();
     const [showResponseModal, setShowResponseModal] = useState(<></>);
+    const router = useRouter();
 
     useEffect(() => {
         const checkUserIs = async () => {
@@ -135,7 +137,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     const acaoExcluir = async () => {
         try {
             const response = await del(`${API}/acao/${acao.id}`);
-            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} action={() => { router.back() }} />);
         }
         catch (error: any) {
             setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
@@ -250,7 +252,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     );
 
     const criarEmendaButton = (
-        <Link href={`/new/acao/emenda-a-proposta/${acao.id}`} className="linkButton">
+        <Link href={`/new/acao/emenda/${acao.id}`} className="linkButton">
             <button className="btnPrimary">
                 <p>Criar emenda</p>
             </button>

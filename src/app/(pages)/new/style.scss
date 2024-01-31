@@ -24,6 +24,48 @@
         }
     }
 
+    .info {
+        margin-bottom: 24px;
+    }
+
+    .selectbox {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        gap: 16px;
+        margin-bottom: 48px;
+
+        select {
+            width: 100%;
+            max-width: 250px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border: 1px solid var(--body-input-border);
+            border-radius: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--body-font);
+            background-color: var(--body-bg);
+            cursor: pointer;
+
+            option {
+                font-size: 18px;
+                background-color: var(--body-bg);
+                color: var(--body-font);
+
+                &:checked {
+                    background-color: var(--body-font);
+                    color: var(--body-font-alternative);
+                }
+            }
+        }
+
+        p {
+            color: var(--body-font);
+        }
+    }
+
     form {
         display: flex;
         flex-direction: column;
@@ -37,6 +79,19 @@
 
         .inputText {
             width: 100%;
+        }
+
+        textarea {
+            resize: none;
+            overflow-y: auto;
+            flex: 1;
+            width: 100%;
+            min-height: 128px;
+            transition: min-height 0.6s;
+
+            &:focus {
+                min-height: 320px;
+            }
         }
 
         .actionButtons {

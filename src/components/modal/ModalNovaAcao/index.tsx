@@ -5,18 +5,18 @@ import './style.scss';
 
 export default function ModalNovaAcao() {
     const acoes = [
-        { title: 'Emenda Constitucional', path: '/emenda-constitucional' },
-        { title: 'Projeto de Lei', path: '/projeto-de-lei' },
-        { title: 'Projeto de Resolução', path: '/projeto-de-resolucao' },
-        { title: 'Moção', path: '/mocao' },
-        { title: 'Indicação', path: '/indicacao' },
-        { title: 'Requerimento', path: '/requerimento' },
-        { title: 'Representação', path: '/representacao' },
-        { title: 'Substitutivo', path: '/substitutivo' },
-        { title: 'Decreto Legislativo', path: '/decreto-legislativo' },
-        { title: 'Homologação', path: '/homologacao' },
-        { title: 'Pedido de Licença', path: '/pedido-de-licenca' },
-        { title: 'Pedido de Renúncia', path: '/pedido-de-renuncia' }
+        { title: 'Emenda Constitucional', path: '/proposta/emenda-constitucional' },
+        { title: 'Projeto de Lei', path: '/proposta/projeto-de-lei' },
+        { title: 'Projeto de Resolução', path: '/proposta/projeto-de-resolucao' },
+        { title: 'Moção', path: '/proposta/mocao' },
+        { title: 'Indicação', path: '/proposta/indicacao' },
+        { title: 'Requerimento', path: '/proposta/requerimento' },
+        { title: 'Representação', path: '/proposta/representacao' },
+        { title: 'Substitutivo', path: '/proposta/substitutivo' },
+        { title: 'Decreto Legislativo', path: '/proposta/decreto-legislativo' },
+        { title: 'Homologação', path: '/proposta/homologacao' },
+        { title: 'Pedido de Licença', path: '/pedido/licenca' },
+        { title: 'Pedido de Renúncia', path: '/pedido/renuncia' }
     ];
 
     return (

@@ -109,7 +109,7 @@ export default function SessionProposta(props: PropostaProps) {
                 modalTitle={`Anexos (${proposta.anexos?.length || 0})`}
                 modalContent={<ModalAnexos acao={acao} anexos={proposta.anexos} />}
             >
-                Anexos (<b>{proposta.anexos?.length || 0})</b>
+                Anexos (<b>{proposta.anexos?.length || 0}</b>)
             </OpenModal>
         );
 
