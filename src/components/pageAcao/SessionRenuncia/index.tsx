@@ -54,7 +54,7 @@ export default function SessionRenuncia(props: RenunciaProps) {
                 </div>
 
                 <div className="pedidoTexto">
-                    <p><b>Pedido de Renúncia:</b></p>
+                    <p><b>Carta de solicitação:</b></p>
                     {<TextBoxExpand text={renuncia.textoFormal} />}
                 </div>
             </div>

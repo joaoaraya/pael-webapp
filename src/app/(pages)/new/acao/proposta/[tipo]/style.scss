@@ -1,31 +1,35 @@
 .pageNovaAcaoProposta {
-    .checkbox {
-        max-width: 540px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 16px;
-        margin: 24px 0 8px 0;
-        border-radius: 8px;
-        border: 1px solid var(--body-bg-warning);
-        background-color: transparent;
-        cursor: pointer;
+    form {
+        margin-top: 32px;
 
-        input {
+        .checkbox {
+            max-width: 540px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            margin: 24px 0 8px 0;
+            border-radius: 8px;
+            border: 1px solid var(--body-bg-warning);
+            background-color: transparent;
             cursor: pointer;
-        }
 
-        p {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--body-bg-warning);
-        }
-
-        &.checked {
-            background-color: var(--body-bg-warning);
+            input {
+                cursor: pointer;
+            }
 
             p {
-                color: var(--body-font-alternative);
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--body-bg-warning);
+            }
+
+            &.checked {
+                background-color: var(--body-bg-warning);
+
+                p {
+                    color: var(--body-font-alternative);
+                }
             }
         }
     }

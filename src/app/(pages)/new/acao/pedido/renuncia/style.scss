@@ -1,0 +1,21 @@
+.pageNovaAcaoRenuncia {
+    form {
+        .formalCard {
+            max-width: 580px;
+            margin: 16px 0;
+            font-size: 16px;
+            color: var(--body-font);
+
+            #label {
+                font-weight: 600;
+                margin-bottom: 16px;
+            }
+
+            #content {
+                font-weight: 400;
+                white-space: pre-line; // Interpretar '\n' como quebra de linha
+                line-height: 130%;
+            }
+        }
+    }
+}

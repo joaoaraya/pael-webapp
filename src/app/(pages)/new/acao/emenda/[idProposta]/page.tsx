@@ -50,7 +50,7 @@ type AutorProps = {
 }
 
 
-export default function PageNovaProposta({ params }: { params: PageProps }) {
+export default function PageNovaAcaoEmenda({ params }: { params: PageProps }) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [errorStatus, setErrorStatus] = useState(0);

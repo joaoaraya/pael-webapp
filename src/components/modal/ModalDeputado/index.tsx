@@ -4,6 +4,7 @@ import { capitalize, formatCPF, formatPhoneNumber } from '@/functions/visual';
 import { API } from '@/functions/urls';
 import './style.scss';
 
+
 type DeputadoProps = {
     user: {
         nome: string;
@@ -26,6 +27,7 @@ type DeputadoProps = {
         }[];
     };
 }
+
 
 export default function ModalDeputado(props: DeputadoProps) {
     const user = props.user;
@@ -108,13 +110,14 @@ export default function ModalDeputado(props: DeputadoProps) {
 
                     <p className="label">CARGO ATUAL</p>
                     <p>{capitalize(user.cargo || 'Nenhum')}</p>
+                    <br />
 
                     {user.cargos && (
                         <>
                             {user.cargos.map((cargo) =>
                                 <>
-                                    <p className="label">DE {cargo.dataNomeacao} A {cargo.dataTermino}</p>
-                                    <p>{capitalize(cargo.nome || 'Nenhum')}</p>
+                                    <p className="label">CARGO DE <b>{cargo.dataNomeacao}</b> A <b>{cargo.dataTermino}</b></p>
+                                    <p>{capitalize(cargo.nome)}</p>
                                 </>
                             )}
                         </>

@@ -16,7 +16,11 @@ import './style.scss';
 
 
 type ButtonsAcoesProps = {
-    autor: string;
+    autor: {
+        cim: string;
+        cargo: string;
+    };
+
     acao: {
         id: string;
         tipo: string;
@@ -63,7 +67,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     useEffect(() => {
         const checkUserIs = async () => {
             try {
-                const responseAutor = await get(`${API}/check/user/autor/cim=${props.autor}`);
+                const responseAutor = await get(`${API}/check/user/autor/cim=${props.autor.cim}`);
                 const responsePresidente = await get(`${API}/check/user/presidente`);
 
                 // Somente atualizar se a resposta for igual a "true"
@@ -113,6 +117,26 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 "application/json",
                 JSON.stringify({ statusFinal: "aprovado" })
             );
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
+        }
+        catch (error: any) {
+            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
+        }
+    }
+
+    const acaoDeferirRenuncia = async () => {
+        try {
+            const response = await put(
+                `${API}/acao/${acao.id}/status=concluido`,
+                "application/json",
+                JSON.stringify({ statusFinal: "aprovado" })
+            );
+
+            if (response && props.autor.cargo) {
+                // Finalizar mandato também, se tiver
+                await put(`${API}/user/${props.autor.cim}/cargo=end`);
+            }
+
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
@@ -387,7 +411,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         if (acao.statusAtual === "pendente" && userPresidente) {
             buttons = (
                 <>
-                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", acaoAprovar, "btnSuccess")}
+                    {confirmButton("Deferir", "Deferir pedido?", "Esse pedido de renúncia será aceito", acaoDeferirRenuncia, "btnSuccess")}
                     {confirmButton("Indeferir", "Indeferir pedido?", "Esse pedido de renúncia será negado", acaoReprovar, "btnAttention")}
                 </>
             );

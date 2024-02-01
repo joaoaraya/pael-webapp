@@ -25,12 +25,5 @@
         label p {
             margin-bottom: 8px;
         }
-
-        /* Ocultar as setas do input number */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            appearance: none;
-        }
     }
 }
