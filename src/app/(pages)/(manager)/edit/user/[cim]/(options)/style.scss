@@ -1,0 +1,29 @@
+.pageEditUserOption {
+    width: 100%;
+
+    .titulo {
+        display: none;
+    }
+
+    form {
+        margin-top: 64px;
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .navConta {
+        display: none;
+    }
+
+    .pageEditUserOption {
+        .titulo {
+            display: block;
+        }
+
+        form {
+            margin-top: 0;
+        }
+    }
+}

@@ -56,7 +56,7 @@ export default function CardPessoa(props: CardPessoaProps) {
     const modalFooterContent = (
         <div>
             {props.admin && (
-                <Link href={'/edit/deputado/' + user.cim}>
+                <Link href={'/edit/user/' + user.cim}>
                     <button className="btnPrimary">
                         <p>Gerenciar</p>
                     </button>

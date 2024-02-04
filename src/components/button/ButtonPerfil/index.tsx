@@ -74,7 +74,7 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
 
         modalFooterContent = (
             <>
-                <Link href={'/edit/deputado/' + user.cim}>
+                <Link href='/edit/user/me'>
                     <button className="btnSecondary">
                         <p>Gerenciar</p>
                     </button>
