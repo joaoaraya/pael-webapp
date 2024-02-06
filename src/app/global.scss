@@ -229,6 +229,11 @@ a {
     }
 }
 
+.inputValueToUpperCase {
+    text-transform: uppercase;
+}
+
+
 /* Alterações para Mobile */
 @media screen and (max-device-width: 768px),
 screen and (max-width: 768px) {

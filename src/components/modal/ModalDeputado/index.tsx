@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import TextSituacao from '@/components/text/TextSituacao';
-import { capitalize, formatCPF, formatPhoneNumber } from '@/functions/visual';
+import { capitalize, formatCPF, formatDateISOToBR, formatPhoneNumber } from '@/functions/visual';
 import { API } from '@/functions/urls';
 import './style.scss';
 
@@ -67,7 +67,7 @@ export default function ModalDeputado(props: DeputadoProps) {
                         <>
                             <br />
                             <p className="label">DATA DE NASCIMENTO</p>
-                            <p>{user.dataNascimento}</p>
+                            <p>{formatDateISOToBR(user.dataNascimento)}</p>
                         </>
                     )}
 
@@ -116,7 +116,9 @@ export default function ModalDeputado(props: DeputadoProps) {
                         <>
                             {user.cargos.map((cargo) =>
                                 <>
-                                    <p className="label">CARGO DE <b>{cargo.dataNomeacao}</b> A <b>{cargo.dataTermino}</b></p>
+                                    <p className="label">
+                                        CARGO DE <b>{formatDateISOToBR(cargo.dataNomeacao)}</b> A <b>{formatDateISOToBR(cargo.dataTermino)}</b>
+                                    </p>
                                     <p>{capitalize(cargo.nome)}</p>
                                 </>
                             )}

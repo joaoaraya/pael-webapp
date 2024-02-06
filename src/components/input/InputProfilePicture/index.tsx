@@ -1,32 +1,41 @@
 import { useState, useEffect } from 'react';
-import Icon from '../../icon/Icon'
-
+import Icon from '@/components/icon/Icon';
 import './style.scss';
 
-interface profilePictureProps {
+
+type Props = {
     imageFromAPI?: string | null;
     onImageSelected: (file: File) => void;
 }
 
-export default function InputProfilePicture({ imageFromAPI = null, onImageSelected }: profilePictureProps) {
+
+export default function InputProfilePicture({ imageFromAPI = null, onImageSelected }: Props) {
     const [selectedImage, setSelectedImage] = useState<string | null>(imageFromAPI);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const file = event.target.files[0];
+    const onInputFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const fileInput = event.target;
+        const file = fileInput.files?.[0];
 
-            if (file) {
-                const maxSize = 5 * 1024 * 1024; // 5mb
+        if (file) {
+            const allowedExtensions = ["png", "jpg", "jpeg", "gif"];
+            const fileExtension = file.name.split(".").pop()?.toLowerCase();
+            const maxSize = 5 * 1024 * 1024; // 5mb
 
-                if (file.size <= maxSize) {
-                    const imageURL = URL.createObjectURL(file);
-                    setSelectedImage(imageURL);
+            if (fileExtension && allowedExtensions.includes(fileExtension) && file.size <= maxSize) {
+                const imageURL = URL.createObjectURL(file);
+                setSelectedImage(imageURL);
 
-                    // Quando haver uma imagem selecionada chamar função de callback na raiz do componente
-                    onImageSelected(file);
+                // Quando haver uma imagem selecionada chamar função de callback na raiz do componente
+                onImageSelected(file);
+            }
+            else {
+                fileInput.value = '';
+
+                if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
+                    window.alert("Apenas fotos no formato PNG, JPG ou GIF!");
                 }
                 else {
-                    window.alert('Selecione uma foto com até 5mb');
+                    window.alert("Selecione uma foto com até 5mb!");
                 }
             }
         }
@@ -36,6 +45,7 @@ export default function InputProfilePicture({ imageFromAPI = null, onImageSelect
         // Atualize a imagem quando `imageFromAPI` mudar
         setSelectedImage(imageFromAPI);
     }, [imageFromAPI]);
+
 
     return (
         <div className="inputProfilePicture">
@@ -48,7 +58,7 @@ export default function InputProfilePicture({ imageFromAPI = null, onImageSelect
                         type="file"
                         id="profilePicture"
                         className="input-btn"
-                        onChange={handleChange}
+                        onChange={onInputFile}
                         accept=".png, .jpg, .jpeg, .gif"
                     />
                     <label

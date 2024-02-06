@@ -7,8 +7,8 @@
     margin-bottom: 16px;
 
     .input-container {
-        width: 128px;
-        height: 128px;
+        width: 192px;
+        height: 192px;
         display: flex;
 
         .input-bg {
@@ -41,8 +41,8 @@
                 align-items: center;
 
                 svg {
-                    width: 32px;
-                    height: 32px;
+                    width: 48px;
+                    height: 48px;
 
                     fill: var(--body-font);
                 }
@@ -83,5 +83,26 @@
         border-radius: 8px;
         color: var(--body-font-alternative);
         background-color: var(--body-bg-alternative);
+    }
+}
+
+
+/* Alterações para Mobile I */
+@media screen and (max-device-width: 320px),
+screen and (max-width: 320px) {
+    .inputProfilePicture {
+        .input-container {
+            width: 128px;
+            height: 128px;
+
+            .input-bg {
+                .input-icon {
+                    svg {
+                        width: 32px;
+                        height: 32px;
+                    }
+                }
+            }
+        }
     }
 }

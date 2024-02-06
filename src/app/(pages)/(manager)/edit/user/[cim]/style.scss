@@ -7,3 +7,11 @@
         gap: 40px;
     }
 }
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 768px),
+screen and (max-width: 768px) {
+    .pageEditUser {
+        width: 100%;
+    }
+}

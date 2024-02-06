@@ -2,7 +2,6 @@ import Link from "next/link";
 import Icon from "@/components/icon/Icon";
 import { capitalize } from "@/functions/visual";
 import { usePathname, useRouter } from 'next/navigation';
-
 import './style.scss';
 
 
@@ -11,34 +10,38 @@ type NavProps = {
     isAutor: boolean;
     user: {
         nome: string;
-    }
+        cim: string;
+    };
 }
 
 
 export default function NavConta(props: NavProps) {
     const currentPath = usePathname();
     const router = useRouter();
-    let [primeiroNome] = props.user.nome.split(' ');
+    const [primeiroNome] = props.user.nome.split(' ');
 
     const options = [
-        { title: 'Foto de perfil', path: '/foto' },
-        { title: 'Dados pessoais', path: '/dados' },
-        { title: 'Alterar senha', path: '/senha' }
-    ];
-
-    const optionsFull = [
-        ...options,
-        { title: 'Situação', path: '/situacao' },
-        { title: 'Cargos', path: '/cargos' }
+        { title: 'Foto de perfil', param: '/foto' },
+        { title: 'Dados pessoais', param: '/dados' },
+        { title: 'Alterar senha', param: '/senha' },
+        ...(props.isPresidente ? [
+            { title: 'Situação', param: '/situacao' },
+            { title: 'Cargos', param: '/cargos' },
+        ] : [])
     ];
 
     const externaLinks = [
-        { title: 'Solicitar licença', path: '/new/acao/pedido/licenca' },
-        { title: 'Solicitar renúncia', path: '/new/acao/pedido/renuncia' }
+        { title: 'Solicitar licença', param: '/licenca' },
+        { title: 'Solicitar renúncia', param: '/renuncia' }
     ];
 
-    const showOptions = props.isPresidente ? optionsFull : options;
-    const title = props.isAutor ? 'Minha conta' : `Conta de ${capitalize(primeiroNome)}`;
+    const newAcaoPath = '/new/acao/pedido/';
+    const editUserPath = `/edit/user/${props.user.cim}`;
+
+    const isCurrentPath = (path: string, param: string) => currentPath === path + param;
+    const goToPath = (path: string, param: string) => !isCurrentPath(path, param) && router.push(path + param);
+
+    const title = props.isAutor ? 'Minha Conta' : `Conta de ${capitalize(primeiroNome)}`;
 
 
     return (
@@ -48,24 +51,23 @@ export default function NavConta(props: NavProps) {
             </div>
 
             <div className="nav">
-                {showOptions.map((option, index) => (
+                {options.map((option, index) => (
                     <button
                         key={index}
-                        className="btnSecondary btnSelect"
-                        id=""
-                        onClick={() => router.push(currentPath + option.path)}
+                        className='btnSecondary btnSelect'
+                        id={isCurrentPath(editUserPath, option.param) ? 'selected' : ''}
+                        onClick={() => goToPath(editUserPath, option.param)}
                     >
                         <p>{option.title}</p>
                         <Icon nome="arrowRight" />
                     </button>
-
                 ))}
             </div>
 
-            {!(props.isPresidente) && (
+            {!props.isPresidente && (
                 <div className="links">
                     {externaLinks.map((option, index) => (
-                        <Link key={index} href={option.path}>
+                        <Link key={index} href={newAcaoPath + option.param}>
                             <button className="btnSecondary btnSelect">
                                 <p>{option.title}</p>
                             </button>

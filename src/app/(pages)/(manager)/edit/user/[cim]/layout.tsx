@@ -5,6 +5,7 @@ import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
 import LoadingPage from '@/components/session/LoadingPage';
 import NavConta from '@/components/nav/NavConta';
+import ErrorPage from '@/components/session/ErrorPage';
 import './style.scss';
 
 
@@ -74,7 +75,6 @@ export default function PageEditUser({ children, params }: { children: ReactNode
     if (userData) {
         return (
             <div className="pageEditUser">
-
                 <div className="pageContainer">
                     <NavConta isPresidente={userPresidente} isAutor={userAutor} user={userData} />
 
@@ -83,4 +83,10 @@ export default function PageEditUser({ children, params }: { children: ReactNode
             </div>
         )
     }
+
+    return (
+        <div className="pageEditUser">
+            <ErrorPage icon="failed" title="404" text="Usuário não encontrado!" />
+        </div>
+    )
 }

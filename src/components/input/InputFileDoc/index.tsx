@@ -32,7 +32,7 @@ export default function InputFileDoc({ onSelectedFile }: Props) {
                     window.alert("Apenas documentos PDF!");
                 }
                 else {
-                    window.alert("Selecione um documento com até 10mb");
+                    window.alert("Selecione um documento com até 10mb!");
                 }
             }
         }

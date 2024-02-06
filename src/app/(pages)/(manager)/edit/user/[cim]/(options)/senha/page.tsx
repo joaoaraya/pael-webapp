@@ -1,7 +1,6 @@
 "use client";
 
-
-//import './style.scss';
+import '../style.scss';
 
 export default function PageEditUserOption() {
     return (
