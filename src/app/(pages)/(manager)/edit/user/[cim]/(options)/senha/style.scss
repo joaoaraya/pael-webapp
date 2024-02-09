@@ -1,0 +1,20 @@
+.pageEditUserSenha {
+    form {
+        .senhaDicas {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .inputLabel {
+            margin-top: 16px;
+        }
+
+        .actionButtons {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
+        }
+    }
+}

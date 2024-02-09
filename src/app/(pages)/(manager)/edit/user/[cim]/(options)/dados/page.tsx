@@ -14,6 +14,7 @@ import ResponseModal from '@/components/modal/ResponseModal';
 import LoadingPage from '@/components/session/LoadingPage';
 
 import '../style.scss';
+import './style.scss';
 
 
 type PageProps = {
@@ -34,13 +35,14 @@ type userDataProps = {
 }
 
 
-export default function PageEditUserOption({ params }: { params: PageProps }) {
+export default function PageEditUserDados({ params }: { params: PageProps }) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [showResponseModal, setShowResponseModal] = useState(<></>);
     const { register, handleSubmit } = useForm();
     const { get, put } = useAPI();
     const [data, setData] = useState<userDataProps>();
+    const [userPresidente, setUserPresidente] = useState(false);
 
     const userCIM = params.cim;
 
@@ -58,7 +60,18 @@ export default function PageEditUserOption({ params }: { params: PageProps }) {
             }
         }
 
+        const checkUserIsPresidente = async () => {
+            try {
+                const response = await get(`${API}/check/user/presidente`);
+                setUserPresidente(response.data);
+            }
+            catch (error: any) {
+                // Ações de erro no hook de API
+            }
+        }
+
         loadData();
+        checkUserIsPresidente();
     }, []);
 
     const sendData = async () => {
@@ -92,7 +105,7 @@ export default function PageEditUserOption({ params }: { params: PageProps }) {
                 return ("Digite o nome completo!");
             }
             else if (!data.dataNascimento) {
-                return ("Insira da data de nascimento!");
+                return ("Insira a data de nascimento!");
             }
             else if (!data.cpf) {
                 return ("Digite o CPF!");
@@ -102,6 +115,20 @@ export default function PageEditUserOption({ params }: { params: PageProps }) {
             }
             else if (!data.celular) {
                 return ("Digite o número de celular!");
+            }
+            if (userPresidente) {
+                if (!data.lojaNumero) {
+                    return ("Insira o número da loja!");
+                }
+                else if (!data.loja) {
+                    return ("Digite o nome da loja!");
+                }
+                else if (!data.cimSuplente) {
+                    return ("Insira o CIM do Suplente!");
+                }
+                else if (!data.nomeSuplente) {
+                    return ("Digite o nome do Suplente!");
+                }
             }
         }
         return null;
@@ -144,7 +171,7 @@ export default function PageEditUserOption({ params }: { params: PageProps }) {
 
     if (data) {
         return (
-            <div className="pageEditUserOption">
+            <div className="pageEditUserOption pageEditUserDados">
                 <div className="titulo">
                     <h1>Dados Pessoais</h1>
                 </div>
@@ -220,11 +247,73 @@ export default function PageEditUserOption({ params }: { params: PageProps }) {
                         />
                     </label>
 
+                    {userPresidente && (
+                        <>
+                            <br />
+
+                            <label className="inputLabel">
+                                <p>Loja número:</p>
+
+                                <input
+                                    className="inputText"
+                                    type="number"
+                                    placeholder="Insira o número da Loja"
+                                    defaultValue={data.lojaNumero}
+                                    onChange={(e) => setData({ ...data, lojaNumero: e.target.value.replace(/\D/g, '') })}
+                                    maxLength={8}
+                                    autoComplete="off"
+                                />
+                            </label>
+
+                            <label className="inputLabel">
+                                <p>Loja:</p>
+
+                                <input
+                                    className="inputText inputValueToUpperCase"
+                                    type="text"
+                                    placeholder="Digite o nome da Loja"
+                                    defaultValue={data.loja}
+                                    onChange={(e) => setData({ ...data, loja: e.target.value.toUpperCase() })}
+                                    maxLength={64}
+                                    autoComplete="off"
+                                />
+                            </label>
+
+                            <label className="inputLabel">
+                                <p>Suplente CIM:</p>
+
+                                <input
+                                    className="inputText"
+                                    type="number"
+                                    placeholder="Insira o CIM do Suplente"
+                                    defaultValue={data.cimSuplente}
+                                    onChange={(e) => setData({ ...data, cimSuplente: e.target.value.replace(/\D/g, '') })}
+                                    maxLength={8}
+                                    autoComplete="off"
+                                />
+                            </label>
+
+                            <label className="inputLabel">
+                                <p>Suplente nome:</p>
+
+                                <input
+                                    className="inputText inputValueToUpperCase"
+                                    type="text"
+                                    placeholder="Digite o nome do Suplente"
+                                    defaultValue={data.nomeSuplente}
+                                    onChange={(e) => setData({ ...data, nomeSuplente: e.target.value.toUpperCase() })}
+                                    maxLength={64}
+                                    autoComplete="off"
+                                />
+                            </label>
+                        </>
+                    )}
+
 
                     <div className="actionButtons">
                         {submitButton("Salvar")}
 
-                        <button className="btnSecondary" onClick={() => router.push('/edit/user/' + userCIM)}>
+                        <button className="btnSecondary" onClick={router.back}>
                             <p>Voltar</p>
                         </button>
                     </div>

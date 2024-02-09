@@ -26,7 +26,7 @@ export default function NavConta(props: NavProps) {
         { title: 'Alterar senha', param: '/senha' },
         ...(props.isPresidente ? [
             { title: 'Situação', param: '/situacao' },
-            { title: 'Cargos', param: '/cargos' },
+            { title: 'Cargo', param: '/cargo' },
         ] : [])
     ];
 

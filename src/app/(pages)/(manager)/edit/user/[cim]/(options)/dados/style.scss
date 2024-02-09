@@ -1,0 +1,10 @@
+.pageEditUserDados {
+    form {
+        .actionButtons {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
+        }
+    }
+}

@@ -1,12 +1,13 @@
-$green: var(--body-bg-ok);
-$yellow: var(--body-bg-warning);
 $red: var(--body-bg-attention);
+$yellow: var(--body-bg-warning);
+$green: var(--body-bg-ok);
 
 
 .password-security {
     display: flex;
     flex-direction: column;
     flex: 1;
+    max-width: 480px;
 
     .bars {
         display: flex;
@@ -16,7 +17,7 @@ $red: var(--body-bg-attention);
         gap: 8px;
 
         div {
-            height: 4px;
+            height: 6px;
             flex-grow: 1;
             margin: 8px 0;
             gap: 20px;
@@ -24,7 +25,7 @@ $red: var(--body-bg-attention);
         }
 
         #empty {
-            background-color: var(--body-font-light);
+            background-color: var(--body-input-border);
         }
     }
 
@@ -62,6 +63,18 @@ $red: var(--body-bg-attention);
 
         .text p {
             color: $green;
+        }
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+    .password-security {
+        max-width: none;
+
+        .bars div {
+            height: 4px;
         }
     }
 }

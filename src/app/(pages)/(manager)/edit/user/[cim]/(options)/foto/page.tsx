@@ -22,7 +22,7 @@ type PageProps = {
 }
 
 
-export default function PageEditUserOption({ params }: { params: PageProps }) {
+export default function PageEditUserFoto({ params }: { params: PageProps }) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const { register, handleSubmit } = useForm();
@@ -139,7 +139,7 @@ export default function PageEditUserOption({ params }: { params: PageProps }) {
     }
 
     return (
-        <div className="pageEditUserOption">
+        <div className="pageEditUserOption pageEditUserFoto">
             <div className="titulo">
                 <h1>Foto de Perfil</h1>
             </div>
@@ -153,7 +153,7 @@ export default function PageEditUserOption({ params }: { params: PageProps }) {
                 <div className="actionButtons">
                     {submitButton("Salvar")}
 
-                    <button className="btnSecondary" onClick={() => router.push('/edit/user/' + userCIM)}>
+                    <button className="btnSecondary" onClick={router.back}>
                         <p>Voltar</p>
                     </button>
                 </div>
