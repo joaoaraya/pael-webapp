@@ -31,3 +31,13 @@ export function getDate() {
         ano: anoAtual
     };
 }
+
+export function getDateISO() {
+    const dataAtual = new Date();
+
+    const diaAtual = dataAtual.getDate().toString().padStart(2, '0');
+    const mesAtual = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+    const anoAtual = dataAtual.getFullYear();
+
+    return `${anoAtual}-${mesAtual}-${diaAtual}`;
+}

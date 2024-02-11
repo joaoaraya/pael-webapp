@@ -95,7 +95,7 @@ export default function SessionProposta(props: PropostaProps) {
 
         const cardAlteracoes = (
             <CardInfo
-                titulo="Alterações solicitadas pelo presidente:"
+                titulo="Alterações solicitadas pelo Presidente:"
                 descricao={proposta.alteracoes}
                 icone="edit"
                 cor="warning"

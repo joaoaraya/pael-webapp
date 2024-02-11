@@ -1,8 +1,12 @@
 .navConta {
     width: 100%;
-    max-width: 256px;
     display: flex;
     flex-direction: column;
+
+    .titulo {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
     .nav,
     .links {

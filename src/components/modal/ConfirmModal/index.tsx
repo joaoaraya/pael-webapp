@@ -1,6 +1,8 @@
 import { useState, MouseEventHandler } from 'react';
 import IconLoader from '@/components/icon/IconLoader';
+import OpenConfirmPasswordModal from '@/components/button/OpenConfirmPasswordModal';
 import './style.scss';
+
 
 type ModalProps = {
     title: string;
@@ -8,7 +10,9 @@ type ModalProps = {
     backButton: MouseEventHandler;
     actionButton: MouseEventHandler;
     actionButtonText: string;
+    withPassword?: boolean;
 }
+
 
 export default function ConfirmModal(props: ModalProps) {
     const [disableButton, setDisableButton] = useState(false);
@@ -20,6 +24,7 @@ export default function ConfirmModal(props: ModalProps) {
             props.actionButton(event);
         }
     };
+
 
     return (
         <>
@@ -33,14 +38,25 @@ export default function ConfirmModal(props: ModalProps) {
                         </div>
 
                         <div className="confirmModalMain">
-                            <button
-                                id="action"
-                                className="btnSecondary"
-                                type="submit"
-                                onClick={handleActionButtonClick}
-                            >
-                                {disableButton ? <IconLoader /> : <p>{props.actionButtonText}</p>}
-                            </button>
+                            {props.withPassword ?
+                                <OpenConfirmPasswordModal
+                                    id="action"
+                                    className="btnSecondary"
+                                    tagType="button"
+                                    action={handleActionButtonClick}
+                                >
+                                    <p>{props.actionButtonText}</p>
+                                </OpenConfirmPasswordModal>
+                                :
+                                <button
+                                    id="action"
+                                    className="btnSecondary"
+                                    type="submit"
+                                    onClick={handleActionButtonClick}
+                                >
+                                    {disableButton ? <IconLoader /> : <p>{props.actionButtonText}</p>}
+                                </button>
+                            }
 
                             {!disableButton && (
                                 <button

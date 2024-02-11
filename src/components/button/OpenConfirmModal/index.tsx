@@ -11,6 +11,7 @@ type OpenConfirmModalProps = {
     text?: string;
     action: MouseEventHandler;
     actionText: string;
+    withPassword?: boolean;
 }
 
 export default function OpenConfirmModal(props: OpenConfirmModalProps) {
@@ -31,6 +32,7 @@ export default function OpenConfirmModal(props: OpenConfirmModalProps) {
                     backButton={() => setShowConfirmModal(false)}
                     actionButton={props.action}
                     actionButtonText={props.actionText}
+                    withPassword={props.withPassword}
                 />
             )}
         </>

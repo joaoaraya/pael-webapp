@@ -1,29 +1,47 @@
-.pageEditUserOption {
+.pageEditUser {
     width: 100%;
 
-    .titulo {
-        display: none;
-    }
+    .pageContainer {
+        display: flex;
+        flex: 1;
+        gap: 40px;
 
-    form {
-        margin-top: 64px;
+        .pageNavigation {
+            min-width: 240px;
+        }
+
+        .pageEditUserOption {
+            width: 100%;
+
+            .titulo {
+                display: none;
+            }
+
+            form {
+                margin-top: 64px;
+            }
+        }
     }
 }
 
 /* Alterações para Mobile */
 @media screen and (max-device-width: 768px),
 screen and (max-width: 768px) {
-    .navConta {
-        display: none;
-    }
+    .pageEditUser {
+        .pageContainer {
+            .pageNavigation {
+                display: none;
+            }
 
-    .pageEditUserOption {
-        .titulo {
-            display: block;
-        }
+            .pageEditUserOption {
+                .titulo {
+                    display: block;
+                }
 
-        form {
-            margin-top: 0;
+                form {
+                    margin-top: 0;
+                }
+            }
         }
     }
 }

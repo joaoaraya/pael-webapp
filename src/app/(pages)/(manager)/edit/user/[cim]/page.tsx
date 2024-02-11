@@ -1,5 +1,16 @@
-import './pageStyle.scss';
+import PageEditUser from './(options)/layout';
+import './style.scss';
 
-export default function PageEditUserHome() {
-    return (<></>);
+
+type PageProps = {
+    cim: string;
+}
+
+
+export default function PageEditUserHome({ params }: { params: PageProps }) {
+    return (
+        <div className="pageHome">
+            <PageEditUser params={params} />
+        </div>
+    );
 }

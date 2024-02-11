@@ -3,9 +3,11 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
+
 import LoadingPage from '@/components/session/LoadingPage';
 import NavConta from '@/components/nav/NavConta';
 import ErrorPage from '@/components/session/ErrorPage';
+
 import './style.scss';
 
 
@@ -19,7 +21,7 @@ type UserProps = {
 }
 
 
-export default function PageEditUser({ children, params }: { children: ReactNode, params: PageProps }) {
+export default function PageEditUser({ children, params }: { children?: ReactNode, params: PageProps }) {
     const [isLoading, setIsLoading] = useState(true);
     const { get } = useAPI();
     const [userData, setUserData] = useState<UserProps>();
@@ -76,7 +78,9 @@ export default function PageEditUser({ children, params }: { children: ReactNode
         return (
             <div className="pageEditUser">
                 <div className="pageContainer">
-                    <NavConta isPresidente={userPresidente} isAutor={userAutor} user={userData} />
+                    <div className="pageNavigation">
+                        <NavConta isPresidente={userPresidente} isAutor={userAutor} user={userData} />
+                    </div>
 
                     {children}
                 </div>

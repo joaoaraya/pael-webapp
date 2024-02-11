@@ -5,13 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
+import { capitalize } from '@/functions/visual';
 
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
 import ResponseModal from '@/components/modal/ResponseModal';
 
-import '../style.scss';
 import './style.scss';
-import { capitalize } from '@/functions/visual';
 
 
 type PageProps = {
@@ -90,7 +89,6 @@ export default function PageEditUserSituacao({ params }: { params: PageProps }) 
                         ))}
                     </select>
                 </div>
-
 
                 <div className="actionButtons">
                     {submitButton("Salvar")}

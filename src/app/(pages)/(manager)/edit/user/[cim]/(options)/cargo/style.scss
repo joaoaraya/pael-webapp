@@ -1,0 +1,80 @@
+.pageEditUserCargo {
+    form {
+        .novoCargo {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: auto;
+            grid-template-areas:
+                "nome nome"
+                "inicio termino "
+            ;
+
+            #cargo {
+                grid-area: nome;
+            }
+
+            #inicio {
+                grid-area: inicio;
+            }
+
+            #termino {
+                grid-area: termino;
+            }
+        }
+
+        .cargoCard {
+            max-width: 540px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            border: 1px solid var(--body-input-border);
+            padding: 16px;
+            border-radius: 8px;
+            color: var(--body-font);
+
+            h1 {
+                font-size: 16px;
+                font-weight: 400;
+            }
+
+            h2 {
+                font-size: 32px;
+                margin-bottom: 16px;
+            }
+
+            #date {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 8px;
+
+                p {
+                    margin: 0;
+                }
+            }
+        }
+
+        .actionButtons {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
+        }
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 1024px),
+screen and (max-width: 1024px) {
+    .pageEditUserCargo {
+        form {
+            .novoCargo {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+}

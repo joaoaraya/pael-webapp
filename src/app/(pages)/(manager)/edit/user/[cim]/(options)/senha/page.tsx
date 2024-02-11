@@ -13,7 +13,6 @@ import InputPasswordChecker from '@/components/input/InputPasswordChecker';
 import CardInfo from '@/components/card/CardInfo';
 import LoadingPage from '@/components/session/LoadingPage';
 
-import '../style.scss';
 import './style.scss';
 
 

@@ -64,23 +64,23 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
 
     let modalContent;
     let modalFooterContent;
+    let modalFooterLinkButton;
 
 
     // Quando carregar os dados da API
     if (user) {
-        fotoURL = !user.cim ? defaultPicture.src : `${API}/user/${user.cim}/picture/small`;
+        fotoURL = user.cim ? `${API}/user/${user.cim}/picture/small` : defaultPicture.src;
 
         modalContent = (<ModalDeputado user={user} />);
 
+        modalFooterLinkButton = {
+            title: "Gerenciar",
+            href: "/edit/user/me",
+            closeModal: true
+        }
+
         modalFooterContent = (
             <>
-                <Link href='/edit/user/me'>
-                    <button className="btnSecondary">
-                        <p>Gerenciar</p>
-                    </button>
-                </Link>
-
-
                 <button className="btnAttention" onClick={sair}>
                     <p>Encerrar</p>
                 </button>
@@ -96,6 +96,7 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
             modalTitle="Meus dados"
             modalContent={modalContent}
             modalFooterContent={modalFooterContent}
+            modalFooterLinkButton={modalFooterLinkButton}
         >
             <img
                 id="fotoURL"

@@ -13,7 +13,6 @@ import ResponseModal from '@/components/modal/ResponseModal';
 import InputProfilePicture from '@/components/input/InputProfilePicture';
 import LoadingPage from '@/components/session/LoadingPage';
 
-import '../style.scss';
 import './style.scss';
 
 

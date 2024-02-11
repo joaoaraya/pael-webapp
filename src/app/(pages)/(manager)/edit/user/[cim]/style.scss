@@ -1,17 +1,14 @@
-.pageEditUser {
-    width: 100%;
-
-    .pageContainer {
-        display: flex;
-        flex: 1;
-        gap: 40px;
-    }
-}
-
 /* Alterações para Mobile */
 @media screen and (max-device-width: 768px),
 screen and (max-width: 768px) {
-    .pageEditUser {
-        width: 100%;
+    .pageHome {
+        .pageEditUser {
+            .pageContainer {
+                .pageNavigation {
+                    display: flex;
+                    min-width: 100%;
+                }
+            }
+        }
     }
 }

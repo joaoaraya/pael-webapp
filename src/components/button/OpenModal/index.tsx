@@ -1,7 +1,8 @@
-'use client'
+'use client';
 
-import { ReactNode, useState } from 'react'
-import Modal from '@/components/modal/Modal'
+import { ReactNode, useState } from 'react';
+import Modal from '@/components/modal/Modal';
+
 
 type OpenModalProps = {
     tagType: keyof JSX.IntrinsicElements;
@@ -10,7 +11,13 @@ type OpenModalProps = {
     modalTitle: string;
     modalContent: ReactNode;
     modalFooterContent?: ReactNode;
+    modalFooterLinkButton?: {
+        title: string;
+        href: string;
+        closeModal?: boolean;
+    }
 }
+
 
 export default function OpenModal(props: OpenModalProps) {
     const [showModal, setShowModal] = useState(false)
@@ -27,7 +34,8 @@ export default function OpenModal(props: OpenModalProps) {
                 <Modal
                     title={props.modalTitle}
                     closeButton={() => setShowModal(false)}
-                    modalFooterContent={props.modalFooterContent}
+                    footerContent={props.modalFooterContent}
+                    footerLinkButton={props.modalFooterLinkButton}
                 >
                     {props.modalContent}
                 </Modal>

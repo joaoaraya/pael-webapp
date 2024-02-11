@@ -1,14 +1,22 @@
-import { MouseEventHandler, ReactNode } from 'react'
-import Icon from '@/components/icon/Icon'
+import { MouseEventHandler, ReactNode } from 'react';
+import Icon from '@/components/icon/Icon';
 
-import './style.scss'
+import './style.scss';
+import Link from 'next/link';
+
 
 type ModalProps = {
     title: string;
     children: ReactNode; // Conteudo principal do Modal
     closeButton: MouseEventHandler;
-    modalFooterContent?: ReactNode; // Conteudo no Rodapé do Modal
+    footerContent?: ReactNode; // Conteudo no Rodapé do Modal
+    footerLinkButton?: {
+        title: string;
+        href: string;
+        closeModal?: boolean;
+    }
 }
+
 
 export default function Modal(props: ModalProps) {
 
@@ -30,7 +38,18 @@ export default function Modal(props: ModalProps) {
                         </div>
 
                         <div className="modalFooter">
-                            {props.modalFooterContent}
+                            {props.footerLinkButton && (
+                                <Link href={props.footerLinkButton.href}>
+                                    <button
+                                        className="btnSecondary"
+                                        onClick={props.footerLinkButton.closeModal ? props.closeButton : () => { }}
+                                    >
+                                        <p>{props.footerLinkButton.title}</p>
+                                    </button>
+                                </Link>
+                            )}
+
+                            {props.footerContent}
                         </div>
                     </div>
                 </div>

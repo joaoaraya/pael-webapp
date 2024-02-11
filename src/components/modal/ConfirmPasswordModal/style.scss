@@ -1,0 +1,102 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirmPasswordModalBG {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 99;
+    // Efeito
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.confirmPasswordModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: none;
+    overflow: hidden;
+    cursor: default;
+    z-index: 100;
+    // Efeito 
+    animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
+
+    .confirmPasswordModalContainer {
+        width: 90%;
+        max-width: 320px;
+        max-height: 80%;
+        overflow: hidden;
+        border-radius: 16px;
+        background-color: var(--body-bg);
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.10);
+
+        .confirmPasswordModalContent {
+            display: flex;
+            flex-direction: column;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 16px;
+            margin: 0;
+            height: 100%;
+            color: var(--body-font);
+
+            .confirmPasswordModalHeader {
+                h1 {
+                    font-size: 18px;
+                    font-weight: 700;
+                    text-align: center;
+                    margin-bottom: 16px;
+                }
+            }
+
+            .confirmPasswordModalMain {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+
+                button {
+                    width: 100%;
+
+                    &#action {
+                        background-color: var(--body-font-light-2);
+
+                        &:hover {
+                            background-color: var(--body-font);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

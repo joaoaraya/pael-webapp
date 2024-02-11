@@ -6,14 +6,13 @@ import { useForm } from 'react-hook-form';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
 import { formatDateISOToBR, formatDateToISO } from '@/functions/visual';
-import InputMask from 'react-input-mask';
 
+import InputMask from 'react-input-mask';
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
 import OpenResponseModal from '@/components/button/OpenResponseModal';
 import ResponseModal from '@/components/modal/ResponseModal';
 import LoadingPage from '@/components/session/LoadingPage';
 
-import '../style.scss';
 import './style.scss';
 
 
@@ -21,7 +20,7 @@ type PageProps = {
     cim: string;
 }
 
-type userDataProps = {
+type UserDataProps = {
     nome: string;
     cim: string;
     loja: string;
@@ -41,7 +40,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
     const [showResponseModal, setShowResponseModal] = useState(<></>);
     const { register, handleSubmit } = useForm();
     const { get, put } = useAPI();
-    const [data, setData] = useState<userDataProps>();
+    const [data, setData] = useState<UserDataProps>();
     const [userPresidente, setUserPresidente] = useState(false);
 
     const userCIM = params.cim;
@@ -109,9 +108,6 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
             }
             else if (!data.cpf) {
                 return ("Digite o CPF!");
-            }
-            else if (!data.email) {
-                return ("Digite o email!");
             }
             else if (!data.celular) {
                 return ("Digite o número de celular!");
@@ -252,7 +248,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                             <br />
 
                             <label className="inputLabel">
-                                <p>Loja número:</p>
+                                <p>Número da Loja:</p>
 
                                 <input
                                     className="inputText"
@@ -266,7 +262,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                             </label>
 
                             <label className="inputLabel">
-                                <p>Loja:</p>
+                                <p>Nome da Loja:</p>
 
                                 <input
                                     className="inputText inputValueToUpperCase"
@@ -280,7 +276,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                             </label>
 
                             <label className="inputLabel">
-                                <p>Suplente CIM:</p>
+                                <p>CIM do Suplente:</p>
 
                                 <input
                                     className="inputText"
@@ -294,7 +290,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                             </label>
 
                             <label className="inputLabel">
-                                <p>Suplente nome:</p>
+                                <p>Nome do Suplente:</p>
 
                                 <input
                                     className="inputText inputValueToUpperCase"

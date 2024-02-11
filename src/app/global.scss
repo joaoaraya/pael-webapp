@@ -13,6 +13,7 @@
     --body-font-light: #B6BDC3;
     --body-font-light-2: #dadee4;
     --body-font-alternative: #ffffff;
+    --body-font-placeholder: #a1a7aa;
     --body-scrollbar: #A9B4BB;
     --body-input-border: #D2DAE2;
 
@@ -220,6 +221,10 @@ a {
     border-radius: 8px;
     border: 1px solid var(--body-input-border);
     background: transparent;
+
+    &::placeholder {
+        color: var(--body-font-placeholder);
+    }
 
     &:focus {
         &::placeholder {
