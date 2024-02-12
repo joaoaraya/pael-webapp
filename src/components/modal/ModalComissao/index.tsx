@@ -28,41 +28,49 @@ export default function ModalComissao(props: ComissaoProps) {
         <div className="modalComissao">
             <h1>{capitalize(comissao.nome)}</h1>
 
-            <div className="grupo">
-                <h2>Presidente</h2>
-                {comissao.membros.map((membro, index) =>
-                    membro.presidente ? (
-                        <div className="membro" key={index}>
-                            <img
-                                id="fotoURL"
-                                src={`${API}/user/${membro.cim}/picture/small`}
-                                alt=""
-                                onError={() => onImageLoadError(membro.cim)}
-                                className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
-                            />
-                            <p>{capitalize(membro.nome)}</p>
-                        </div>
-                    ) : null
-                )}
-            </div>
+            {comissao.membros.length > 0 ?
+                <>
+                    <div className="grupo">
+                        <h2>Presidente</h2>
+                        {comissao.membros.map((membro, index) =>
+                            membro.presidente ? (
+                                <div className="membro" key={index}>
+                                    <img
+                                        id="fotoURL"
+                                        src={`${API}/user/${membro.cim}/picture/small`}
+                                        alt=""
+                                        onError={() => onImageLoadError(membro.cim)}
+                                        className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
+                                    />
+                                    <p>{capitalize(membro.nome)}</p>
+                                </div>
+                            ) : null
+                        )}
+                    </div>
 
-            <div className="grupo">
-                <h2>Membros</h2>
-                {comissao.membros.map((membro, index) =>
-                    !membro.presidente ? (
-                        <div className="membro" key={index}>
-                            <img
-                                id="fotoURL"
-                                src={`${API}/user/${membro.cim}/picture/small`}
-                                alt=""
-                                onError={() => onImageLoadError(membro.cim)}
-                                className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
-                            />
-                            <p>{capitalize(membro.nome)}</p>
-                        </div>
-                    ) : null
-                )}
-            </div>
+                    <div className="grupo">
+                        <h2>Membros</h2>
+                        {comissao.membros.map((membro, index) =>
+                            !membro.presidente ? (
+                                <div className="membro" key={index}>
+                                    <img
+                                        id="fotoURL"
+                                        src={`${API}/user/${membro.cim}/picture/small`}
+                                        alt=""
+                                        onError={() => onImageLoadError(membro.cim)}
+                                        className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
+                                    />
+                                    <p>{capitalize(membro.nome)}</p>
+                                </div>
+                            ) : null
+                        )}
+                    </div>
+                </>
+                :
+                <div className="grupo">
+                    <h2>Nenhum Membro</h2>
+                </div>
+            }
         </div>
     );
 }

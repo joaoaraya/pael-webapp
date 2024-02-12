@@ -55,7 +55,7 @@ export default function CardGrupoPessoas(props: CardGrupoPessoasProps) {
 
     const imgMembros = (
         <>
-            {group.membros.slice(0, 3).map((membro, index) => (
+            {group.membros.length > 0 && group.membros.slice(0, 3).map((membro, index) => (
                 <img
                     key={index}
                     id={`imgID${index}`}
@@ -77,7 +77,7 @@ export default function CardGrupoPessoas(props: CardGrupoPessoasProps) {
             {userAdmin && (
                 <Link href={'/edit/comissao/' + group.id}>
                     <button className="btnPrimary">
-                        <p>Gerenciar</p>
+                        <p>{group.membros.length > 0 ? 'Gerenciar' : 'Adicionar membros'} </p>
                     </button>
                 </Link>
             )}
@@ -95,14 +95,22 @@ export default function CardGrupoPessoas(props: CardGrupoPessoasProps) {
         >
             <h1 id="nomeComissao">{capitalize(group.nome)}</h1>
 
-            <div id="membros">
-                {imgMembros}
-                <div id="imgVazio" />
-                <p>
-                    {capitalize(group.membros[0].nome).split(' ')[0]}
-                    &nbsp;e +{group.membros.length}...
-                </p>
-            </div>
+            {group.membros.length > 0 ?
+                <div id="membros">
+                    {imgMembros}
+                    <div id="imgVazio" />
+                    <p>
+                        {capitalize(group.membros[0].nome).split(' ')[0]}
+                        &nbsp;e +{group.membros.length}...
+                    </p>
+                </div>
+                :
+                <div id="membros">
+                    <div id="imgVazio" className="defaultImg" />
+                    <p>Nenhum membro</p>
+                </div>
+            }
         </OpenModal>
     );
+
 }

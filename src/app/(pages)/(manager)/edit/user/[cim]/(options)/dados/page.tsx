@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
-import { formatDateISOToBR, formatDateToISO } from '@/functions/visual';
+import { formatDateISOToBR, formatDateToISO, formatInputOnlyNumbers } from '@/functions/visual';
+import { validateDate } from '@/functions/date';
 
 import InputMask from 'react-input-mask';
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
@@ -100,11 +101,14 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
     // Validar formularios antes de liberar botão de enviar dados
     const validateForms = () => {
         if (data) {
-            if (data.nome === "") {
+            if (!data.nome || data.nome === "") {
                 return ("Digite o nome completo!");
             }
             else if (!data.dataNascimento) {
                 return ("Insira a data de nascimento!");
+            }
+            else if (!validateDate(data.dataNascimento)) {
+                return ("Data de nascimento inválida!");
             }
             else if (!data.cpf) {
                 return ("Digite o CPF!");
@@ -119,7 +123,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                 else if (!data.loja) {
                     return ("Digite o nome da loja!");
                 }
-                else if (!data.cimSuplente) {
+                else if (!data.cimSuplente || data.cimSuplente == '0') {
                     return ("Insira o CIM do Suplente!");
                 }
                 else if (!data.nomeSuplente) {
@@ -215,6 +219,8 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                         />
                     </label>
 
+                    <br />
+
                     <label className="inputLabel">
                         <p>Email:</p>
 
@@ -253,7 +259,6 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                                 <input
                                     className="inputText"
                                     type="number"
-                                    placeholder="Insira o número da Loja"
                                     defaultValue={data.lojaNumero}
                                     onChange={(e) => setData({ ...data, lojaNumero: e.target.value.replace(/\D/g, '') })}
                                     maxLength={8}
@@ -267,7 +272,6 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                                 <input
                                     className="inputText inputValueToUpperCase"
                                     type="text"
-                                    placeholder="Digite o nome da Loja"
                                     defaultValue={data.loja}
                                     onChange={(e) => setData({ ...data, loja: e.target.value.toUpperCase() })}
                                     maxLength={64}
@@ -275,27 +279,29 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                                 />
                             </label>
 
+                            <br />
+
                             <label className="inputLabel">
                                 <p>CIM do Suplente:</p>
 
                                 <input
                                     className="inputText"
                                     type="number"
-                                    placeholder="Insira o CIM do Suplente"
                                     defaultValue={data.cimSuplente}
-                                    onChange={(e) => setData({ ...data, cimSuplente: e.target.value.replace(/\D/g, '') })}
+                                    value={data.cimSuplente}
+                                    placeholder="xxxxxx"
+                                    onChange={(e) => setData({ ...data, cimSuplente: formatInputOnlyNumbers(e.target.value, 8) })}
                                     maxLength={8}
                                     autoComplete="off"
                                 />
                             </label>
 
                             <label className="inputLabel">
-                                <p>Nome do Suplente:</p>
+                                <p>Nome completo do Suplente:</p>
 
                                 <input
                                     className="inputText inputValueToUpperCase"
                                     type="text"
-                                    placeholder="Digite o nome do Suplente"
                                     defaultValue={data.nomeSuplente}
                                     onChange={(e) => setData({ ...data, nomeSuplente: e.target.value.toUpperCase() })}
                                     maxLength={64}

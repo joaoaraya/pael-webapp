@@ -43,6 +43,11 @@
             }
         }
 
+        .defaultImg {
+            background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+        }
+
+
         @for $img from 0 through 5 {
             #imgID#{$img} {
                 z-index: 5 - $img;

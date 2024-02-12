@@ -53,3 +53,24 @@ export function formatPhoneNumber(phoneNumber: string) {
 
     return `(${ddd}) ${group1}-${group2}`;
 }
+
+
+export function formatInputOnlyNumbers(value: string, maxLength: number) {
+    // Apenas dígitos de 0 a 9
+    const regex = /^[0-9]*$/;
+
+    // Validar inputs apenas para números de 0 a 9 e limitar o comprimento máximo
+    if (regex.test(value)) {
+        // Limitar o comprimento máximo
+        const truncatedValue = value.substring(0, maxLength);
+
+        // Remover zeros à esquerda, exceto se o valor for apenas zero
+        const onlyNumbers = truncatedValue.replace(/^0+(?!$)/, '');
+
+        // Verificar se o valor é nulo e atribuir o mínimo de 0 (exceto se for maior que 0)
+        return onlyNumbers === '' || parseInt(onlyNumbers, 10) === 0 ? '0' : onlyNumbers;
+    }
+    else {
+        return '';
+    }
+}

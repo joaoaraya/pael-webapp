@@ -41,3 +41,33 @@ export function getDateISO() {
 
     return `${anoAtual}-${mesAtual}-${diaAtual}`;
 }
+
+export function validateDate(date) {
+    // Expressão regular para verificar o formato YYYY-MM-DD
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+
+    // Verificar se a data corresponde ao formato esperado
+    if (!regex.test(date)) {
+        return false;
+    }
+
+    // Extrair os componentes da data
+    const parts = date.split('-');
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1]);
+    const day = parseInt(parts[2]);
+
+    // Verificar se o mês está entre 1 e 12
+    if (month < 1 || month > 12) {
+        return false;
+    }
+
+    // Verificar se o dia é válido para o mês
+    const lastDayOfMonth = new Date(year, month, 0).getDate();
+    if (day < 1 || day > lastDayOfMonth) {
+        return false;
+    }
+
+    // Se passou por todas as verificações, a data é válida
+    return true;
+}

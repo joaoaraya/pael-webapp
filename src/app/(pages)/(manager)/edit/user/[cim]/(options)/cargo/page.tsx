@@ -167,7 +167,7 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
         <OpenConfirmModal
             tagType="button"
             className="btnPrimary"
-            title="Transferir meu cargo de Presidente para o deputado?"
+            title="Transferir meu cargo de Presidente para o Deputado?"
             action={() => setCargo("presidente")}
             actionText="Confirmar"
             withPassword={true}
