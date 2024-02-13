@@ -7,15 +7,15 @@ import { API } from '@/functions/urls';
 import { capitalize } from '@/functions/visual';
 
 import Icon from '@/components/icon/Icon';
+import OpenModal from '@/components/button/OpenModal';
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
 import ResponseModal from '@/components/modal/ResponseModal';
-import LoadingPage from '@/components/session/LoadingPage';
-
-import './style.scss';
-import OpenModal from '@/components/button/OpenModal';
 import ModalAdicionarMembro from '@/components/modal/ModalAdicionarMembro';
 import ModalEditarTituloComissao from '@/components/modal/ModalEditarTituloComissao';
+import LoadingPage from '@/components/session/LoadingPage';
 import ErrorPage from '@/components/session/ErrorPage';
+
+import './style.scss';
 
 
 type PageProps = {
@@ -111,7 +111,7 @@ export default function PageEditComissao({ params }: { params: PageProps }) {
                 modalContent={<ModalAdicionarMembro comissaoID={comissao.id} />}
             >
                 <p>Adicionar membro</p>
-            </OpenModal >
+            </OpenModal>
         );
 
         const escolherPresidenteButton = (
@@ -122,7 +122,7 @@ export default function PageEditComissao({ params }: { params: PageProps }) {
                 modalContent={<ModalAdicionarMembro comissaoID={comissao.id} presidente={true} />}
             >
                 <p>Escolher Presidente</p>
-            </OpenModal >
+            </OpenModal>
         );
 
         const editarTituloButton = (
@@ -133,7 +133,7 @@ export default function PageEditComissao({ params }: { params: PageProps }) {
                 modalContent={<ModalEditarTituloComissao comissao={comissao} />}
             >
                 <p>Editar título</p>
-            </OpenModal >
+            </OpenModal>
         );
 
         const inativarButton = (

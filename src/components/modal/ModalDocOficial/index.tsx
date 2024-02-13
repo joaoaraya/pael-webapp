@@ -9,6 +9,8 @@ import iconPdf from '@/assets/images/iconPdf.png';
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
 import ResponseModal from '../ResponseModal';
 import './style.scss';
+import OpenModal from '@/components/button/OpenModal';
+import ModalEditarDescricaoDoc from '../ModalEditarDescricaoDoc';
 
 
 type ModalProps = {
@@ -53,12 +55,15 @@ export default function ModalDocOficial(props: ModalProps) {
                     </button>
                 </a>
 
-                <Link href={'/edit/doc/' + doc.nomeArquivo}>
-                    <button className="btnSecondary">
-                        <Icon nome="edit" />
-                        <p>Editar descrição</p>
-                    </button>
-                </Link>
+                <OpenModal
+                    tagType="button"
+                    className="btnSecondary"
+                    modalTitle="Editar descrição"
+                    modalContent={<ModalEditarDescricaoDoc doc={props.doc} />}
+                >
+                    <Icon nome="edit" />
+                    <p>Editar descrição</p>
+                </OpenModal>
 
                 <OpenConfirmModal
                     tagType="button"

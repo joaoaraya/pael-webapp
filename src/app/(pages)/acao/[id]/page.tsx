@@ -204,7 +204,7 @@ export default function PageAcao({ params }: { params: PageProps }) {
     if (errorStatus === 403) {
         return (
             <div className="pageAcao">
-                <ErrorPage icon="loked" title="Privado" text="Você não tem permição para ver essa ação!" />
+                <ErrorPage icon="locked" title="Privado" text="Você não tem permição para ver essa ação!" />
             </div>
         )
     }
