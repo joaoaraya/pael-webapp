@@ -48,21 +48,14 @@ export default function CardGrupoPessoas(props: CardGrupoPessoasProps) {
     }, []);
 
 
-    const [withoutPicture, setWithoutPicture] = useState<string[]>([]);
-    const onImageLoadError = (cim: string) => {
-        setWithoutPicture((prevWithoutPicture) => [...prevWithoutPicture, cim]);
-    };
-
     const imgMembros = (
         <>
             {group.membros.length > 0 && group.membros.slice(0, 3).map((membro, index) => (
                 <img
                     key={index}
                     id={`imgID${index}`}
+                    className="profilePicture"
                     src={`${API}/user/${membro.cim}/picture/small`}
-                    alt=""
-                    onError={() => onImageLoadError(membro.cim)}
-                    className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
                 />
             ))}
         </>
@@ -98,10 +91,11 @@ export default function CardGrupoPessoas(props: CardGrupoPessoasProps) {
             {group.membros.length > 0 ?
                 <div id="membros">
                     {imgMembros}
-                    <div id="imgVazio" />
+                    {group.membros.length > 3 && <div id="imgVazio" />}
                     <p>
                         {capitalize(group.membros[0].nome).split(' ')[0]}
-                        &nbsp;e +{group.membros.length}...
+                        &nbsp;
+                        {group.membros.length > 1 && `e +${group.membros.length - 1}...`}
                     </p>
                 </div>
                 :

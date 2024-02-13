@@ -1,0 +1,109 @@
+.pageEditComissao {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+
+    .botoes {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: flex-start;
+        flex: 1;
+        gap: 16px;
+
+        .botoesGrupos {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: flex-start;
+            gap: 16px;
+        }
+    }
+
+    .membros {
+        margin-bottom: 16px;
+
+        .grupo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            margin-bottom: 32px;
+
+            h2 {
+                font-size: 18px;
+                font-weight: 400;
+                text-transform: uppercase;
+                margin-left: 48px;
+                color: var(--body-font-light);
+            }
+
+            .membro {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 20px;
+                flex: 1;
+                padding: 4px;
+
+                .btnRemover {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 16px;
+                    background-color: var(--body-bg-attention);
+
+                    svg {
+                        width: 32px;
+                        height: 32px;
+                        fill: var(--body-font-alternative);
+                    }
+
+                    &:hover {
+                        background-color: var(--body-font);
+                    }
+                }
+
+                .profilePicture {
+                    width: 48px;
+                    height: 48px;
+                    margin-left: -8px;
+                    border-radius: 32px;
+                    background-color: var(--cardGrupoPessoas-bg-shadow);
+                }
+
+                .nome {
+                    font-size: 16px;
+                    font-weight: 600;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    color: var(--body-font);
+                }
+            }
+        }
+    }
+}
+
+/* Alterações para Mobile */
+@media screen and (max-device-width: 480px),
+screen and (max-width: 480px) {
+    .pageEditComissao {
+
+        .botoes {
+            padding-bottom: 0;
+
+            .botoesGrupos {
+                button {
+                    width: 100%;
+                }
+            }
+        }
+
+    }
+}

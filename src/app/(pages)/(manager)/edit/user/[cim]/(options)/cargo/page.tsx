@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
-import { getDateISO } from '@/functions/date';
+import { getDateISO, validateDate } from '@/functions/date';
 import { capitalize, formatDateISOToBR, formatDateToISO } from '@/functions/visual';
 
 import InputMask from 'react-input-mask';
@@ -112,8 +112,11 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
         if (data.cargo === "") {
             return ("Digite o cargo!");
         }
-        if (!data.termino) {
+        else if (!data.termino) {
             return ("Insira a data de término!");
+        }
+        else if (!validateDate(data.termino)) {
+            return ("Data de término inválida!");
         }
         return null;
     }
@@ -221,7 +224,7 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
                                 <input
                                     className="inputText inputValueToUpperCase"
                                     type="text"
-                                    placeholder="Exemplo: vice-presidente"
+                                    placeholder="Ex.: vice-presidente"
                                     onChange={(e) => setData({ ...data, cargo: e.target.value.toUpperCase() })}
                                     maxLength={64}
                                     autoComplete="off"

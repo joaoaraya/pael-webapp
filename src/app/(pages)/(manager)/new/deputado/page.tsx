@@ -235,18 +235,6 @@ export default function PageNovoDeputado() {
                 <br />
 
                 <label className="inputLabel">
-                    <p>Número da Loja*:</p>
-
-                    <input
-                        className="inputText"
-                        type="number"
-                        onChange={(e) => setData({ ...data, lojaNumero: e.target.value.replace(/\D/g, '') })}
-                        maxLength={8}
-                        autoComplete="off"
-                    />
-                </label>
-
-                <label className="inputLabel">
                     <p>Nome da Loja*:</p>
 
                     <input
@@ -258,7 +246,31 @@ export default function PageNovoDeputado() {
                     />
                 </label>
 
+                <label className="inputLabel">
+                    <p>Número da Loja*:</p>
+
+                    <input
+                        className="inputText"
+                        type="number"
+                        onChange={(e) => setData({ ...data, lojaNumero: e.target.value.replace(/\D/g, '') })}
+                        maxLength={8}
+                        autoComplete="off"
+                    />
+                </label>
+
                 <br />
+
+                <label className="inputLabel">
+                    <p>Nome completo do Suplente*:</p>
+
+                    <input
+                        className="inputText inputValueToUpperCase"
+                        type="text"
+                        onChange={(e) => setData({ ...data, nomeSuplente: e.target.value.toUpperCase() })}
+                        maxLength={64}
+                        autoComplete="off"
+                    />
+                </label>
 
                 <label className="inputLabel">
                     <p>CIM do Suplente*:</p>
@@ -269,18 +281,6 @@ export default function PageNovoDeputado() {
                         placeholder="xxxxxx"
                         value={data.cimSuplente}
                         onChange={(e) => setData({ ...data, cimSuplente: formatInputOnlyNumbers(e.target.value, 8) })}
-                        autoComplete="off"
-                    />
-                </label>
-
-                <label className="inputLabel">
-                    <p>Nome completo do Suplente*:</p>
-
-                    <input
-                        className="inputText inputValueToUpperCase"
-                        type="text"
-                        onChange={(e) => setData({ ...data, nomeSuplente: e.target.value.toUpperCase() })}
-                        maxLength={64}
                         autoComplete="off"
                     />
                 </label>

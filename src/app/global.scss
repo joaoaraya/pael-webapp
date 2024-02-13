@@ -71,6 +71,10 @@
     /* Botões */
     --button-success: #39b960;
     --button-attention: #cf3f3f;
+
+    /* Imagem */
+    --imgProfilePicture-bg: #D0DBE2;
+    --imgProfilePictureDark-bg: #F3F6F8;
 }
 
 .temaEscuro:root {
@@ -236,6 +240,18 @@ a {
 
 .inputValueToUpperCase {
     text-transform: uppercase;
+}
+
+.profilePicture {
+    object-fit: cover;
+    background: url('../assets/images/defaultProfilePicture.png') center/100% no-repeat;
+    background-color: var(--imgProfilePicture-bg);
+}
+
+.profilePictureDark {
+    object-fit: cover;
+    background: url('../assets/images/defaultProfilePictureDark.png') center/100% no-repeat;
+    background-color: var(--imgProfilePictureDark-bg);
 }
 
 

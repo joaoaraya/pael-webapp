@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
 
-    .profilePicture {
+    .profilePictureDark {
         display: flex;
         flex-direction: column;
         justify-items: center;
@@ -12,13 +12,6 @@
         border: 2px solid var(--body-input-border);
         border-radius: 50%;
         margin-bottom: 20px;
-        object-fit: cover;
-        background: url('../../../assets/images/defaultProfilePictureDark.png') center/100% no-repeat;
-        background-color: var(--body-bg-shadow);
-    }
-
-    .defaultPicture {
-        content-visibility: hidden;
     }
 
     form {

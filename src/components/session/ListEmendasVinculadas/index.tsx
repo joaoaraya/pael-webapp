@@ -21,7 +21,7 @@ export default function ListEmendasVinculadas(props: ComissoesProps) {
                 {props.emendas.map((emenda, index) => (
                     <Link href={`/acao/${emenda.id}`} target="_blank" key={index}>
                         <div className="emenda">
-                            <p>Emenda 0{index + 1}: {emenda.ativo ? 'Em processo...' : 'Concluída'}</p>
+                            <p>Emenda {index + 1}: {emenda.ativo ? 'Em processo...' : 'Concluída'}</p>
                         </div>
                     </Link>
                 ))}

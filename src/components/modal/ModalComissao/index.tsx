@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { capitalize } from '@/functions/visual';
 import { API } from '@/functions/urls';
 
@@ -8,6 +8,7 @@ type ComissaoProps = {
     comissao: {
         id: number;
         nome: string;
+        ativa: boolean;
         membros: {
             cim: string;
             nome: string;
@@ -19,11 +20,6 @@ type ComissaoProps = {
 export default function ModalComissao(props: ComissaoProps) {
     const comissao = props.comissao;
 
-    const [withoutPicture, setWithoutPicture] = useState<string[]>([]);
-    const onImageLoadError = (cim: string) => {
-        setWithoutPicture((prevWithoutPicture) => [...prevWithoutPicture, cim]);
-    };
-
     return (
         <div className="modalComissao">
             <h1>{capitalize(comissao.nome)}</h1>
@@ -32,37 +28,37 @@ export default function ModalComissao(props: ComissaoProps) {
                 <>
                     <div className="grupo">
                         <h2>Presidente</h2>
+
                         {comissao.membros.map((membro, index) =>
-                            membro.presidente ? (
+                            membro.presidente && (
                                 <div className="membro" key={index}>
                                     <img
-                                        id="fotoURL"
+                                        className="profilePicture"
                                         src={`${API}/user/${membro.cim}/picture/small`}
                                         alt=""
-                                        onError={() => onImageLoadError(membro.cim)}
-                                        className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
                                     />
+
                                     <p>{capitalize(membro.nome)}</p>
                                 </div>
-                            ) : null
+                            )
                         )}
                     </div>
 
                     <div className="grupo">
                         <h2>Membros</h2>
+
                         {comissao.membros.map((membro, index) =>
-                            !membro.presidente ? (
+                            !membro.presidente && (
                                 <div className="membro" key={index}>
                                     <img
-                                        id="fotoURL"
+                                        className="profilePicture"
                                         src={`${API}/user/${membro.cim}/picture/small`}
                                         alt=""
-                                        onError={() => onImageLoadError(membro.cim)}
-                                        className={withoutPicture.includes(membro.cim) ? 'defaultPicture' : ''}
                                     />
+
                                     <p>{capitalize(membro.nome)}</p>
                                 </div>
-                            ) : null
+                            )
                         )}
                     </div>
                 </>

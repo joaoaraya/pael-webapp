@@ -11,10 +11,12 @@ import './style.scss';
 import ResponseModal from '@/components/modal/ResponseModal';
 import Link from 'next/link';
 
+
 type FormsTypes = {
     id_cim: string;
     ds_password: string
 }
+
 
 export default function SignIn() {
     const router = useRouter();
@@ -25,17 +27,10 @@ export default function SignIn() {
 
     // Mostrar imagem do usuário ao digitar o CIM
     const [cimValue, setCimValue] = useState('');
-    const [withoutPicture, setWithoutPicture] = useState(true);
 
     const onChangeCim = (event: any) => {
         setCimValue(event.target.value);
-        setWithoutPicture(false);
     }
-
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
-
 
     // Enviar dados para o servidor
     const sendData = handleSubmit(async (data) => {
@@ -77,10 +72,9 @@ export default function SignIn() {
     return (
         <div className="login">
             <img
-                src={API + '/user/' + cimValue + '/picture/large'}
+                className="profilePictureDark"
+                src={`${API}/user/${cimValue === '' ? 0 : cimValue}/picture/large`}
                 alt=""
-                onError={onImageLoadError}
-                className={`profilePicture ${withoutPicture ? 'defaultPicture' : ''}`}
             />
 
             <form onSubmit={sendData}>

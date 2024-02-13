@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import { capitalize } from '@/functions/visual';
@@ -8,8 +8,6 @@ import OpenModal from '@/components/button/OpenModal';
 import ModalDeputado from '@/components/modal/ModalDeputado';
 
 import './style.scss';
-import Link from 'next/link';
-
 
 
 type ButtonPerfilProps = {
@@ -39,11 +37,6 @@ type ButtonPerfilProps = {
 export default function ButtonPerfil(props: ButtonPerfilProps) {
     const user = props.user;
 
-
-    const [withoutPicture, setWithoutPicture] = useState(false);
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
     let fotoURL = defaultPicture.src;
 
     const userNome = !user?.nome ? "" : user.nome;
@@ -98,13 +91,7 @@ export default function ButtonPerfil(props: ButtonPerfilProps) {
             modalFooterContent={modalFooterContent}
             modalFooterLinkButton={modalFooterLinkButton}
         >
-            <img
-                id="fotoURL"
-                src={fotoURL}
-                alt=""
-                onError={onImageLoadError}
-                className={withoutPicture ? 'defaultPicture' : ''}
-            />
+            <img className="profilePictureDark" src={fotoURL} alt="" />
 
             <div className="perfilDados">
                 <h1>{capitalize(primeiroNome)}</h1>

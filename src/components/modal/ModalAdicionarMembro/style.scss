@@ -1,49 +1,47 @@
-.modalComissao {
+.modalAdicionarMembro {
     display: flex;
     flex-direction: column;
     gap: 16px;
     flex: 1;
 
-    h1 {
-        font-size: 24px;
-        font-weight: 400;
-        color: var(--body-font);
-    }
-
-    h2 {
-        font-size: 16px;
-        font-weight: 400;
-        text-transform: uppercase;
-        color: var(--body-font-light);
-    }
-
-    .grupo {
+    .listUsers {
         display: flex;
         flex-direction: column;
         gap: 8px;
         flex: 1;
 
-        .membro {
+        .user {
             display: flex;
             flex-direction: row;
             align-items: center;
             gap: 20px;
             flex: 1;
             padding: 4px;
+            border-radius: 8px;
+            background-color: transparent;
 
-            img {
+            .profilePicture {
                 width: 32px;
                 height: 32px;
                 border-radius: 32px;
+                background-color: var(--cardGrupoPessoas-bg-shadow);
             }
 
-            p {
+            .nome {
                 font-size: 16px;
                 font-weight: 600;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 color: var(--body-font);
+            }
+
+            &:hover {
+                background: var(--body-bg-alternative);
+
+                .nome {
+                    color: var(--body-font-alternative);
+                }
             }
         }
     }

@@ -1,48 +1,38 @@
-"use client";
-
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
-
 import OpenConfirmModal from '@/components/button/OpenConfirmModal';
-import OpenResponseModal from '@/components/button/OpenResponseModal';
 import ResponseModal from '@/components/modal/ResponseModal';
-import CardInfo from '@/components/card/CardInfo';
+import './style.scss';
+import OpenResponseModal from '@/components/button/OpenResponseModal';
 
 
-export default function PageNovaComissao() {
-    const router = useRouter();
+type ModalProps = {
+    comissao: {
+        id: number;
+        nome: string;
+    }
+}
+
+
+export default function ModalEditarTituloComissao(props: ModalProps) {
+    const { handleSubmit } = useForm();
+    const { put } = useAPI();
     const [showResponseModal, setShowResponseModal] = useState(<></>);
-    const { register, handleSubmit } = useForm();
-    const { post } = useAPI();
-    const [data, setData] = useState({ titulo: '' });
+    const [data, setData] = useState({ nm_comissao: props.comissao.nome });
+
+    const defaultName = props.comissao.nome;
 
 
     const sendData = async () => {
         try {
-            const newData = {
-                nm_comissao: data.titulo
-            }
-            const response = await post(`${API}/comissao`, 'application/json', JSON.stringify(newData));
-
-            if (response && response.status === 200) {
-                const id = response.data.details?.id;
-
-                if (id) {
-                    setShowResponseModal(
-                        <ResponseModal
-                            icon={response.data.response}
-                            message={response.data.message}
-                            action={() => { router.push(`/edit/comissao/${response.data.details.id}`) }}
-                        />
-                    )
-                }
-                else {
-                    setShowResponseModal(<ResponseModal icon="error" message="Tente novamente ou mais tarde!" />);
-                }
-            }
+            const response = await put(
+                `${API}/comissao/${props.comissao.id}`,
+                "application/json",
+                JSON.stringify(data)
+            );
+            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
         catch (error: any) {
             setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
@@ -52,11 +42,14 @@ export default function PageNovaComissao() {
 
     // Validar formularios antes de liberar botão de enviar dados
     const validateForms = () => {
-        if (!data.titulo) {
+        if (!data.nm_comissao) {
             return ("Digite um título para a comissão!");
         }
-        else if (!data.titulo.startsWith("COMISSÃO")) {
+        else if (!data.nm_comissao.startsWith("COMISSÃO")) {
             return ('Digite "Comissão" no início do título! Exemplo: Comissão de Tecnologia.');
+        }
+        else if (data.nm_comissao === defaultName) {
+            return ("Nenhuma alteração no título!");
         }
         return null;
     }
@@ -82,7 +75,7 @@ export default function PageNovaComissao() {
             <OpenConfirmModal
                 tagType="button"
                 className="btnPrimary"
-                title="Criar nova comissão?"
+                title="Salvar novo título da comissão?"
                 action={handleSubmit(sendData)}
                 actionText={buttonText}
             >
@@ -93,36 +86,23 @@ export default function PageNovaComissao() {
 
 
     return (
-        <div className="pageNovaComissao">
-            <div className="titulo">
-                <h1>Nova Comissão</h1>
-            </div>
-
+        <div className="modalEditarTituloComissao">
             <form onSubmit={(e) => e.preventDefault()}>
                 <label className="inputLabel">
-                    <p>Título:</p>
+                    <p>Título da comissão:</p>
 
                     <input
                         className="inputText inputValueToUpperCase"
                         type="text"
                         placeholder="Ex.: Comissão de Tecnologia"
-                        onChange={(e) => setData({ ...data, titulo: e.target.value.toUpperCase() })}
+                        defaultValue={props.comissao.nome}
+                        onChange={(e) => { setData({ nm_comissao: e.target.value.toUpperCase() }) }}
                         maxLength={64}
                         autoComplete="off"
                     />
                 </label>
 
-                <CardInfo
-                    titulo="Os membros serão adicionados em seguida!"
-                />
-
-                <div className="actionButtons">
-                    {submitButton("Criar comissão")}
-
-                    <button className="btnSecondary" onClick={router.back}>
-                        <p>Voltar</p>
-                    </button>
-                </div>
+                {submitButton("Salvar")}
             </form>
 
             {showResponseModal}

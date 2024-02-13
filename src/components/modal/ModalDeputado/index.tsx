@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import TextSituacao from '@/components/text/TextSituacao';
 import { capitalize, formatCPF, formatDateISOToBR, formatPhoneNumber } from '@/functions/visual';
 import { API } from '@/functions/urls';
@@ -33,19 +32,10 @@ export default function ModalDeputado(props: DeputadoProps) {
     const user = props.user;
     const fotoURL = `${API}/user/${user.cim}/picture/large`;
 
-    const [withoutPicture, setWithoutPicture] = useState(false);
-    const onImageLoadError = () => { setWithoutPicture(true); }
-
     return (
         <div className="modalDeputado">
             <div id="apresentacao">
-                <img
-                    id="fotoURL"
-                    src={fotoURL}
-                    alt=""
-                    onError={onImageLoadError}
-                    className={withoutPicture ? 'defaultPicture' : ''}
-                />
+                <img className="profilePicture" src={fotoURL} alt="" />
                 <p>{capitalize(user.nome)}</p>
             </div>
 
@@ -92,18 +82,18 @@ export default function ModalDeputado(props: DeputadoProps) {
                         </>
                     )}
 
-                    {user.cimSuplente && (
+                    {user.nomeSuplente && (
                         <>
                             <br />
-                            <p className="label">CIM DO SUPLENTE</p>
-                            <p>{user.cimSuplente}</p>
+                            <p className="label">NOME DO SUPLENTE</p>
+                            <p>{capitalize(user.nomeSuplente)}</p>
                         </>
                     )}
 
-                    {user.nomeSuplente && (
+                    {user.cimSuplente && (
                         <>
-                            <p className="label">NOME DO SUPLENTE</p>
-                            <p>{capitalize(user.nomeSuplente)}</p>
+                            <p className="label">CIM DO SUPLENTE</p>
+                            <p>{user.cimSuplente}</p>
                             <br />
                         </>
                     )}

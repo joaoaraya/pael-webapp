@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { API } from '@/functions/urls';
 import { capitalize } from '@/functions/visual';
 import defaultPicture from '@/assets/images/defaultProfilePictureDark.png';
@@ -36,10 +35,6 @@ type ButtonPessoaProps = {
 export default function ButtonPessoa(props: ButtonPessoaProps) {
     const user = props.user;
 
-    const [withoutPicture, setWithoutPicture] = useState(false);
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
     let fotoURL = defaultPicture.src;
     let userNome = "";
 
@@ -60,13 +55,7 @@ export default function ButtonPessoa(props: ButtonPessoaProps) {
             modalTitle="Deputado"
             modalContent={modalContent}
         >
-            <img
-                id="fotoURL"
-                src={fotoURL}
-                alt=""
-                onError={onImageLoadError}
-                className={withoutPicture ? 'defaultPicture' : ''}
-            />
+            <img className="profilePicture" src={fotoURL} alt="" />
             <p>{capitalize(userNome)}</p>
         </OpenModal>
     )

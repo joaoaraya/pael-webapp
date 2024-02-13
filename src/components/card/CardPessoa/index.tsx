@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+
 import { capitalize } from '@/functions/visual';
 import { API } from '@/functions/urls';
 import Link from 'next/link';
@@ -39,16 +39,6 @@ export default function CardPessoa(props: CardPessoaProps) {
     const user = props.user;
     const fotoURL = `${API}/user/${user.cim}/picture/small`;
 
-    const [withoutPicture, setWithoutPicture] = useState(false);
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
-
-    useEffect(() => {
-        setWithoutPicture(false);
-    }, [user]); // Recomeçar state ao atualizar as props do user
-
-
     const modalContent = (
         <ModalDeputado user={user} />
     );
@@ -74,13 +64,7 @@ export default function CardPessoa(props: CardPessoaProps) {
             modalContent={modalContent}
             modalFooterContent={modalFooterContent}
         >
-            <img
-                id="fotoURL"
-                src={fotoURL}
-                alt=""
-                onError={onImageLoadError}
-                className={withoutPicture ? 'defaultPicture' : ''}
-            />
+            <img className="profilePicture" src={fotoURL} alt="" />
             <p id="nome">{capitalize(user.nome)}</p>
             <p id="cim">{user.cim}</p>
             <p id="loja">{capitalize(user.loja)}</p>

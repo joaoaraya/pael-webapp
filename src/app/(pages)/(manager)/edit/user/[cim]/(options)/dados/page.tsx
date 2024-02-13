@@ -30,8 +30,8 @@ type UserDataProps = {
     cpf?: string;
     email?: string;
     celular?: string;
-    cimSuplente?: string;
     nomeSuplente?: string;
+    cimSuplente?: string;
 }
 
 
@@ -82,10 +82,10 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                 nr_cpf: data?.cpf,
                 ds_email: data?.email,
                 nr_celular: data?.celular,
-                id_loja: data?.loja,
                 nm_loja: data?.lojaNumero,
-                id_cim_suplente: data?.cimSuplente,
-                nm_suplente: data?.nomeSuplente
+                id_loja: data?.loja,
+                nm_suplente: data?.nomeSuplente,
+                id_cim_suplente: data?.cimSuplente
             }
 
             const response = await put(`${API}/user/${userCIM}`, 'application/json', JSON.stringify(updatedData));
@@ -117,17 +117,17 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                 return ("Digite o número de celular!");
             }
             if (userPresidente) {
-                if (!data.lojaNumero) {
-                    return ("Insira o número da loja!");
-                }
-                else if (!data.loja) {
+                if (!data.loja) {
                     return ("Digite o nome da loja!");
                 }
-                else if (!data.cimSuplente || data.cimSuplente == '0') {
-                    return ("Insira o CIM do Suplente!");
+                else if (!data.lojaNumero) {
+                    return ("Insira o número da loja!");
                 }
                 else if (!data.nomeSuplente) {
                     return ("Digite o nome do Suplente!");
+                }
+                else if (!data.cimSuplente || data.cimSuplente == '0') {
+                    return ("Insira o CIM do Suplente!");
                 }
             }
         }
@@ -254,19 +254,6 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                             <br />
 
                             <label className="inputLabel">
-                                <p>Número da Loja:</p>
-
-                                <input
-                                    className="inputText"
-                                    type="number"
-                                    defaultValue={data.lojaNumero}
-                                    onChange={(e) => setData({ ...data, lojaNumero: e.target.value.replace(/\D/g, '') })}
-                                    maxLength={8}
-                                    autoComplete="off"
-                                />
-                            </label>
-
-                            <label className="inputLabel">
                                 <p>Nome da Loja:</p>
 
                                 <input
@@ -279,7 +266,33 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                                 />
                             </label>
 
+                            <label className="inputLabel">
+                                <p>Número da Loja:</p>
+
+                                <input
+                                    className="inputText"
+                                    type="number"
+                                    defaultValue={data.lojaNumero}
+                                    onChange={(e) => setData({ ...data, lojaNumero: e.target.value.replace(/\D/g, '') })}
+                                    maxLength={8}
+                                    autoComplete="off"
+                                />
+                            </label>
+
                             <br />
+
+                            <label className="inputLabel">
+                                <p>Nome completo do Suplente:</p>
+
+                                <input
+                                    className="inputText inputValueToUpperCase"
+                                    type="text"
+                                    defaultValue={data.nomeSuplente}
+                                    onChange={(e) => setData({ ...data, nomeSuplente: e.target.value.toUpperCase() })}
+                                    maxLength={64}
+                                    autoComplete="off"
+                                />
+                            </label>
 
                             <label className="inputLabel">
                                 <p>CIM do Suplente:</p>
@@ -292,19 +305,6 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                                     placeholder="xxxxxx"
                                     onChange={(e) => setData({ ...data, cimSuplente: formatInputOnlyNumbers(e.target.value, 8) })}
                                     maxLength={8}
-                                    autoComplete="off"
-                                />
-                            </label>
-
-                            <label className="inputLabel">
-                                <p>Nome completo do Suplente:</p>
-
-                                <input
-                                    className="inputText inputValueToUpperCase"
-                                    type="text"
-                                    defaultValue={data.nomeSuplente}
-                                    onChange={(e) => setData({ ...data, nomeSuplente: e.target.value.toUpperCase() })}
-                                    maxLength={64}
                                     autoComplete="off"
                                 />
                             </label>

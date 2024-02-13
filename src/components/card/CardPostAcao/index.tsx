@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { API } from '@/functions/urls';
 import Link from 'next/link';
 
@@ -25,11 +25,6 @@ type CardPostAcaoProps = {
 
 export default function CardPostAcao(props: CardPostAcaoProps) {
     const acao = props.post;
-
-    const [withoutPicture, setWithoutPicture] = useState(false);
-    const onImageLoadError = () => {
-        setWithoutPicture(true);
-    }
 
     /* Acentos no título para os tipos de ação */
     const acaoTipo =
@@ -125,11 +120,9 @@ export default function CardPostAcao(props: CardPostAcaoProps) {
 
                 <div id="postAutor">
                     <img
-                        id="fotoURL"
+                        className="profilePicture"
                         src={`${API}/user/${acao.autor.cim}/picture/small`}
                         alt=""
-                        onError={onImageLoadError}
-                        className={withoutPicture ? 'defaultPicture' : ''}
                     />
 
                     <p id="autor">

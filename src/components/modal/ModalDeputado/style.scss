@@ -23,16 +23,6 @@
             width: 192px;
             height: 192px;
             border-radius: 96px;
-            object-fit: cover;
-        }
-
-        #fotoURL {
-            background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
-            background-color: var(--cardGrupoPessoas-bg-shadow);
-        }
-
-        .defaultPicture {
-            content-visibility: hidden;
         }
 
         p {

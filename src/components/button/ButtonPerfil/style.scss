@@ -8,20 +8,10 @@
     border-radius: 8px;
     background-color: var(--body-bg);
 
-    img {
+    .profilePictureDark {
         border-radius: 48px;
-        object-fit: cover;
         border: 2px solid var(--body-bg);
-    }
-
-    #fotoURL {
-        background: url('../../../assets/images/defaultProfilePictureDark.png') center/100% no-repeat;
-        background-color: var(--body-bg-shadow);
-    }
-
-    .defaultPicture {
-        border: 2px solid var(--body-input-border);
-        content-visibility: hidden;
+        outline: 2px solid var(--body-bg);
     }
 
     .perfilDados {
@@ -47,9 +37,8 @@
     }
 
     &:hover {
-
-        img {
-            border: 2px solid var(--body-bg-highlight);
+        .profilePictureDark {
+            outline: 2px solid var(--body-bg-highlight);
         }
     }
 }
@@ -58,7 +47,7 @@
 @media screen and (min-device-width: 480px),
 screen and (min-width: 480px) {
     .buttonPerfil {
-        img {
+        .profilePictureDark {
             width: 48px;
             height: 48px;
         }
@@ -69,7 +58,7 @@ screen and (min-width: 480px) {
 @media screen and (max-device-width: 480px),
 screen and (max-width: 480px) {
     .buttonPerfil {
-        img {
+        .profilePictureDark {
             width: 32px;
             height: 32px;
         }

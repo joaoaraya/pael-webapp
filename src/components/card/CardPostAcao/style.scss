@@ -75,22 +75,16 @@
         align-self: flex-start;
         display: grid;
         grid-template-areas:
-            "fotoURL autor"
-            "fotoURL dataDeCriacao"
+            "profilePicture autor"
+            "profilePicture dataDeCriacao"
         ;
 
-        #fotoURL {
-            grid-area: fotoURL;
+        .profilePicture {
+            grid-area: profilePicture;
             width: 32px;
             height: 32px;
             border-radius: 16px;
-            object-fit: cover;
-            background: url('../../../assets/images/defaultProfilePicture.png') center/100% no-repeat;
             background-color: var(--cardPostAcao-bg-highlight);
-        }
-
-        .defaultPicture {
-            content-visibility: hidden;
         }
 
         #autor,
@@ -138,7 +132,7 @@
             color: var(--postAcaoConcluido-highlight) !important;
         }
 
-        #fotoURL {
+        .profilePicture {
             background-color: var(--postAcaoConcluido-highlight) !important;
         }
     }
