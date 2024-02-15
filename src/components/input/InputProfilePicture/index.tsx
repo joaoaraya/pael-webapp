@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Icon from '@/components/icon/Icon';
+import defaultPicture from '@/assets/images/defaultProfilePictureDark.png'
 import './style.scss';
 
 

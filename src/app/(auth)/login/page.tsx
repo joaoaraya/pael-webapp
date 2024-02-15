@@ -24,6 +24,7 @@ export default function SignIn() {
     const { register, handleSubmit } = useForm<FormsTypes>();
     const [disableButton, setDisableButton] = useState(false);
     const [showResponseModal, setShowResponseModal] = useState(<></>);
+    const ano = new Date().getFullYear().toString();
 
     // Mostrar imagem do usuário ao digitar o CIM
     const [cimValue, setCimValue] = useState('');
@@ -113,7 +114,7 @@ export default function SignIn() {
 
             <footer>
                 <p>
-                    &#169; 2024 PAEL&nbsp;
+                    &#169; {ano} PAEL&nbsp;
                     <a className="link" href="https://gobsp.com.br/" target="_blank">GOB-SP</a>
                     &nbsp; | &nbsp;
                     <Link className="link" href="/suporte">Suporte</Link>

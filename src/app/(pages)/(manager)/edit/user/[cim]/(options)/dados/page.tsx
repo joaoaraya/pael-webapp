@@ -82,8 +82,8 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                 nr_cpf: data?.cpf,
                 ds_email: data?.email,
                 nr_celular: data?.celular,
-                nm_loja: data?.lojaNumero,
-                id_loja: data?.loja,
+                nm_loja: data?.loja,
+                id_loja: data?.lojaNumero,
                 nm_suplente: data?.nomeSuplente,
                 id_cim_suplente: data?.cimSuplente
             }

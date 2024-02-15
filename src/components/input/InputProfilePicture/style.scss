@@ -22,7 +22,7 @@
             overflow: hidden;
             border-spacing: 8px;
             border-color: var(--body-input-border);
-            background-color: var(--body-bg);
+            background-color: var(--body-font-light);
 
             .input-btn {
                 opacity: 0;
@@ -62,7 +62,7 @@
             .input-icon {
                 svg {
                     fill: var(--body-font-alternative);
-                    opacity: 25%;
+                    opacity: 30%;
                 }
 
                 &:hover {
