@@ -1,5 +1,6 @@
 import { useCookies } from 'react-cookie';
 import axios, { Method } from 'axios';
+import { useRouter } from 'next/navigation';
 
 type RequestProps = {
     method: Method;
@@ -12,6 +13,7 @@ export const useAPI = () => {
     // Procurar o token nos cookies, se não encontrar.. atribuir null
     const [cookies] = useCookies(['token']);
     const token = cookies.token || null;
+    const router = useRouter();
 
     const makeRequest = async ({ method, url, contentType, data }: RequestProps) => {
         if (!token) {
@@ -40,7 +42,7 @@ export const useAPI = () => {
             }
             else {
                 window.alert(message);
-                window.location.href = "/";
+                router.push("/");
             }
             console.error(error);
 

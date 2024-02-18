@@ -8,9 +8,9 @@ type Props = {
     children: ReactNode;
 }
 
-export default function DashboardLayout({ children }: Props) {
+export default function HomeLayout({ children }: Props) {
     return (
-        <div className="container">
+        <div className="containerHome">
             <HeaderLogoOnly />
             <main>
                 {children}

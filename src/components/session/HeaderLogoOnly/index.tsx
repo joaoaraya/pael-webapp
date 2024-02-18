@@ -4,10 +4,12 @@ import ButtonLogo from '@/components/button/ButtonLogo';
 
 import './style.scss';
 
-export default function Header() {
+export default function HeaderOnly() {
     return (
-        <header>
-            <ButtonLogo />
+        <header className="headerLogoOnly">
+            <div className="containerLogoOnly">
+                <ButtonLogo />
+            </div>
         </header>
     )
 }

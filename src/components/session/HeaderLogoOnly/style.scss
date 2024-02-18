@@ -1,25 +1,26 @@
-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-
+.headerLogoOnly {
+    width: 100%;
     position: fixed;
     left: 0;
     top: 0;
     right: 0;
-    margin: auto;
+    padding: 0;
     z-index: 10;
-
     background-color: var(--body-bg);
+
+    .containerLogoOnly {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+    }
 }
 
 /* Alterações para Desktop */
 @media screen and (min-device-width: 768px),
 screen and (min-width: 768px) {
-    header {
-        width: 100%;
+    .headerLogoOnly {
         padding: 24px 0px 8px 0px;
     }
 }
@@ -27,8 +28,7 @@ screen and (min-width: 768px) {
 /* Alterações para Mobile */
 @media screen and (max-device-width: 768px),
 screen and (max-width: 768px) {
-    header {
-        width: 100%;
+    .headerLogoOnly {
         padding: 8px 0;
     }
 }
