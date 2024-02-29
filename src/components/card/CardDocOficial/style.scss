@@ -17,7 +17,9 @@
     #desc {
         display: flex;
         flex-direction: row;
+        justify-content: center;
         gap: 4px;
+        overflow: hidden;
 
         svg {
             width: 16px;
@@ -25,11 +27,12 @@
         }
 
         p {
+            margin: 0;
             font-size: 16px;
             text-align: left;
-            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            overflow: hidden;
             color: var(--body-font);
         }
     }
