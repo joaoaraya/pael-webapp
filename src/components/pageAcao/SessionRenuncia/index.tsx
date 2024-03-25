@@ -32,11 +32,11 @@ export default function SessionRenuncia(props: RenunciaProps) {
     if (renuncia) {
         /* Componentes da Página */
         const cardStatusFinalAprovado = (
-            <CardInfo titulo={"Deferido em: " + formatDate(acao.dataDeAtualizacao)} icone="like" cor="ok" />
+            <CardInfo titulo={"Deferido no sistema em: " + formatDate(acao.dataDeAtualizacao)} icone="like" cor="ok" />
         );
 
         const cardStatusFinalReprovado = (
-            <CardInfo titulo={"Indeferido em: " + formatDate(acao.dataDeAtualizacao)} icone="dislike" cor="attention" />
+            <CardInfo titulo={"Indeferido no sistema em: " + formatDate(acao.dataDeAtualizacao)} icone="dislike" cor="attention" />
         );
 
 

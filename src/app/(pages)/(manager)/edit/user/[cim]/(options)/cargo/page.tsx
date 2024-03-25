@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useAPI } from '@/hooks/Api';
 import { API } from '@/functions/urls';
-import { getDateISO, validateDate } from '@/functions/date';
+import { validateDate } from '@/functions/date';
 import { capitalize, formatDateISOToBR, formatDateToISO } from '@/functions/visual';
 
 import InputMask from 'react-input-mask';
@@ -38,17 +38,30 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
     const { register, handleSubmit } = useForm();
     const { get, post, put } = useAPI();
     const [user, setUser] = useState<UserDataProps>();
-    const [data, setData] = useState({ cargo: '', termino: '' });
+    const [data, setData] = useState({ cargo: '', inicio: '', termino: '' });
+    const [cargos, setCargos] = useState(["- Selecione -"])
+    const [cargoNome, setCargoNome] = useState(cargos[0]);
 
     const userCIM = params.cim;
+
 
     /* Server functions */
 
     useEffect(() => {
-        const checkUserIsPresidente = async () => {
+        const checkUserIsAdmin = async () => {
             try {
-                const response = await get(`${API}/check/user/presidente`);
-                return response.data;
+                const responsePresidente = await get(`${API}/check/user/presidente`);
+                const responseSecretarioVice = await get(`${API}/check/user/secretario-vice`);
+
+                if (responsePresidente.data === true) {
+                    return true;
+                }
+                else if (responseSecretarioVice.data === true) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
             catch (error: any) {
                 // Ações de erro no hook de API
@@ -59,9 +72,12 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
         const loadData = async () => {
             try {
                 const userData = await get(`${API}/user/${userCIM}`);
-                const isPresidente = await checkUserIsPresidente();
+                const userIsAdmin = await checkUserIsAdmin();
+                const cargosData = await get(`${API}/cargos`);
 
-                if (isPresidente) {
+                setCargos([...cargos, ...cargosData.data]);
+
+                if (userIsAdmin) {
                     setUser(userData.data);
                     setIsLoading(false);
                 }
@@ -77,14 +93,22 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
         loadData();
     }, []);
 
+
     const sendData = async () => {
         try {
             const updatedData = {
                 nm_cargo: data.cargo,
-                dt_cargo_nomeacao: getDateISO(),
+                dt_cargo_nomeacao: data.inicio,
                 dt_cargo_termino: data.termino
             }
-            const response = await post(`${API}/user/${userCIM}/cargo`, 'application/json', JSON.stringify(updatedData));
+
+            let rota = `${API}/user/${userCIM}/cargo`;
+
+            if (data.cargo === "PRESIDENTE") {
+                rota = `${API}/user/${userCIM}/cargo=presidente`;
+            }
+
+            const response = await post(rota, 'application/json', JSON.stringify(updatedData));
 
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
@@ -93,9 +117,9 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
         }
     }
 
-    const setCargo = async (cargo: string) => {
+    const finalizarCargo = async () => {
         try {
-            const response = await put(`${API}/user/${userCIM}/cargo=${cargo}`);
+            const response = await put(`${API}/user/${userCIM}/cargo=end`);
 
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
         }
@@ -107,10 +131,24 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
 
     /* Client functions */
 
+    useEffect(() => {
+        setData({
+            ...data,
+            cargo: cargoNome.toUpperCase()
+        });
+
+    }, [cargoNome]);
+
     // Validar formularios antes de liberar botão de enviar dados
     const validateForms = () => {
-        if (data.cargo === "") {
-            return ("Digite o cargo!");
+        if (data.cargo === "" || data.cargo === cargos[0]) {
+            return ("Selecione o cargo!");
+        }
+        else if (!data.inicio) {
+            return ("Insira a data de início!");
+        }
+        else if (!validateDate(data.inicio)) {
+            return ("Data de início inválida!");
         }
         else if (!data.termino) {
             return ("Insira a data de término!");
@@ -142,7 +180,7 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
             <OpenConfirmModal
                 tagType="button"
                 className="btnPrimary"
-                title={`Nomear cargo de ${capitalize(data.cargo)}, agora?`}
+                title={`Nomeá-lo com o cargo de: ${capitalize(data.cargo)}?`}
                 action={handleSubmit(sendData)}
                 actionText={buttonText}
                 withPassword={true}
@@ -158,24 +196,11 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
             tagType="button"
             className="btnPrimary"
             title="Finalizar o mandato agora?"
-            action={() => setCargo("end")}
+            action={() => finalizarCargo()}
             actionText="Finalizar"
             withPassword={true}
         >
             <p>Finalizar mandato</p>
-        </OpenConfirmModal>
-    );
-
-    const nomearPresidenteButton = (
-        <OpenConfirmModal
-            tagType="button"
-            className="btnPrimary"
-            title="Transferir meu cargo de Presidente para o Deputado?"
-            action={() => setCargo("presidente")}
-            actionText="Confirmar"
-            withPassword={true}
-        >
-            <p>Nomear Presidente</p>
         </OpenConfirmModal>
     );
 
@@ -218,33 +243,33 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
                     :
                     <>
                         <div className="novoCargo">
-                            <label className="inputLabel" id="cargo">
-                                <p>Novo cargo:</p>
+                            <label className="selectbox" id="cargo">
+                                <p>Selecione o cargo:</p>
 
-                                <input
-                                    className="inputText inputValueToUpperCase"
-                                    type="text"
-                                    placeholder="Ex.: vice-presidente"
-                                    onChange={(e) => setData({ ...data, cargo: e.target.value.toUpperCase() })}
-                                    maxLength={64}
-                                    autoComplete="off"
-                                />
+                                <select onChange={(e) => { setCargoNome(e.target.value) }}>
+                                    {cargos.map((cargo, index) => (
+                                        <option key={index} value={cargo}>
+                                            {capitalize(cargo)}
+                                        </option>
+                                    ))}
+                                </select>
                             </label>
 
                             <label className="inputLabel" id="inicio">
-                                <p>Início:</p>
+                                <p>Data de início:</p>
 
                                 <InputMask
                                     className="inputText"
                                     type="text"
                                     mask="99/99/9999"
-                                    value={formatDateISOToBR(getDateISO())}
-                                    disabled
+                                    placeholder="xx/xx/xxxx"
+                                    onChange={(e) => setData({ ...data, inicio: formatDateToISO(e.target.value) })}
+                                    autoComplete="off"
                                 />
                             </label>
 
                             <label className="inputLabel" id="termino">
-                                <p>Previsão de término:</p>
+                                <p>Data de término:</p>
 
                                 <InputMask
                                     className="inputText"
@@ -259,7 +284,6 @@ export default function PageEditUserCargo({ params }: { params: PageProps }) {
 
                         <div className="actionButtons">
                             {submitButton("Nomear cargo")}
-                            {nomearPresidenteButton}
                             {voltarButton}
                         </div>
                     </>

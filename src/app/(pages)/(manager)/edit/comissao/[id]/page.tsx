@@ -47,9 +47,7 @@ export default function PageEditComissao({ params }: { params: PageProps }) {
         const loadComissao = async () => {
             try {
                 const response = await get(`${API}/comissao/${comissaoID}`);
-                console.log(response)
                 setComissao(response.data);
-
                 setIsLoading(false);
             }
             catch (error: any) {
@@ -70,7 +68,6 @@ export default function PageEditComissao({ params }: { params: PageProps }) {
         const removerMembro = async (cim: string) => {
             try {
                 const response = await del(`${API}/comissao/${comissao.id}/cim=${cim}`);
-
                 setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
             }
             catch (error: any) {
@@ -81,7 +78,6 @@ export default function PageEditComissao({ params }: { params: PageProps }) {
         const ativarComissao = async (status: boolean) => {
             try {
                 const response = await put(`${API}/comissao/${comissao.id}/ativa=${status}`);
-
                 setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
             }
             catch (error: any) {

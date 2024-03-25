@@ -11,6 +11,8 @@ import ModalNovaAcao from '@/components/modal/ModalNovaAcao';
 import ListPostsAcao from '@/components/session/ListPostsAcao';
 import ErrorPage from '@/components/session/ErrorPage';
 import LoadingPage from '@/components/session/LoadingPage';
+import ActionHeader from '@/components/session/ActionHeader';
+import Search from '@/components/input/Search';
 
 
 type PageProps = {
@@ -36,14 +38,38 @@ export default function PageAcoes({ params }: { params: PageProps }) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [errorStatus, setErrorStatus] = useState(0);
-    const [acoes, setAcoes] = useState<AcoesProps>([]);
+    const [allAcoes, setAllAcoes] = useState<AcoesProps>([]); // Todos as ações recebidas da API (Backup) 
+    const [acoes, setAcoes] = useState<AcoesProps>([]);// Lista final de ações no front-end
     const { get } = useAPI();
+
+    const statusAtual = params.statusAtual;
+
+    /* Filtrar descrição dos documentos pela barra de pesquisa */
+    const search = (text: string) => {
+        const acoesFilter = allAcoes.filter((acao) => {
+            // Quando não encotrar resultado mostrar um objeto vazio
+            const { dataDeAtualizacao, autor } = acao || {};
+
+            const searchText = text.toLowerCase();
+            // Verificar se cada propriedade não é null
+            const acaoDataDeAtualizacao = dataDeAtualizacao ? dataDeAtualizacao : '';
+            const acaoAutor = autor.nome ? autor.nome.toLocaleLowerCase() : '';
+
+            return (
+                acaoDataDeAtualizacao.includes(searchText) ||
+                acaoAutor.includes(searchText)
+            );
+        });
+
+        setAcoes(acoesFilter);
+    };
 
     useEffect(() => {
         const loadData = async () => {
             try {
-                const response = await get(`${API}/acoes/status=${params.statusAtual}`);
+                const response = await get(`${API}/acoes/status=${statusAtual}`);
                 setAcoes(response.data);
+                setAllAcoes(response.data);
                 setIsLoading(false);
             }
             catch (error: any) {
@@ -59,8 +85,8 @@ export default function PageAcoes({ params }: { params: PageProps }) {
 
     let pageTitle = "";
 
-    if (params.statusAtual) {
-        switch (params.statusAtual) {
+    if (statusAtual) {
+        switch (statusAtual) {
             case "redacao": pageTitle = "Ações em Redação"; break;
             case "pauta": pageTitle = "Ações em Pauta"; break;
             case "comissao": pageTitle = "Ações em Comissão"; break;
@@ -95,7 +121,19 @@ export default function PageAcoes({ params }: { params: PageProps }) {
                 </OpenModal>
             </MainHeader>
 
-            {!acoes.length && (<ErrorPage icon="success" title="Tudo OK" text="Nenhuma ação pendente!" />)}
+            {statusAtual === "concluido" ? (
+                <>
+                    <ActionHeader>
+                        <Search placeholderText="Procure por autor, dia, nº do mês ou ano..." getInputText={search} />
+                    </ActionHeader>
+
+                    {!acoes.length && (<ErrorPage icon="info" title="Vazio" text="Nenhuma ação concluída!" />)}
+                </>
+            ) : (
+                <>
+                    {!acoes.length && (<ErrorPage icon="success" title="Tudo OK!" text="Nenhuma ação pendente!" />)}
+                </>
+            )}
 
             <ListPostsAcao posts={acoes} />
         </>

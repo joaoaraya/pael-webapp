@@ -42,7 +42,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
     const { register, handleSubmit } = useForm();
     const { get, put } = useAPI();
     const [data, setData] = useState<UserDataProps>();
-    const [userPresidente, setUserPresidente] = useState(false);
+    const [userAdmin, setUserAdmin] = useState(false);
 
     const userCIM = params.cim;
 
@@ -60,10 +60,20 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
             }
         }
 
-        const checkUserIsPresidente = async () => {
+        const checkUserIsAdmin = async () => {
             try {
-                const response = await get(`${API}/check/user/presidente`);
-                setUserPresidente(response.data);
+                const responsePresidente = await get(`${API}/check/user/presidente`);
+                const responseSecretarioVice = await get(`${API}/check/user/secretario-vice`);
+
+                if (responsePresidente.data === true) {
+                    setUserAdmin(true);
+                }
+                else if (responseSecretarioVice.data === true) {
+                    setUserAdmin(true);
+                }
+                else {
+                    setUserAdmin(false);
+                }
             }
             catch (error: any) {
                 // Ações de erro no hook de API
@@ -71,7 +81,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
         }
 
         loadData();
-        checkUserIsPresidente();
+        checkUserIsAdmin();
     }, []);
 
     const sendData = async () => {
@@ -116,7 +126,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
             else if (!data.celular) {
                 return ("Digite o número de celular!");
             }
-            if (userPresidente) {
+            if (userAdmin) {
                 if (!data.loja) {
                     return ("Digite o nome da loja!");
                 }
@@ -249,7 +259,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
                         />
                     </label>
 
-                    {userPresidente && (
+                    {userAdmin && (
                         <>
                             <br />
 

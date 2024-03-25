@@ -29,17 +29,27 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
     const { get, put } = useAPI();
     const [data, setData] = useState({ password: '123', passwordConfirm: '' });
     const [passwordSecurity, setPasswordSecurity] = useState({ level: 0, text: "Senha fraca" });
-    const [userPresidente, setUserPresidente] = useState(false);
+    const [userAdmin, setUserAdmin] = useState(false);
     const [userAutor, setUserAutor] = useState(false);
 
     const userCIM = params.cim;
 
 
     useEffect(() => {
-        const checkUserIsPresidente = async () => {
+        const checkUserIsAdmin = async () => {
             try {
-                const response = await get(`${API}/check/user/presidente`);
-                setUserPresidente(response.data);
+                const responsePresidente = await get(`${API}/check/user/presidente`);
+                const responseSecretarioVice = await get(`${API}/check/user/secretario-vice`);
+
+                if (responsePresidente.data === true) {
+                    setUserAdmin(true);
+                }
+                else if (responseSecretarioVice.data === true) {
+                    setUserAdmin(true);
+                }
+                else {
+                    setUserAdmin(false);
+                }
             }
             catch (error: any) {
                 // Ações de erro no hook de API
@@ -57,7 +67,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
             }
         }
 
-        checkUserIsPresidente();
+        checkUserIsAdmin();
         checkUserIsAutor(userCIM);
     }, []);
 
@@ -65,7 +75,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
     const sendData = async () => {
         try {
             const defaultPassword = "123#mudar";
-            const updatedData = { ds_password: (userPresidente && !userAutor) ? defaultPassword : data.password };
+            const updatedData = { ds_password: (userAdmin && !userAutor) ? defaultPassword : data.password };
 
             const response = await put(`${API}/user/${userCIM}/password`, 'application/json', JSON.stringify(updatedData));
 
@@ -109,6 +119,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
     }
 
     // Qual botão mostrar?
+
     const submitButton = (buttonText: string) => {
         const validationMessage = validateForms();
 
@@ -150,7 +161,7 @@ export default function PageEditUserDados({ params }: { params: PageProps }) {
             </div>
 
             <form onSubmit={(e) => e.preventDefault()}>
-                {(userPresidente && !userAutor) ?
+                {(userAdmin && !userAutor) ?
                     <>
                         <div className="senhaDicas">
                             <CardInfo

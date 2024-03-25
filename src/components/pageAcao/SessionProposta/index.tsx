@@ -78,11 +78,11 @@ export default function SessionProposta(props: PropostaProps) {
 
         /* Componentes da Página */
         const cardStatusFinalAprovado = (
-            <CardInfo titulo={"Aprovado em: " + formatDate(acao.dataDeAtualizacao)} icone="like" cor="ok" />
+            <CardInfo titulo={"Aprovado no sistema em: " + formatDate(acao.dataDeAtualizacao)} icone="like" cor="ok" />
         );
 
         const cardStatusFinalReprovado = (
-            <CardInfo titulo={"Reprovado em: " + formatDate(acao.dataDeAtualizacao)} icone="dislike" cor="attention" />
+            <CardInfo titulo={"Reprovado no sistema em: " + formatDate(acao.dataDeAtualizacao)} icone="dislike" cor="attention" />
         );
 
         const cardAcaoSteps = (

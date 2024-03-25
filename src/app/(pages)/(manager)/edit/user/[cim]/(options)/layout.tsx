@@ -25,15 +25,25 @@ export default function PageEditUser({ children, params }: { children?: ReactNod
     const [isLoading, setIsLoading] = useState(true);
     const { get } = useAPI();
     const [userData, setUserData] = useState<UserProps>();
-    const [userPresidente, setUserPresidente] = useState(false);
+    const [userAdmin, setUserAdmin] = useState(false);
     const [userAutor, setUserAutor] = useState(false);
 
 
     useEffect(() => {
-        const checkUserIsPresidente = async () => {
+        const checkUserIsAdmin = async () => {
             try {
-                const response = await get(`${API}/check/user/presidente`);
-                setUserPresidente(response.data);
+                const responsePresidente = await get(`${API}/check/user/presidente`);
+                const responseSecretarioVice = await get(`${API}/check/user/secretario-vice`);
+
+                if (responsePresidente.data === true) {
+                    setUserAdmin(true);
+                }
+                else if (responseSecretarioVice.data === true) {
+                    setUserAdmin(true);
+                }
+                else {
+                    setUserAdmin(false);
+                }
             }
             catch (error: any) {
                 // Ações de erro no hook de API
@@ -65,7 +75,7 @@ export default function PageEditUser({ children, params }: { children?: ReactNod
             }
         }
 
-        checkUserIsPresidente();
+        checkUserIsAdmin();
         loadUserData();
     }, []);
 
@@ -79,7 +89,7 @@ export default function PageEditUser({ children, params }: { children?: ReactNod
             <div className="pageEditUser">
                 <div className="pageContainer">
                     <div className="pageNavigation">
-                        <NavConta isPresidente={userPresidente} isAutor={userAutor} user={userData} />
+                        <NavConta isAdmin={userAdmin} isAutor={userAutor} user={userData} />
                     </div>
 
                     {children}

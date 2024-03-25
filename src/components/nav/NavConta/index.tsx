@@ -6,7 +6,7 @@ import './style.scss';
 
 
 type NavProps = {
-    isPresidente: boolean;
+    isAdmin: boolean;
     isAutor: boolean;
     user: {
         nome: string;
@@ -24,7 +24,7 @@ export default function NavConta(props: NavProps) {
         { title: 'Foto de perfil', param: '/foto' },
         { title: 'Dados pessoais', param: '/dados' },
         { title: 'Alterar senha', param: '/senha' },
-        ...(props.isPresidente ? [
+        ...(props.isAdmin ? [
             { title: 'Situação', param: '/situacao' },
             { title: 'Cargo', param: '/cargo' },
         ] : [])
@@ -64,7 +64,7 @@ export default function NavConta(props: NavProps) {
                 ))}
             </div>
 
-            {!props.isPresidente && (
+            {props.isAutor && (
                 <div className="links">
                     {externaLinks.map((option, index) => (
                         <Link key={index} href={newAcaoPath + option.param}>

@@ -60,7 +60,7 @@ export default function PageMinhasAcoes({ params }: { params: PageProps }) {
         loadData();
     }, []);
 
-    const pageTitle = apiFilter === "to" ? "Tarefas" : "Acões";
+    const pageTitle = apiFilter === "to" ? "Tarefas" : "Ações";
 
 
     if (isLoading) {

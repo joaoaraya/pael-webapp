@@ -1,5 +1,41 @@
 .listPostsAcao {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
+    .mainPosts {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+    }
+
+    .footerPosts {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 24px;
+
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 50%;
+            height: 1px;
+            background: var(--body-font-light-2);
+            z-index: -1;
+        }
+
+        &:before {
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        &:after {
+            right: 0;
+            transform: translateY(-50%);
+        }
+
+        .loadMoreButton {
+            border-left: solid 16px var(--body-bg);
+            border-right: solid 16px var(--body-bg);
+        }
+    }
 }

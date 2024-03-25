@@ -58,6 +58,7 @@ type ButtonsAcoesProps = {
 export default function ButtonsAcoes(props: ButtonsAcoesProps) {
     const acao = props.acao;
     const [userPresidente, setUserPresidente] = useState(false);
+    const [userSecretarioVice, setUserSecretarioVice] = useState(false);
     const [userPresidenteComissao, setUserPresidenteComissao] = useState(false);
     const [userAutor, setUserAutor] = useState(false);
     const { get, post, put, del } = useAPI();
@@ -69,6 +70,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             try {
                 const responseAutor = await get(`${API}/check/user/autor/cim=${props.autor.cim}`);
                 const responsePresidente = await get(`${API}/check/user/presidente`);
+                const responseSecretarioVice = await get(`${API}/check/user/secretario-vice`);
 
                 // Somente atualizar se a resposta for igual a "true"
                 if (responseAutor.data === true) {
@@ -76,6 +78,9 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 }
                 if (responsePresidente.data === true) {
                     setUserPresidente(true);
+                }
+                if (responseSecretarioVice.data === true) {
+                    setUserSecretarioVice(true);
                 }
 
                 // Função para verificar se o usuário é presidente de alguma comissão
@@ -152,16 +157,6 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 JSON.stringify({ statusFinal: "reprovado" })
             );
             setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} />);
-        }
-        catch (error: any) {
-            setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
-        }
-    }
-
-    const acaoExcluir = async () => {
-        try {
-            const response = await del(`${API}/acao/${acao.id}`);
-            setShowResponseModal(<ResponseModal icon={response.data.response} message={response.data.message} action={() => { router.back() }} />);
         }
         catch (error: any) {
             setShowResponseModal(<ResponseModal icon="error" message={error.toString().slice(7)} />);
@@ -271,10 +266,6 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
         confirmButton("Reprovar", "Reprovar ação?", "Essa proposta será finalizada", acaoReprovar, "btnAttention")
     );
 
-    const excluirButton = (
-        confirmButton("Excluir ação", "Excluir a ação?", "Todos os dados e progressos dessa ação serão perdidos!", acaoExcluir, "btnAttention")
-    );
-
     const criarEmendaButton = (
         <Link href={`/new/acao/emenda/${acao.id}`} className="linkButton">
             <button className="btnPrimary">
@@ -314,7 +305,7 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {assinarApoioButton}
-                    {(assinaturasNecessarias && userPresidente) && (encComissaoButton)}
+                    {(assinaturasNecessarias && (userPresidente || userSecretarioVice)) && (encComissaoButton)}
                     {aceitarEmendas && (criarEmendaButton)}
                 </>
             );
@@ -324,13 +315,13 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {userPresidenteComissao && (enviarParecerButton)}
-                    {userPresidente && (
+                    {(userPresidente || userSecretarioVice) && (
                         <>
                             {todosPareceres && (encPlenarioButton)}
                             {encComissaoButton}
-                            {reprovarButton}
                         </>
                     )}
+                    {(userPresidente) && (<>{reprovarButton}</>)}
                     {aceitarEmendas && (criarEmendaButton)}
                 </>
             );
@@ -358,12 +349,20 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (editarPropostaButton);
         }
 
-        if (acao.statusAtual === "redacao" && userPresidente) {
+        if (acao.statusAtual === "redacao") {
             buttons = (
                 <>
-                    {encComissaoButton}
-                    {solicitarAjustesButton}
-                    {reprovarButton}
+                    {(userPresidente || userSecretarioVice) && (
+                        <>
+                            {encComissaoButton}
+                        </>
+                    )}
+                    {(userPresidente) && (
+                        <>
+                            {solicitarAjustesButton}
+                            {reprovarButton}
+                        </>
+                    )}
                 </>
             );
         }
@@ -372,13 +371,13 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
             buttons = (
                 <>
                     {userPresidenteComissao && (enviarParecerButton)}
-                    {userPresidente && (
+                    {(userPresidente || userSecretarioVice) && (
                         <>
                             {todosPareceres && (encPlenarioButton)}
                             {encComissaoButton}
-                            {reprovarButton}
                         </>
                     )}
+                    {(userPresidente) && (<>{reprovarButton}</>)}
                 </>
             );
         }
@@ -416,11 +415,6 @@ export default function ButtonsAcoes(props: ButtonsAcoesProps) {
                 </>
             );
         }
-    }
-
-    /* Se a ação estiver concluída, mostrar em todos os tipos */
-    if (acao.statusAtual === "concluido" && userPresidente) {
-        buttons = (excluirButton);
     }
 
 

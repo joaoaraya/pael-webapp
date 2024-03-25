@@ -126,17 +126,28 @@ export default function PageDeputados() {
             }
         }
 
-        const checkUserIsPresidente = async () => {
+        const checkUserIsAdmin = async () => {
             try {
-                const response = await get(`${API}/check/user/presidente`);
-                setUserAdmin(response.data);
-            } catch (error: any) {
+                const responsePresidente = await get(`${API}/check/user/presidente`);
+                const responseSecretarioVice = await get(`${API}/check/user/secretario-vice`);
+
+                if (responsePresidente.data === true) {
+                    setUserAdmin(true);
+                }
+                else if (responseSecretarioVice.data === true) {
+                    setUserAdmin(true);
+                }
+                else {
+                    setUserAdmin(false);
+                }
+            }
+            catch (error: any) {
                 console.error('Error:', error);
             }
         };
 
         loadUserData();
-        checkUserIsPresidente();
+        checkUserIsAdmin();
     }, []);
 
 
