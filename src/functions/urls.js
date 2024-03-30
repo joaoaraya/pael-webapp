@@ -1,1 +1,1 @@
-export const API = /*'https://sistemapael.gobsp.com.br/api';*/ 'http://127.0.0.1:3333';
+export const API = 'https://sistemapael.gobsp.com.br/api';// 'http://127.0.0.1:3333';
