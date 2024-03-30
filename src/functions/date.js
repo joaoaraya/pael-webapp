@@ -71,3 +71,15 @@ export function validateDate(date) {
     // Se passou por todas as verificações, a data é válida
     return true;
 }
+
+export function getDateBrasilia() {
+    // Obtém a data e hora atuais em UTC
+    let dataAtualUTC = new Date();
+
+    // Ajusta para o horário de Brasília (UTC-3)
+    let fusoHorarioBrasilia = -3 * 60; // Horário de Brasília é UTC-3
+    dataAtualUTC.setMinutes(dataAtualUTC.getMinutes() + fusoHorarioBrasilia);
+
+    // Retorna a data ajustada para o horário de Brasília
+    return dataAtualUTC;
+}

@@ -25,6 +25,7 @@ type PerfilProps = {
     cargo: string;
     ativo: boolean;
     situacao: string;
+    situacaoData: string;
     dataNascimento?: string;
     cpf?: string;
     email?: string;

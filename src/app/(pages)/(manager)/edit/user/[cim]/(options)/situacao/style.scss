@@ -1,5 +1,25 @@
 .pageEditUserSituacao {
     form {
+        .situacaoAtual {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .textSituacao,
+            .textDate {
+                font-size: 22px;
+            }
+
+            .label {
+                font-size: 16px;
+                font-weight: 400;
+
+                &+p {
+                    margin-bottom: 8px;
+                }
+            }
+        }
+
         .actionButtons {
             display: flex;
             flex-direction: row;

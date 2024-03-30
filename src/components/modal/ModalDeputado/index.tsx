@@ -13,6 +13,7 @@ type DeputadoProps = {
         cargo: string;
         ativo: boolean;
         situacao: string;
+        situacaoData: string;
         dataNascimento?: string;
         cpf?: string;
         email?: string;
@@ -52,6 +53,9 @@ export default function ModalDeputado(props: DeputadoProps) {
 
                     <p className="label">SITUAÇÃO</p>
                     <TextSituacao ativo={user.ativo} situacao={capitalize(user.situacao)} />
+
+                    <p className="label">DESDE</p>
+                    <p>{formatDateISOToBR(user.situacaoData)}</p>
 
                     {user.dataNascimento && (
                         <>
